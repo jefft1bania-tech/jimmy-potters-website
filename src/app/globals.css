@@ -243,6 +243,43 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ═══════════════════════════════════════════════════
+   CLASSES PORTAL — ANIMATED GRADIENT BACKGROUND
+   ═══════════════════════════════════════════════════ */
+.classes-bg {
+  background:
+    linear-gradient(135deg,
+      #0f0a2e 0%,
+      #1a1145 15%,
+      #1e1550 30%,
+      #151040 50%,
+      #0d0e35 70%,
+      #0a0825 100%
+    );
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated gradient wash that drifts across classes pages */
+.classes-bg::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background:
+    radial-gradient(ellipse 600px 600px at 20% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 80% 60%, rgba(56, 189, 248, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 50% 90%, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
+  animation: gradient-drift 20s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes gradient-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(5%, -3%) scale(1.05); }
+  66% { transform: translate(-3%, 5%) scale(0.98); }
+  100% { transform: translate(2%, -2%) scale(1.02); }
+}
+
+/* ═══════════════════════════════════════════════════
    ORGANIC BLOB SHAPES (CSS masks for classes portal)
    ═══════════════════════════════════════════════════ */
 .blob-shape {
@@ -257,7 +294,23 @@ h1, h2, h3, h4, h5, h6 {
   75% { border-radius: 33% 67% 58% 42% / 63% 38% 62% 37%; }
 }
 
-/* Decorative blob backgrounds */
+/* Floating solid blobs — overlapping, kid-playful */
+.blob-solid {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 63% 37% 30% 70% / 50% 45% 55% 50%;
+  animation: blob-morph 8s ease-in-out infinite, blob-float 12s ease-in-out infinite;
+  opacity: 0.07;
+}
+
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(15px, -20px); }
+  50% { transform: translate(-10px, 15px); }
+  75% { transform: translate(20px, 10px); }
+}
+
+/* Legacy radial blobs — kept for backward compat */
 .blob-bg-purple {
   position: absolute;
   background: radial-gradient(ellipse, rgba(168, 85, 247, 0.12) 0%, transparent 70%);
@@ -272,6 +325,60 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   background: radial-gradient(ellipse, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
   pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL-REVEAL ANIMATION CLASSES
+   ═══════════════════════════════════════════════════ */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+.scroll-reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scroll-reveal-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+.scroll-reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scroll-reveal-right.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+.scroll-reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.scroll-reveal-scale.revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Irregular image framing for kid photos */
+.frame-organic {
+  border-radius: 30% 70% 60% 40% / 50% 40% 60% 50%;
+  overflow: hidden;
+}
+.frame-wavy {
+  border-radius: 20px 60px 20px 60px;
+  overflow: hidden;
 }
 
 /* ═══════════════════════════════════════════════════

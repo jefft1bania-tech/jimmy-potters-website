@@ -58,7 +58,7 @@ export default function ClassesCTA() {
             </div>
 
             <Link href="/classes" className="btn-vibrant mt-6 w-fit text-center text-base">
-              View Classes & Register
+              Let&apos;s Get Messy! 🎨
             </Link>
           </div>
         </div>

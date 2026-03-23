@@ -15,7 +15,7 @@ export default function ClassCard({ classSession }: ClassCardProps) {
   return (
     <div className="card-vibrant group">
       {/* Gradient accent bar */}
-      <div className="h-1.5 bg-gradient-to-r from-vibrant-purple via-vibrant-teal to-vibrant-orange" />
+      <div className="h-1.5 bg-gradient-to-r from-vibrant-purple via-vibrant-pink to-vibrant-teal" />
 
       <div className="p-7">
         {/* Badges row */}
@@ -40,16 +40,16 @@ export default function ClassCard({ classSession }: ClassCardProps) {
         {/* Schedule info */}
         <div className="mt-4 space-y-2.5">
           <div className="flex items-center gap-3 text-sm font-body text-gray-600">
-            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-vibrant-lavender text-base">📅</span>
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-vibrant-lavender text-base transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-5deg]">📅</span>
             <span>{classSession.schedule.dayOfWeek}s, {classSession.schedule.time}</span>
           </div>
           <div className="flex items-center gap-3 text-sm font-body text-gray-600">
-            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-vibrant-sky text-base">📆</span>
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-vibrant-sky text-base transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[3deg]">📆</span>
             <span>{formatClassDates(classSession.schedule.dates)}</span>
           </div>
           <div className="flex items-center gap-3 text-sm font-body text-gray-600">
-            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-vibrant-mint text-base">🔢</span>
-            <span>{classSession.schedule.sessionCount} weekly sessions</span>
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-vibrant-mint text-base transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]">🔢</span>
+            <span>{classSession.schedule.sessionCount} weeks of creative fun</span>
           </div>
         </div>
 
@@ -68,14 +68,14 @@ export default function ClassCard({ classSession }: ClassCardProps) {
           )}
         </div>
 
-        {/* CTA */}
+        {/* CTA — energetic copy */}
         <div className="mt-6">
           {isFull ? (
             <button
-              className="w-full py-3.5 px-6 rounded-2xl border-2 border-vibrant-purple text-vibrant-purple font-heading font-bold transition-all hover:bg-vibrant-purple/5 focus:outline-none focus:ring-2 focus:ring-vibrant-purple/30"
+              className="w-full py-3.5 px-6 rounded-2xl border-2 border-vibrant-purple text-vibrant-purple font-heading font-extrabold transition-all hover:bg-vibrant-purple/5 focus:outline-none focus:ring-2 focus:ring-vibrant-purple/30"
               aria-label={`Join waitlist for ${classSession.name}`}
             >
-              Join Waitlist
+              Save My Spot!
             </button>
           ) : (
             <Link
@@ -83,7 +83,7 @@ export default function ClassCard({ classSession }: ClassCardProps) {
               className="btn-vibrant block w-full text-center"
               aria-label={`Register for ${classSession.name} — ${formatPrice(classSession.price)}`}
             >
-              Register Now →
+              Let&apos;s Get Messy! 🎨
             </Link>
           )}
         </div>
