@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg-primary: #1A1F5E;
+  --color-bg-secondary: #2B3A8C;
+  --color-bg-footer: #0F1340;
+  --color-card: #FFFFFF;
+  --color-text: #1E293B;
+  --color-text-light: #FFFFFF;
+  --color-cta: #7C3AED;
+  --color-cta-hover: #6D28D9;
+  --color-accent-orange: #E85D26;
+  --color-accent-teal: #14B8A6;
+  --color-accent-yellow: #FBBF24;
+  --color-border: #E2E8F0;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--color-text);
+  background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Nunito', sans-serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-cta hover:bg-brand-cta-hover text-white font-heading font-bold
+           py-3 px-8 rounded-xl transition-all duration-200
+           hover:scale-[1.02] hover:shadow-lg active:scale-[0.98];
+  }
+
+  .btn-outline {
+    @apply border-2 border-white text-white font-heading font-bold
+           py-3 px-8 rounded-xl transition-all duration-200
+           hover:bg-white hover:text-brand-bg-primary hover:scale-[1.02];
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-sm;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:scale-[1.02] hover:shadow-xl;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-heading font-bold;
+  }
+
+  .badge-teal {
+    @apply badge bg-brand-teal/10 text-brand-teal;
+  }
+
+  .badge-orange {
+    @apply badge bg-brand-orange/10 text-brand-orange;
+  }
+
+  .badge-sold {
+    @apply badge bg-gray-200 text-gray-500;
+  }
+
+  .badge-green {
+    @apply badge bg-green-100 text-green-700;
+  }
+
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}

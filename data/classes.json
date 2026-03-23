@@ -1,0 +1,34 @@
+[
+  {
+    "id": "spring-2026-virtual-7-14",
+    "slug": "spring-virtual-pottery-7-14",
+    "name": "Virtual Kids Pottery: Ages 7-14",
+    "price": 15500,
+    "siblingDiscount": 15,
+    "description": "Join our 4-week virtual pottery adventure! Each child receives a clay kit delivered right to their door before the first session. Our expert instructor guides kids through exciting pottery projects live on Zoom.",
+    "ageRange": "Ages 7-14",
+    "schedule": {
+      "dayOfWeek": "Wednesday",
+      "time": "3:45 - 4:45 PM ET",
+      "startDate": "2026-04-22",
+      "endDate": "2026-05-13",
+      "sessionCount": 4,
+      "dates": ["2026-04-22", "2026-04-29", "2026-05-06", "2026-05-13"]
+    },
+    "maxStudents": 15,
+    "enrolledCount": 0,
+    "kitContents": [
+      "2 lbs air-dry clay",
+      "Rolling pin",
+      "Sculpting tools (4-piece set)",
+      "Paint set (6 colors)",
+      "Brushes (2)",
+      "Plastic work mat"
+    ],
+    "zoomLink": "https://zoom.us/j/PLACEHOLDER",
+    "zoomPasscode": "pottery2026",
+    "images": ["/images/classes/kids-pottery-hero.jpg", "/images/classes/clay-kit-contents.jpg"],
+    "status": "open",
+    "stripePriceId": "price_placeholder_class_001"
+  }
+]

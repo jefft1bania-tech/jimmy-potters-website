@@ -1,0 +1,170 @@
+[
+  {
+    "id": "teal-hanging-planter-001",
+    "slug": "teal-hanging-planter-pothos",
+    "name": "Teal Hanging Planter with Ring",
+    "price": 7500,
+    "description": "A stunning deep teal glazed hanging planter mounted on a circular black metal frame. The rich, glossy glaze catches the light beautifully. Perfect for trailing plants like pothos or string of hearts.",
+    "details": [
+      "Approximately 6\" diameter planter",
+      "12\" circular metal ring frame included",
+      "Brass hanging hook at top",
+      "Handmade - each piece is unique",
+      "Drainage hole included"
+    ],
+    "images": ["/images/products/teal-hanging-planter-pothos_hero.jpg", "/images/products/teal-hanging-planter-pothos_white.jpg"],
+    "category": "hanging-planters",
+    "tags": ["teal", "hanging", "metal-ring", "planter"],
+    "status": "available",
+    "stripePriceId": "price_placeholder_001",
+    "shippingWeight": "3.5 lbs",
+    "quantity": 1
+  },
+  {
+    "id": "mint-blue-hanging-planter-002",
+    "slug": "mint-blue-ring-planter",
+    "name": "Mint & Blue Gradient Ring Planter",
+    "price": 7500,
+    "description": "A beautiful gradient planter transitioning from soft mint green to deep blue, with earthy brown tones at the base. Mounted on a sleek circular metal ring. Each piece tells its own color story.",
+    "details": [
+      "Approximately 6\" diameter planter",
+      "12\" circular metal ring frame included",
+      "Three-tone glaze: mint, blue, brown",
+      "Handmade - each piece is unique",
+      "Drainage hole included"
+    ],
+    "images": ["/images/products/mint-blue-ring-planter_hero.jpg", "/images/products/mint-blue-ring-planter_white.jpg"],
+    "category": "hanging-planters",
+    "tags": ["mint", "blue", "hanging", "metal-ring", "gradient"],
+    "status": "available",
+    "stripePriceId": "price_placeholder_002",
+    "shippingWeight": "3.5 lbs",
+    "quantity": 1
+  },
+  {
+    "id": "dark-teal-vine-planter-003",
+    "slug": "dark-teal-hanging-planter-vines",
+    "name": "Dark Teal Hanging Planter - Garden Edition",
+    "price": 7500,
+    "description": "Deep teal glazed hanging planter shown here bursting with trailing vines and string of hearts. The dark, moody glaze has subtle variations that make each piece truly one of a kind.",
+    "details": [
+      "Approximately 6\" diameter planter",
+      "12\" circular metal ring frame included",
+      "Deep teal glaze with subtle variation",
+      "Handmade - each piece is unique",
+      "Drainage hole included"
+    ],
+    "images": ["/images/products/dark-teal-hanging-planter-vines_hero.jpg"],
+    "category": "hanging-planters",
+    "tags": ["dark-teal", "hanging", "metal-ring", "garden"],
+    "status": "available",
+    "stripePriceId": "price_placeholder_003",
+    "shippingWeight": "3.5 lbs",
+    "quantity": 1
+  },
+  {
+    "id": "deep-teal-garden-planter-004",
+    "slug": "deep-teal-garden-ring-planter",
+    "name": "Deep Teal Garden Ring Planter",
+    "price": 7500,
+    "description": "A lush deep teal hanging planter photographed in a sun-dappled garden. The glossy dark glaze creates a stunning contrast against green foliage. Mounted on a minimalist black metal ring.",
+    "details": [
+      "Approximately 6\" diameter planter",
+      "12\" circular metal ring frame included",
+      "Deep teal glossy glaze",
+      "Handmade - each piece is unique",
+      "Drainage hole included"
+    ],
+    "images": ["/images/products/deep-teal-garden-ring-planter_hero.jpg"],
+    "category": "hanging-planters",
+    "tags": ["deep-teal", "hanging", "metal-ring", "garden"],
+    "status": "available",
+    "stripePriceId": "price_placeholder_004",
+    "shippingWeight": "3.5 lbs",
+    "quantity": 1
+  },
+  {
+    "id": "dark-green-studio-planter-005",
+    "slug": "dark-green-studio-ring-planter",
+    "name": "Dark Green Studio Ring Planter",
+    "price": 7500,
+    "description": "A sophisticated dark green-black glazed planter on a circular metal ring. The deep, luxurious glaze has beautiful depth and shine. Studio photographed on white background.",
+    "details": [
+      "Approximately 6\" diameter planter",
+      "12\" circular metal ring frame included",
+      "Dark green-black glossy glaze",
+      "Handmade - each piece is unique",
+      "Drainage hole included"
+    ],
+    "images": ["/images/products/dark-green-studio-ring-planter_hero.jpg", "/images/products/dark-green-studio-ring-planter_white.jpg"],
+    "category": "hanging-planters",
+    "tags": ["dark-green", "hanging", "metal-ring", "studio"],
+    "status": "available",
+    "stripePriceId": "price_placeholder_005",
+    "shippingWeight": "3.5 lbs",
+    "quantity": 1
+  },
+  {
+    "id": "orange-drip-vase-006",
+    "slug": "orange-drip-glaze-vase",
+    "name": "Orange Drip-Glaze Vase",
+    "price": 6500,
+    "description": "A show-stopping vibrant orange vase with sage-green glaze dripping from the rim. The contrast between the bright orange body and the cool green drip creates an unforgettable piece. Perfect for fresh flowers or as a standalone statement piece.",
+    "details": [
+      "Approximately 8\" tall",
+      "Vibrant orange body with sage-green drip glaze",
+      "Wide mouth opening for flower arrangements",
+      "Handmade - each piece is unique",
+      "Watertight for fresh flowers"
+    ],
+    "images": ["/images/products/orange-drip-glaze-vase_hero.jpg"],
+    "category": "vases",
+    "tags": ["orange", "drip-glaze", "vase", "sage-green"],
+    "status": "available",
+    "stripePriceId": "price_placeholder_006",
+    "shippingWeight": "2.5 lbs",
+    "quantity": 1
+  },
+  {
+    "id": "orange-footed-planter-007",
+    "slug": "orange-footed-drip-planter",
+    "name": "Orange Footed Drip Planter",
+    "price": 5500,
+    "description": "A charming three-footed planter with a vibrant orange body and sage drip-glaze detail. The rustic feet add character while keeping your plants elevated. Here shown with a gorgeous snake plant.",
+    "details": [
+      "Approximately 5\" tall x 5\" diameter",
+      "Three-footed base for stability and drainage",
+      "Orange body with sage drip-glaze rim",
+      "Handmade - each piece is unique",
+      "Drainage hole included"
+    ],
+    "images": ["/images/products/orange-footed-drip-planter_hero.jpg"],
+    "category": "planters",
+    "tags": ["orange", "footed", "drip-glaze", "planter"],
+    "status": "available",
+    "stripePriceId": "price_placeholder_007",
+    "shippingWeight": "2.5 lbs",
+    "quantity": 1
+  },
+  {
+    "id": "teal-flower-planter-008",
+    "slug": "teal-flower-ring-planter",
+    "name": "Teal Ring Planter - Flower Edition",
+    "price": 7500,
+    "description": "A gorgeous teal hanging planter overflowing with vibrant petunias and trailing flowers. The earthy teal glaze pairs beautifully with colorful blooms. Mounted on a circular metal ring.",
+    "details": [
+      "Approximately 6\" diameter planter",
+      "12\" circular metal ring frame included",
+      "Teal glaze with brown undertones",
+      "Handmade - each piece is unique",
+      "Drainage hole included"
+    ],
+    "images": ["/images/products/teal-flower-ring-planter_hero.jpg"],
+    "category": "hanging-planters",
+    "tags": ["teal", "hanging", "metal-ring", "flowers"],
+    "status": "available",
+    "stripePriceId": "price_placeholder_008",
+    "shippingWeight": "3.5 lbs",
+    "quantity": 1
+  }
+]
