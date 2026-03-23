@@ -36,10 +36,36 @@
 body {
   font-family: 'DM Sans', sans-serif;
   color: var(--color-text);
-  background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+  background: #F7F3EE;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ═════════════════════════════════════════════════
+   SHOP — WARM GALLERY BACKGROUND
+   High-end stone/linen aesthetic, earth-tone luxury
+   ═════════════════════════════════════════════════ */
+.shop-bg {
+  background:
+    linear-gradient(180deg,
+      #EDE8E1 0%,
+      #F2EDE6 20%,
+      #F7F3EE 50%,
+      #F2EDE6 80%,
+      #EDE8E1 100%
+    );
+  position: relative;
+}
+/* Subtle warm texture grain overlay */
+.shop-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -247,27 +273,28 @@ h1, h2, h3, h4, h5, h6 {
    ═══════════════════════════════════════════════════ */
 .classes-bg {
   background:
-    linear-gradient(135deg,
-      #0f0a2e 0%,
-      #1a1145 15%,
-      #1e1550 30%,
-      #151040 50%,
-      #0d0e35 70%,
-      #0a0825 100%
+    linear-gradient(160deg,
+      #1a0e3a 0%,
+      #241452 15%,
+      #2a1760 30%,
+      #1f1248 50%,
+      #18103d 70%,
+      #120c30 100%
     );
   position: relative;
   overflow: hidden;
 }
 
-/* Animated gradient wash that drifts across classes pages */
+/* Animated gradient wash — warm purple/magenta/teal */
 .classes-bg::before {
   content: '';
   position: absolute;
   inset: -50%;
   background:
-    radial-gradient(ellipse 600px 600px at 20% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 500px at 80% 60%, rgba(56, 189, 248, 0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 400px 400px at 50% 90%, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
+    radial-gradient(ellipse 600px 600px at 25% 25%, rgba(168, 85, 247, 0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 75% 55%, rgba(236, 72, 153, 0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 450px 450px at 50% 85%, rgba(249, 115, 22, 0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 85% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
   animation: gradient-drift 20s ease-in-out infinite alternate;
   pointer-events: none;
 }

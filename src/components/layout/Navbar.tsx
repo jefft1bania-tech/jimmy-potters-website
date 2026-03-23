@@ -20,6 +20,8 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const isClassesRoute = pathname.startsWith('/classes');
+  const isShopRoute = pathname.startsWith('/shop') || pathname.startsWith('/cart');
+  const isDarkNav = isClassesRoute || pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -35,9 +37,13 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-brand-bg-primary/95 backdrop-blur-md shadow-lg'
-          : 'bg-brand-bg-primary/70 backdrop-blur-sm'
+        isDarkNav
+          ? scrolled
+            ? 'bg-[#1a0e3a]/95 backdrop-blur-md shadow-lg'
+            : 'bg-[#1a0e3a]/60 backdrop-blur-sm'
+          : scrolled
+            ? 'bg-[#F7F3EE]/95 backdrop-blur-md shadow-sm border-b border-stone-200/50'
+            : 'bg-[#F7F3EE]/80 backdrop-blur-sm'
       }`}
       role="navigation"
       aria-label="Main navigation"
@@ -47,7 +53,9 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group" aria-label="Jimmy Potters — Home">
             <span className="text-2xl" aria-hidden="true">🏺</span>
-            <span className="font-heading font-bold text-lg text-white group-hover:text-white/80 transition-colors">
+            <span className={`font-heading font-bold text-lg transition-colors ${
+              isDarkNav ? 'text-white group-hover:text-white/80' : 'text-stone-800 group-hover:text-stone-600'
+            }`}>
               Jimmy Potters
             </span>
           </Link>
@@ -63,9 +71,13 @@ export default function Navbar() {
                   role="menuitem"
                   aria-current={isActive ? 'page' : undefined}
                   className={`relative px-4 py-2 rounded-lg font-body text-sm font-medium transition-all duration-200 ${
-                    isActive
-                      ? 'text-white bg-white/10'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                    isDarkNav
+                      ? isActive
+                        ? 'text-white bg-white/10'
+                        : 'text-white/60 hover:text-white hover:bg-white/5'
+                      : isActive
+                        ? 'text-stone-800 bg-stone-200/50'
+                        : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100/50'
                   }`}
                 >
                   {link.label}
@@ -75,7 +87,9 @@ export default function Navbar() {
                       className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full ${
                         isClassesRoute
                           ? 'bg-gradient-to-r from-vibrant-purple to-vibrant-teal'
-                          : 'bg-white/40'
+                          : isDarkNav
+                            ? 'bg-white/40'
+                            : 'bg-stone-800/40'
                       }`}
                       aria-hidden="true"
                     />
@@ -91,7 +105,7 @@ export default function Navbar() {
             {member ? (
               <Link
                 href="/account"
-                className="relative text-white/70 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5"
+                className={`relative p-2 rounded-lg transition-colors ${isDarkNav ? 'text-white/70 hover:text-white hover:bg-white/5' : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100/50'}`}
                 aria-label={`Account — ${member.name}`}
               >
                 <div className="w-6 h-6 rounded-full bg-gradient-to-br from-vibrant-purple to-vibrant-teal flex items-center justify-center text-[10px] font-heading font-black text-white">
@@ -101,7 +115,7 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={() => setShowAuthModal(true)}
-                className="text-white/70 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5"
+                className={`p-2 rounded-lg transition-colors ${isDarkNav ? 'text-white/70 hover:text-white hover:bg-white/5' : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100/50'}`}
                 aria-label="Sign in or create account"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5" aria-hidden="true">
@@ -112,7 +126,7 @@ export default function Navbar() {
 
             <Link
               href="/cart"
-              className="relative text-white/70 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5"
+              className={`relative p-2 rounded-lg transition-colors ${isDarkNav ? 'text-white/70 hover:text-white hover:bg-white/5' : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100/50'}`}
               aria-label={`Shopping cart${itemCount > 0 ? `, ${itemCount} items` : ', empty'}`}
             >
               <svg
@@ -139,7 +153,7 @@ export default function Navbar() {
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden text-white/70 hover:text-white p-2 rounded-lg hover:bg-white/5 transition-colors"
+              className={`md:hidden p-2 rounded-lg transition-colors ${isDarkNav ? 'text-white/70 hover:text-white hover:bg-white/5' : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100/50'}`}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
@@ -166,7 +180,7 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div id="mobile-menu" className="md:hidden pb-4 border-t border-white/10 mt-2 pt-4" role="menu">
+          <div id="mobile-menu" className={`md:hidden pb-4 border-t mt-2 pt-4 ${isDarkNav ? 'border-white/10' : 'border-stone-200/50'}`} role="menu">
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
@@ -177,9 +191,9 @@ export default function Navbar() {
                     role="menuitem"
                     aria-current={isActive ? 'page' : undefined}
                     className={`font-body font-medium px-3 py-2.5 rounded-lg transition-colors ${
-                      isActive
-                        ? 'text-white bg-white/10'
-                        : 'text-white/60 hover:text-white hover:bg-white/5'
+                      isDarkNav
+                        ? isActive ? 'text-white bg-white/10' : 'text-white/60 hover:text-white hover:bg-white/5'
+                        : isActive ? 'text-stone-800 bg-stone-200/50' : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100/50'
                     }`}
                   >
                     {link.label}

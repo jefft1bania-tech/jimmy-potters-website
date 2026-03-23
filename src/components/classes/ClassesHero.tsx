@@ -12,8 +12,8 @@ export default function ClassesHero() {
     <section className="relative min-h-[90vh] flex items-center overflow-hidden" aria-label="Classes hero">
       {/* ═══ ANIMATED BACKGROUND LAYERS ═══ */}
 
-      {/* Base gradient — deep purple to midnight blue */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#2d1b69] via-[#1a1145] to-[#0c1445]" />
+      {/* Base gradient — deep purple to warm indigo */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#2d1b69] via-[#241452] to-[#1a0e3a]" />
 
       {/* Animated mesh gradient overlay */}
       <div className="absolute inset-0 opacity-60">
@@ -123,7 +123,7 @@ export default function ClassesHero() {
       </div>
 
       {/* Bottom fade into page bg */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0f0a2e] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#1a0e3a] to-transparent pointer-events-none" />
     </section>
   );
 }
