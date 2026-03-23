@@ -16,7 +16,8 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
     return (
       <button
         disabled
-        className="w-full py-4 px-8 rounded-xl bg-gray-200 text-gray-500 font-heading font-bold text-lg cursor-not-allowed"
+        className="btn-faire"
+        aria-label={`${product.name} is sold out`}
       >
         Sold Out
       </button>
@@ -27,9 +28,15 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
     return (
       <button
         disabled
-        className="w-full py-4 px-8 rounded-xl bg-brand-teal/10 text-brand-teal font-heading font-bold text-lg cursor-default"
+        className="w-full py-3.5 px-8 rounded-xl font-heading font-bold text-base bg-brand-teal/8 text-brand-teal border border-brand-teal/20 cursor-default transition-all"
+        aria-label={`${product.name} is already in your cart`}
       >
-        ✓ In Your Cart
+        <span className="flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+          In Your Cart
+        </span>
       </button>
     );
   }
@@ -37,9 +44,10 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
   return (
     <button
       onClick={() => addItem(product)}
-      className="w-full py-4 px-8 rounded-xl bg-brand-cta hover:bg-brand-cta-hover text-white font-heading font-bold text-lg transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]"
+      className="btn-faire"
+      aria-label={`Add ${product.name} to cart`}
     >
-      Add to Cart 🛒
+      Add to Cart
     </button>
   );
 }

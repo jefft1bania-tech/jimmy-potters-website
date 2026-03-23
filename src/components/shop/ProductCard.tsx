@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Product } from '@/types/product';
 import { formatPrice } from '@/lib/products';
-import Badge from '@/components/shared/Badge';
 
 interface ProductCardProps {
   product: Product;
@@ -12,48 +11,49 @@ export default function ProductCard({ product }: ProductCardProps) {
   const isSold = product.status === 'sold';
 
   const card = (
-    <div
-      className={`group card overflow-hidden ${
-        isSold ? 'opacity-70' : 'card-hover cursor-pointer'
-      }`}
+    <article
+      className={`card-faire group ${isSold ? 'opacity-60' : ''}`}
+      aria-label={`${product.name} — ${isSold ? 'Sold' : formatPrice(product.price)}`}
     >
       {/* Image */}
-      <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
+      <div className="faire-image-wrap aspect-[4/5]">
         <Image
           src={product.images[0]}
           alt={product.name}
           fill
-          className={`object-cover transition-transform duration-300 ${
-            isSold ? 'grayscale' : 'group-hover:scale-105'
-          }`}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          className={`object-cover ${isSold ? 'grayscale' : ''}`}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         />
-        {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1">
+        {/* Badge — top left */}
+        <div className="absolute top-3 left-3">
           {isSold ? (
-            <Badge variant="sold">SOLD</Badge>
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-heading font-bold bg-white/90 text-gray-500 backdrop-blur-sm">
+              Sold
+            </span>
           ) : (
-            <Badge variant="teal">One of a Kind</Badge>
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-heading font-bold bg-white/90 text-brand-text backdrop-blur-sm">
+              One of a Kind
+            </span>
           )}
         </div>
       </div>
 
-      {/* Info */}
-      <div className="p-4">
-        <h3 className="font-heading font-semibold text-sm text-brand-text line-clamp-2">
+      {/* Info — editorial spacing */}
+      <div className="px-4 pt-4 pb-5">
+        <h3 className="font-heading font-semibold text-sm text-brand-text leading-snug line-clamp-2 group-hover:text-gray-900 transition-colors">
           {product.name}
         </h3>
-        <p className="font-body text-brand-orange font-bold text-base mt-1">
+        <p className="price-faire text-base mt-1.5">
           {formatPrice(product.price)}
         </p>
       </div>
-    </div>
+    </article>
   );
 
   if (isSold) return card;
 
   return (
-    <Link href={`/shop/${product.slug}`}>
+    <Link href={`/shop/${product.slug}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-cta focus-visible:ring-offset-4 rounded-2xl">
       {card}
     </Link>
   );

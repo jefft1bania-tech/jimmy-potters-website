@@ -3,53 +3,62 @@ import Image from 'next/image';
 
 export default function ClassesCTA() {
   return (
-    <section className="section-container py-16">
-      <div className="card overflow-hidden">
+    <section className="section-container py-16" aria-labelledby="classes-cta-heading">
+      <div className="card-vibrant overflow-hidden relative">
+        {/* Decorative blob */}
+        <div className="absolute -top-20 -right-20 w-64 h-64 bg-vibrant-purple/5 blob-shape pointer-events-none" />
+
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Image */}
-          <div className="relative aspect-[4/3] md:aspect-auto">
+          <div className="relative h-72 md:h-auto md:min-h-[360px]">
             <Image
               src="/images/classes/kids-pottery-hero.jpg"
-              alt="Kids pottery class"
+              alt="Happy child sculpting clay in pottery class"
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
+            {/* Floating badge */}
+            <div className="absolute top-4 left-4 animate-float">
+              <span className="badge-vibrant-teal shadow-md">Ages 7-14</span>
+            </div>
           </div>
 
-          {/* Content */}
-          <div className="p-8 md:p-12 flex flex-col justify-center bg-gradient-to-br from-white to-brand-teal/5">
-            <span className="badge-teal w-fit mb-4">Ages 7-14</span>
-            <h2 className="font-heading font-extrabold text-3xl text-brand-text">
-              Virtual Pottery for Kids 🎨
+          {/* Content — vibrant theme */}
+          <div className="relative p-8 md:p-12 flex flex-col justify-center bg-gradient-to-br from-white via-vibrant-lavender/20 to-vibrant-sky/20">
+            <span className="badge-vibrant-purple w-fit mb-4">
+              Live on Zoom
+            </span>
+
+            <h2
+              id="classes-cta-heading"
+              className="font-heading font-black text-3xl text-brand-text leading-tight"
+            >
+              Virtual Pottery
+              <br />
+              <span className="bg-gradient-to-r from-vibrant-purple to-vibrant-teal bg-clip-text text-transparent">
+                for Creative Kids
+              </span>
             </h2>
-            <p className="mt-4 text-gray-600 font-body leading-relaxed">
-              4-week Zoom classes. Clay kit delivered to your door. Watch your
-              child create amazing pottery from the comfort of home.
+
+            <p className="mt-4 text-gray-500 font-body leading-relaxed">
+              4-week Zoom classes with a clay kit delivered to your door.
+              Watch your child create amazing pottery from home.
             </p>
 
-            <div className="mt-4 flex flex-wrap gap-3">
-              <span className="inline-flex items-center gap-1 text-sm text-brand-orange font-heading font-bold">
-                💰 $155 per child
-              </span>
-              <span className="inline-flex items-center gap-1 text-sm text-brand-teal font-heading font-bold">
-                👨‍👩‍👧‍👦 15% sibling discount
-              </span>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <div className="flex items-center gap-2 bg-vibrant-peach rounded-xl px-3 py-1.5">
+                <span className="text-sm" aria-hidden="true">💰</span>
+                <span className="font-heading font-bold text-vibrant-orange-dark text-xs">$155/child</span>
+              </div>
+              <div className="flex items-center gap-2 bg-vibrant-lavender rounded-xl px-3 py-1.5">
+                <span className="text-sm" aria-hidden="true">👨‍👩‍👧‍👦</span>
+                <span className="font-heading font-bold text-vibrant-purple-dark text-xs">15% sibling discount</span>
+              </div>
             </div>
 
-            <div className="mt-4 flex items-center gap-3 text-sm text-gray-500">
-              <Image
-                src="/images/brand/zoom-logo.png"
-                alt="Zoom"
-                width={24}
-                height={24}
-                className="opacity-60"
-              />
-              <span>Live on Zoom</span>
-            </div>
-
-            <Link href="/classes" className="btn-primary mt-6 w-fit text-base">
-              See Class Schedule →
+            <Link href="/classes" className="btn-vibrant mt-6 w-fit text-center text-base">
+              View Classes & Register
             </Link>
           </div>
         </div>

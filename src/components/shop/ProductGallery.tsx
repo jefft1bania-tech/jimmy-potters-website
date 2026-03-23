@@ -13,32 +13,35 @@ export default function ProductGallery({ images, name }: ProductGalleryProps) {
 
   return (
     <div>
-      {/* Main Image */}
-      <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-50">
+      {/* Main Image — Faire clean, no border radius */}
+      <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-50">
         <Image
           src={images[activeIndex]}
-          alt={name}
+          alt={`${name} — view ${activeIndex + 1}`}
           fill
-          className="object-cover"
+          className="object-cover transition-opacity duration-300"
           sizes="(max-width: 768px) 100vw, 55vw"
           priority
         />
       </div>
 
-      {/* Thumbnails */}
+      {/* Thumbnails — subtle, editorial */}
       {images.length > 1 && (
-        <div className="flex gap-3 mt-4">
+        <div className="flex gap-3 mt-4" role="tablist" aria-label="Product image gallery">
           {images.map((img, i) => (
             <button
               key={i}
               onClick={() => setActiveIndex(i)}
-              className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+              role="tab"
+              aria-selected={i === activeIndex}
+              aria-label={`View image ${i + 1} of ${images.length}`}
+              className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-cta ${
                 i === activeIndex
-                  ? 'border-brand-cta shadow-md'
-                  : 'border-transparent opacity-60 hover:opacity-100'
+                  ? 'border-brand-text shadow-sm'
+                  : 'border-transparent opacity-50 hover:opacity-80'
               }`}
             >
-              <Image src={img} alt={`${name} view ${i + 1}`} fill className="object-cover" sizes="80px" />
+              <Image src={img} alt="" fill className="object-cover" sizes="80px" />
             </button>
           ))}
         </div>
