@@ -29,9 +29,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen flex flex-col">
         <CartProvider>
+          <a href="#main-content" className="skip-link">Skip to main content</a>
           <AnnouncementBar />
           <Navbar />
-          <main className="flex-1 pt-16">{children}</main>
+          <main id="main-content" className="flex-1 pt-16" role="main">{children}</main>
           <Footer />
           <ChatWidget />
         </CartProvider>

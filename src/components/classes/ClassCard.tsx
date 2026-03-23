@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { PublicClassSession } from '@/types/class-session';
 import { formatPrice } from '@/lib/products';
 import { getSpotsRemaining, formatClassDates } from '@/lib/classes';
-import Badge from '@/components/shared/Badge';
 
 interface ClassCardProps {
   classSession: PublicClassSession;
@@ -11,54 +10,83 @@ interface ClassCardProps {
 export default function ClassCard({ classSession }: ClassCardProps) {
   const spots = getSpotsRemaining(classSession);
   const isFull = classSession.status === 'full' || spots <= 0;
+  const isLowSpots = !isFull && spots <= 5;
 
   return (
-    <div className="card p-6 card-hover">
-      <div className="flex flex-wrap gap-2 mb-3">
-        <Badge variant="teal">{classSession.ageRange}</Badge>
-        {!isFull && spots <= 5 && (
-          <Badge variant="orange">Only {spots} spots left!</Badge>
-        )}
-        {isFull && <Badge variant="sold">Class Full</Badge>}
-        <Badge variant="purple">15% Sibling Discount!</Badge>
-      </div>
+    <div className="card-vibrant group">
+      {/* Gradient accent bar */}
+      <div className="h-1.5 bg-gradient-to-r from-vibrant-purple via-vibrant-teal to-vibrant-orange" />
 
-      <h3 className="font-heading font-bold text-xl text-brand-text">
-        {classSession.name}
-      </h3>
-
-      <div className="mt-3 space-y-1 text-sm font-body text-gray-600">
-        <p>📅 {classSession.schedule.dayOfWeek}s, {classSession.schedule.time}</p>
-        <p>📆 {formatClassDates(classSession.schedule.dates)}</p>
-        <p>🔢 {classSession.schedule.sessionCount} sessions</p>
-      </div>
-
-      <div className="mt-4 flex items-center gap-3">
-        <span className="text-2xl font-heading font-extrabold text-brand-orange">
-          {formatPrice(classSession.price)}
-        </span>
-        <span className="text-sm text-gray-500 font-body">per child</span>
-      </div>
-
-      {!isFull && (
-        <div className="mt-2">
-          <Badge variant="green">{spots} spots open</Badge>
+      <div className="p-7">
+        {/* Badges row */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          <span className="badge-vibrant-teal">{classSession.ageRange}</span>
+          {isLowSpots && (
+            <span className="badge-vibrant-orange animate-count-pulse">
+              Only {spots} spots left!
+            </span>
+          )}
+          {isFull && (
+            <span className="badge bg-gray-200 text-gray-500">Class Full</span>
+          )}
+          <span className="badge-vibrant-purple">15% Sibling Discount</span>
         </div>
-      )}
 
-      <div className="mt-6">
-        {isFull ? (
-          <button className="w-full py-3 px-6 rounded-xl border-2 border-brand-cta text-brand-cta font-heading font-bold transition-all hover:bg-brand-cta/5">
-            Join Waitlist
-          </button>
-        ) : (
-          <Link
-            href={`/classes/${classSession.slug}`}
-            className="block w-full py-3 px-6 rounded-xl bg-brand-cta hover:bg-brand-cta-hover text-white text-center font-heading font-bold transition-all hover:scale-[1.02] hover:shadow-lg"
-          >
-            Register →
-          </Link>
-        )}
+        {/* Title */}
+        <h3 className="font-heading font-extrabold text-xl text-brand-text group-hover:text-vibrant-purple-dark transition-colors">
+          {classSession.name}
+        </h3>
+
+        {/* Schedule info */}
+        <div className="mt-4 space-y-2.5">
+          <div className="flex items-center gap-3 text-sm font-body text-gray-600">
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-vibrant-lavender text-base">📅</span>
+            <span>{classSession.schedule.dayOfWeek}s, {classSession.schedule.time}</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm font-body text-gray-600">
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-vibrant-sky text-base">📆</span>
+            <span>{formatClassDates(classSession.schedule.dates)}</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm font-body text-gray-600">
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-vibrant-mint text-base">🔢</span>
+            <span>{classSession.schedule.sessionCount} weekly sessions</span>
+          </div>
+        </div>
+
+        {/* Price + Spots */}
+        <div className="mt-5 flex items-center justify-between">
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-heading font-black bg-gradient-to-r from-vibrant-purple to-vibrant-orange bg-clip-text text-transparent">
+              {formatPrice(classSession.price)}
+            </span>
+            <span className="text-sm text-gray-400 font-body">per child</span>
+          </div>
+          {!isFull && (
+            <span className="badge-vibrant-lime text-xs">
+              {spots} spots open
+            </span>
+          )}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-6">
+          {isFull ? (
+            <button
+              className="w-full py-3.5 px-6 rounded-2xl border-2 border-vibrant-purple text-vibrant-purple font-heading font-bold transition-all hover:bg-vibrant-purple/5 focus:outline-none focus:ring-2 focus:ring-vibrant-purple/30"
+              aria-label={`Join waitlist for ${classSession.name}`}
+            >
+              Join Waitlist
+            </button>
+          ) : (
+            <Link
+              href={`/classes/${classSession.slug}`}
+              className="btn-vibrant block w-full text-center"
+              aria-label={`Register for ${classSession.name} — ${formatPrice(classSession.price)}`}
+            >
+              Register Now →
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
