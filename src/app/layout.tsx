@@ -5,6 +5,8 @@ import Navbar from '@/components/layout/Navbar';
 import AnnouncementBar from '@/components/layout/AnnouncementBar';
 import Footer from '@/components/layout/Footer';
 import ChatWidget from '@/components/chat/ChatWidget';
+import { AuthProvider } from '@/components/auth/AuthProvider';
+import AuthModal from '@/components/auth/AuthModal';
 
 export const metadata: Metadata = {
   title: 'Jimmy Potters | Handmade Pottery & Virtual Kids Classes',
@@ -28,14 +30,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
-        <CartProvider>
-          <a href="#main-content" className="skip-link">Skip to main content</a>
-          <AnnouncementBar />
-          <Navbar />
-          <main id="main-content" className="flex-1 pt-16" role="main">{children}</main>
-          <Footer />
-          <ChatWidget />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <a href="#main-content" className="skip-link">Skip to main content</a>
+            <AnnouncementBar />
+            <Navbar />
+            <main id="main-content" className="flex-1 pt-16" role="main">{children}</main>
+            <Footer />
+            <ChatWidget />
+            <AuthModal />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useCart } from '@/components/cart/CartProvider';
+import { useAuth } from '@/components/auth/AuthProvider';
 
 const navLinks = [
   { href: '/shop', label: 'Shop' },
@@ -14,6 +15,7 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const { itemCount } = useCart();
+  const { member, setShowAuthModal } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -83,8 +85,31 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Cart + Mobile Menu */}
-          <div className="flex items-center gap-3">
+          {/* Auth + Cart + Mobile Menu */}
+          <div className="flex items-center gap-2">
+            {/* Member icon / Login button */}
+            {member ? (
+              <Link
+                href="/account"
+                className="relative text-white/70 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5"
+                aria-label={`Account — ${member.name}`}
+              >
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-vibrant-purple to-vibrant-teal flex items-center justify-center text-[10px] font-heading font-black text-white">
+                  {member.name.charAt(0).toUpperCase()}
+                </div>
+              </Link>
+            ) : (
+              <button
+                onClick={() => setShowAuthModal(true)}
+                className="text-white/70 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5"
+                aria-label="Sign in or create account"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+              </button>
+            )}
+
             <Link
               href="/cart"
               className="relative text-white/70 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5"
@@ -161,6 +186,32 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+              {/* Mobile auth link */}
+              <div className="border-t border-white/10 mt-2 pt-2">
+                {member ? (
+                  <Link
+                    href="/account"
+                    role="menuitem"
+                    className="flex items-center gap-3 font-body font-medium px-3 py-2.5 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+                  >
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-vibrant-purple to-vibrant-teal flex items-center justify-center text-[9px] font-heading font-black text-white">
+                      {member.name.charAt(0).toUpperCase()}
+                    </div>
+                    My Account
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => { setShowAuthModal(true); setMobileOpen(false); }}
+                    role="menuitem"
+                    className="w-full flex items-center gap-3 font-body font-medium px-3 py-2.5 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-colors text-left"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                    Sign In / Sign Up
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         )}
