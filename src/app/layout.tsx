@@ -4,6 +4,7 @@ import { CartProvider } from '@/components/cart/CartProvider';
 import Navbar from '@/components/layout/Navbar';
 import AnnouncementBar from '@/components/layout/AnnouncementBar';
 import Footer from '@/components/layout/Footer';
+import ChatWidget from '@/components/chat/ChatWidget';
 
 export const metadata: Metadata = {
   title: 'Jimmy Potters | Handmade Pottery & Virtual Kids Classes',
@@ -32,6 +33,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1 pt-16">{children}</main>
           <Footer />
+          <ChatWidget />
         </CartProvider>
       </body>
     </html>
