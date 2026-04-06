@@ -219,45 +219,47 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
                           {card.product.bestUse}
                         </p>
                       )}
+
+                      {/* Add to Cart button — below text verbiage */}
+                      {!isSold && (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            addItem(card.product);
+                          }}
+                          className="w-full mt-3 py-2.5 rounded-xl font-heading font-bold text-sm text-center transition-all duration-200 border"
+                          style={{
+                            background: inCart
+                              ? 'rgba(201, 169, 110, 0.12)'
+                              : 'linear-gradient(135deg, #C9A96E 0%, #B8923E 100%)',
+                            color: inCart ? '#E8D5A3' : '#1a1a1a',
+                            borderColor: inCart
+                              ? 'rgba(201, 169, 110, 0.3)'
+                              : 'transparent',
+                          }}
+                          aria-label={`Add ${card.product.name} to cart`}
+                        >
+                          {inCart ? (
+                            <span className="flex items-center justify-center gap-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                              </svg>
+                              Add Another ({qty})
+                            </span>
+                          ) : (
+                            <span className="flex items-center justify-center gap-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-5.98.286h5.98zm0 0h6m-6 0a3 3 0 005.98.286H7.5zm6 0h2.25m0 0l-.644 2.577A1.5 1.5 0 0113.662 18H7.338a1.5 1.5 0 01-1.444-1.173L5.25 14.25m9.75-9l.375 1.5M17.25 6.375l.375 1.5m0 0l.375 1.5M18 8.625l-1.5.375m1.5-.375l1.5.375" />
+                              </svg>
+                              Add to Cart
+                            </span>
+                          )}
+                        </button>
+                      )}
                     </div>
                   </article>
                 </Link>
-
-                {/* Add to Cart button — overlaid at bottom of card */}
-                {!isSold && (
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      addItem(card.product);
-                    }}
-                    className="absolute bottom-[7.5rem] left-3 right-3 z-20 py-2.5 rounded-xl font-heading font-bold text-sm text-center transition-all duration-200 backdrop-blur-md border"
-                    style={{
-                      background: inCart
-                        ? 'rgba(201, 169, 110, 0.15)'
-                        : 'rgba(201, 169, 110, 0.9)',
-                      color: inCart ? '#E8D5A3' : '#1a1a1a',
-                      borderColor: 'rgba(201, 169, 110, 0.4)',
-                    }}
-                    aria-label={`Add ${card.product.name} to cart`}
-                  >
-                    {inCart ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                        Add Another ({qty})
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-5.98.286h5.98zm0 0h6m-6 0a3 3 0 005.98.286H7.5zm6 0h2.25m0 0l-.644 2.577A1.5 1.5 0 0113.662 18H7.338a1.5 1.5 0 01-1.444-1.173L5.25 14.25m9.75-9l.375 1.5M17.25 6.375l.375 1.5m0 0l.375 1.5M18 8.625l-1.5.375m1.5-.375l1.5.375" />
-                        </svg>
-                        Add to Cart
-                      </span>
-                    )}
-                  </button>
-                )}
               </div>
             );
           })}
