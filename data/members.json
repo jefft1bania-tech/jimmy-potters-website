@@ -1,0 +1,14 @@
+[
+  {
+    "id": "member_1775497796455_w5cqy1",
+    "email": "jeff.t.bania@gmail.com",
+    "name": "Jeff Bania",
+    "passwordHash": "$2b$12$7jM9lNOGliQtPwXlR89GJen2UIg6m5gNoBlmRH2P.3eLvcYPcZZSu",
+    "createdAt": "2026-04-06T17:49:56.455Z",
+    "preferences": {
+      "newsletter": true,
+      "newProducts": true,
+      "classSchedule": true
+    }
+  }
+]

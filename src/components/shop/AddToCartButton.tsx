@@ -28,7 +28,12 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
     return (
       <button
         disabled
-        className="w-full py-3.5 px-8 rounded-xl font-heading font-bold text-base bg-brand-teal/8 text-brand-teal border border-brand-teal/20 cursor-default transition-all"
+        className="w-full py-3.5 px-8 rounded-xl font-heading font-bold text-base cursor-default transition-all border"
+        style={{
+          background: 'rgba(201, 169, 110, 0.08)',
+          color: '#C9A96E',
+          borderColor: 'rgba(201, 169, 110, 0.2)',
+        }}
         aria-label={`${product.name} is already in your cart`}
       >
         <span className="flex items-center justify-center gap-2">

@@ -1,13 +1,27 @@
 import HeroSection from '@/components/home/HeroSection';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
-import ClassesCTA from '@/components/home/ClassesCTA';
+import LifestyleGallery from '@/components/home/LifestyleGallery';
 
 export default function HomePage() {
   return (
     <>
+      {/* Hero — luxury studio atmosphere with pottery showcase */}
       <HeroSection />
-      <FeaturedProducts />
-      <ClassesCTA />
+
+      {/* Product sections — dark gallery */}
+      <div className="shop-bg relative">
+        <div className="shop-particles" aria-hidden="true">
+          <div className="shop-particle" />
+          <div className="shop-particle" />
+          <div className="shop-particle" />
+          <div className="shop-particle" />
+          <div className="shop-particle" />
+          <div className="shop-particle" />
+        </div>
+        <FeaturedProducts />
+        <div className="gold-divider" />
+        <LifestyleGallery />
+      </div>
     </>
   );
 }

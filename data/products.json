@@ -3,176 +3,135 @@
     "id": "teal-hanging-planter-001",
     "slug": "teal-hanging-planter-pothos",
     "name": "Teal Hanging Planter with Ring",
+    "productNumber": 1,
     "price": 7500,
-    "description": "Bring the outdoors in with this stunning deep teal glazed hanging planter, mounted on a sleek circular black metal frame. The rich, glossy glaze shifts between deep ocean teal and midnight blue depending on the light — no two angles look the same. The 12-inch ring frame adds a modern, sculptural silhouette that transforms any wall or ceiling hook into an art installation. Perfect for trailing plants like golden pothos, string of hearts, or burro's tail. Each piece is wheel-thrown by hand, dipped in our signature teal glaze, and kiln-fired to 2,200°F for lasting durability. Because it's handmade, the glaze pattern on your planter will be entirely unique — a true one-of-a-kind piece you won't find anywhere else.",
+    "description": "Bring the outdoors in with this stunning deep teal glazed hanging planter, mounted on a sleek circular black metal frame. The rich, glossy glaze shifts between deep ocean teal and midnight blue depending on the light \u00e2\u20ac\u201d no two angles look the same. The 12-inch ring frame adds a modern, sculptural silhouette that transforms any wall or ceiling hook into an art installation. Perfect for trailing plants like golden pothos, string of hearts, or burro's tail. Each piece is wheel-thrown by hand, dipped in our signature teal glaze, and kiln-fired to 2,200\u00c2\u00b0F for lasting durability. Because it's handmade, the glaze pattern on your planter will be entirely unique \u00e2\u20ac\u201d a true one-of-a-kind piece you won't find anywhere else.",
     "details": [
       "Approximately 6\" diameter x 5\" tall planter bowl",
       "12\" diameter circular black metal ring frame included",
       "Solid brass hanging hook with swivel mount",
-      "Wheel-thrown stoneware, kiln-fired to cone 6 (2,200°F)",
+      "Wheel-thrown stoneware, kiln-fired to cone 6 (2,200\u00c2\u00b0F)",
       "Lead-free, food-safe glaze in deep teal",
       "Drainage hole with removable silicone plug",
       "Total hanging weight capacity: 8 lbs (plant + soil + water)",
-      "Handmade — each piece has unique glaze variations"
+      "Handmade \u00e2\u20ac\u201d each piece has unique glaze variations"
     ],
-    "images": ["/images/products/teal-hanging-planter-pothos_hero.jpg", "/images/products/teal-hanging-planter-pothos_white.jpg"],
+    "images": [
+      "/images/products/teal-hanging-planter-pothos_hero.jpg",
+      "/images/products/teal-hanging-planter-pothos_white.jpg"
+    ],
     "category": "hanging-planters",
-    "tags": ["teal", "hanging", "metal-ring", "planter"],
+    "tags": [
+      "teal",
+      "hanging",
+      "metal-ring",
+      "planter"
+    ],
     "status": "available",
     "stripePriceId": "price_placeholder_001",
     "shippingWeight": "3.5 lbs",
-    "quantity": 1
-  },
-  {
-    "id": "mint-blue-hanging-planter-002",
-    "slug": "mint-blue-ring-planter",
-    "name": "Mint & Blue Gradient Ring Planter",
-    "price": 7500,
-    "description": "This planter is a watercolor painting frozen in clay. Starting with a soft, seafoam mint at the rim, the glaze flows downward through layers of cerulean blue before settling into warm, earthy brown tones at the base — like a coastal sunset captured in ceramic. Mounted on a minimalist circular metal ring, it creates a striking visual focal point whether hung in a bright kitchen window, a cozy reading nook, or on a covered patio. The three-tone gradient is achieved through a meticulous layered glazing process: each color is applied by hand, one at a time, before the piece enters the kiln. The result is a seamless transition that's impossible to replicate — your planter will be the only one in the world with this exact color story.",
-    "details": [
-      "Approximately 6\" diameter x 5\" tall planter bowl",
-      "12\" diameter circular black metal ring frame included",
-      "Three-layer glaze technique: mint, cerulean blue, warm brown",
-      "Wheel-thrown stoneware, kiln-fired to cone 6 (2,200°F)",
-      "Lead-free, food-safe glazes throughout",
-      "Drainage hole with removable silicone plug",
-      "UV-resistant glaze — safe for indirect outdoor display",
-      "Handmade — no two gradient patterns are identical"
-    ],
-    "images": ["/images/products/mint-blue-ring-planter_hero.jpg", "/images/products/mint-blue-ring-planter_white.jpg"],
-    "category": "hanging-planters",
-    "tags": ["mint", "blue", "hanging", "metal-ring", "gradient"],
-    "status": "available",
-    "stripePriceId": "price_placeholder_002",
-    "shippingWeight": "3.5 lbs",
-    "quantity": 1
-  },
-  {
-    "id": "dark-teal-vine-planter-003",
-    "slug": "dark-teal-hanging-planter-vines",
-    "name": "Dark Teal Hanging Planter — Garden Edition",
-    "price": 7500,
-    "description": "There's something magical about a deep, moody glaze catching dappled garden light — and this planter was made for exactly that moment. The dark teal surface has a quiet depth to it: look closely and you'll see subtle shifts from near-black to forest green to a warm bronze shimmer where the glaze pools thickest. Shown here bursting with trailing string of hearts and cascading vines, it's a planter that becomes more beautiful as your plants grow into it. The circular metal ring frame gives it that modern, gallery-worthy presentation, while the generous 6-inch bowl provides plenty of room for root growth. Hang it from a porch beam, a shepherd's hook in the garden, or a ceiling hook indoors — it works everywhere.",
-    "details": [
-      "Approximately 6\" diameter x 5\" tall planter bowl",
-      "12\" diameter circular black metal ring frame included",
-      "Dark teal glaze with bronze undertone variations",
-      "Wheel-thrown stoneware, kiln-fired to cone 6",
-      "Drainage hole for healthy root systems",
-      "Weather-resistant for covered outdoor spaces",
-      "Brass hanging hook included",
-      "Handmade — subtle glaze shifts are unique to each piece"
-    ],
-    "images": ["/images/products/dark-teal-hanging-planter-vines_hero.jpg"],
-    "category": "hanging-planters",
-    "tags": ["dark-teal", "hanging", "metal-ring", "garden"],
-    "status": "available",
-    "stripePriceId": "price_placeholder_003",
-    "shippingWeight": "3.5 lbs",
-    "quantity": 1
+    "quantity": 1,
+    "specs": {
+      "height": "5\"",
+      "width": "6\" diameter",
+      "ringDiameter": "12\"",
+      "weight": "3.5 lbs",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "6\"W \u00d7 5\"H \u00b7 12\" ring \u00b7 3.5 lbs",
+    "bestUse": "Indoor hanging \u00b7 Patio \u00b7 Covered porch"
   },
   {
     "id": "deep-teal-garden-planter-004",
     "slug": "deep-teal-garden-ring-planter",
     "name": "Deep Teal Garden Ring Planter",
+    "productNumber": 2,
     "price": 7500,
-    "description": "Photographed in a sun-dappled garden with soft bokeh light filtering through the trees behind it, this planter practically glows. The deep teal glaze has a mirror-like quality — glossy, rich, and full of movement. In direct light it reads as a vivid jewel-tone teal; in shade it deepens to near-emerald. The contrast against lush green foliage is absolutely stunning, which is why this piece was specifically designed for garden display. The minimalist black metal ring keeps the visual focus on the pottery and your plants, creating a floating, sculptural effect. Whether you fill it with a lush fern, a dramatic spider plant, or a simple trailing ivy, this planter elevates everything it holds.",
+    "description": "Photographed in a sun-dappled garden with soft bokeh light filtering through the trees behind it, this planter practically glows. The deep teal glaze has a mirror-like quality \u00e2\u20ac\u201d glossy, rich, and full of movement. In direct light it reads as a vivid jewel-tone teal; in shade it deepens to near-emerald. The contrast against lush green foliage is absolutely stunning, which is why this piece was specifically designed for garden display. The minimalist black metal ring keeps the visual focus on the pottery and your plants, creating a floating, sculptural effect. Whether you fill it with a lush fern, a dramatic spider plant, or a simple trailing ivy, this planter elevates everything it holds.",
     "details": [
       "Approximately 6\" diameter x 5\" tall planter bowl",
       "12\" diameter circular black metal ring frame included",
       "Deep teal high-gloss glaze with emerald undertones",
       "Wheel-thrown stoneware, kiln-fired to cone 6",
       "Drainage hole with removable plug",
-      "Powder-coated metal ring — rust-resistant for outdoor use",
-      "Brass swivel hook for easy 360° rotation",
-      "Handmade — glaze depth varies beautifully per piece"
+      "Powder-coated metal ring \u00e2\u20ac\u201d rust-resistant for outdoor use",
+      "Brass swivel hook for easy 360\u00c2\u00b0 rotation",
+      "Handmade \u00e2\u20ac\u201d glaze depth varies beautifully per piece"
     ],
-    "images": ["/images/products/deep-teal-garden-ring-planter_hero.jpg"],
+    "images": [
+      "/images/products/deep-teal-garden-ring-planter_hero.jpg",
+      "/images/products/deep-teal-garden-ring-planter_garden.jpg"
+    ],
     "category": "hanging-planters",
-    "tags": ["deep-teal", "hanging", "metal-ring", "garden"],
+    "tags": [
+      "deep-teal",
+      "hanging",
+      "metal-ring",
+      "garden"
+    ],
     "status": "available",
     "stripePriceId": "price_placeholder_004",
     "shippingWeight": "3.5 lbs",
-    "quantity": 1
+    "quantity": 1,
+    "specs": {
+      "height": "5\"",
+      "width": "6\" diameter",
+      "ringDiameter": "12\"",
+      "weight": "3.5 lbs",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "6\"W \u00d7 5\"H \u00b7 12\" ring \u00b7 3.5 lbs",
+    "bestUse": "Garden display \u00b7 Covered patio \u00b7 Sunroom"
   },
   {
     "id": "dark-green-studio-planter-005",
     "slug": "dark-green-studio-ring-planter",
     "name": "Dark Green Studio Ring Planter",
+    "productNumber": 3,
     "price": 7500,
-    "description": "Sophisticated doesn't begin to cover it. This planter's dark green-black glaze has the kind of depth you'd expect from a piece of fine jewelry — a rich, almost liquid-looking surface that shifts between deep forest green and polished obsidian depending on the angle. Studio-photographed against a clean white background to show every nuance of the handmade glaze work, this is the planter for someone who wants their home décor to feel intentional, elevated, and unlike anything mass-produced. The circular metal ring frame adds a geometric counterpoint to the organic, hand-shaped bowl. It's the kind of piece that guests notice immediately and ask about. Pair it with a striking plant — a silvery Scindapsus or a dark burgundy Tradescantia — and you've got a living art installation.",
+    "description": "Sophisticated doesn't begin to cover it. This planter's dark green-black glaze has the kind of depth you'd expect from a piece of fine jewelry \u00e2\u20ac\u201d a rich, almost liquid-looking surface that shifts between deep forest green and polished obsidian depending on the angle. Studio-photographed against a clean white background to show every nuance of the handmade glaze work, this is the planter for someone who wants their home d\u00c3\u00a9cor to feel intentional, elevated, and unlike anything mass-produced. The circular metal ring frame adds a geometric counterpoint to the organic, hand-shaped bowl. It's the kind of piece that guests notice immediately and ask about. Pair it with a striking plant \u00e2\u20ac\u201d a silvery Scindapsus or a dark burgundy Tradescantia \u00e2\u20ac\u201d and you've got a living art installation.",
     "details": [
       "Approximately 6\" diameter x 5\" tall planter bowl",
       "12\" diameter circular black metal ring frame included",
       "Dark green-black high-gloss glaze with obsidian shifts",
-      "Wheel-thrown stoneware, kiln-fired to cone 6 (2,200°F)",
+      "Wheel-thrown stoneware, kiln-fired to cone 6 (2,200\u00c2\u00b0F)",
       "Lead-free, food-safe glaze",
       "Drainage hole with removable silicone plug",
-      "Gift-ready — ships in custom protective packaging",
-      "Handmade — each piece is a unique work of art"
+      "Gift-ready \u00e2\u20ac\u201d ships in custom protective packaging",
+      "Handmade \u00e2\u20ac\u201d each piece is a unique work of art"
     ],
-    "images": ["/images/products/dark-green-studio-ring-planter_hero.jpg", "/images/products/dark-green-studio-ring-planter_white.jpg"],
+    "images": [
+      "/images/products/dark-green-studio-ring-planter_hero.jpg",
+      "/images/products/dark-green-studio-ring-planter_white.jpg"
+    ],
     "category": "hanging-planters",
-    "tags": ["dark-green", "hanging", "metal-ring", "studio"],
+    "tags": [
+      "dark-green",
+      "hanging",
+      "metal-ring",
+      "studio"
+    ],
     "status": "available",
     "stripePriceId": "price_placeholder_005",
     "shippingWeight": "3.5 lbs",
-    "quantity": 1
-  },
-  {
-    "id": "orange-drip-vase-006",
-    "slug": "orange-drip-glaze-vase",
-    "name": "Orange Drip-Glaze Vase",
-    "price": 6500,
-    "description": "This is the piece that stops people mid-sentence. A vibrant, sun-kissed orange body — bold, warm, and unapologetically joyful — crowned with a cascade of sage-green glaze that drips and flows over the rim like moss on a canyon wall. The contrast is electric: warm meets cool, bright meets earthy, smooth meets organic. Standing approximately 8 inches tall with a wide mouth, it's equally stunning holding a bouquet of fresh tulips, dried pampas grass, or absolutely nothing at all. The drip pattern is created by applying a thick layer of sage glaze to the rim before firing — gravity and heat do the rest, meaning no two drip patterns will ever be the same. This is the vase that becomes the centerpiece of whatever room it lives in. Shown here on a sunlit garden table with white tulips — but honestly, it doesn't need flowers to be a showstopper.",
-    "details": [
-      "Approximately 8\" tall x 5\" diameter at widest point",
-      "Wide 3.5\" mouth opening — perfect for bouquets",
-      "Vibrant orange body with sage-green drip glaze from rim",
-      "Wheel-thrown stoneware, kiln-fired to cone 6",
-      "Watertight — holds fresh flowers and water without leaking",
-      "Lead-free, food-safe glazes",
-      "Weighted base for stability with tall arrangements",
-      "Handmade — drip pattern is unique, created by gravity during firing"
-    ],
-    "images": ["/images/products/orange-drip-glaze-vase_hero.jpg"],
-    "category": "vases",
-    "tags": ["orange", "drip-glaze", "vase", "sage-green"],
-    "status": "available",
-    "stripePriceId": "price_placeholder_006",
-    "shippingWeight": "2.5 lbs",
-    "quantity": 1
-  },
-  {
-    "id": "orange-footed-planter-007",
-    "slug": "orange-footed-drip-planter",
-    "name": "Orange Footed Drip Planter",
-    "price": 5500,
-    "description": "Small but mighty, this three-footed planter packs an enormous amount of personality into a compact form. The vibrant orange body radiates warmth and energy, while the sage-green drip glaze cascading from the rim adds an organic, almost whimsical touch — like icing dripping down the side of a cake. The three rustic feet aren't just decorative: they elevate the planter off the surface for proper air circulation and drainage, keeping your plants healthier and your furniture protected. At 5 inches tall and 5 inches wide, it's the perfect size for a desk succulent, a kitchen windowsill herb, or a bedside snake plant (shown here with a gorgeous Sansevieria). The proportions are wonderfully satisfying — sturdy enough to feel substantial, compact enough to fit anywhere. This is the piece that makes people say 'Where did you get that?'",
-    "details": [
-      "Approximately 5\" tall x 5\" diameter (including feet)",
-      "Three hand-shaped feet — elevates plant 1\" off surface",
-      "Orange body with sage drip-glaze rim detail",
-      "Wheel-thrown stoneware, kiln-fired to cone 6",
-      "Drainage hole in base for healthy root systems",
-      "Lead-free, food-safe glaze",
-      "Felt pads included for furniture protection",
-      "Handmade — foot shape and drip pattern unique to each piece"
-    ],
-    "images": ["/images/products/orange-footed-drip-planter_hero.jpg"],
-    "category": "planters",
-    "tags": ["orange", "footed", "drip-glaze", "planter"],
-    "status": "available",
-    "stripePriceId": "price_placeholder_007",
-    "shippingWeight": "2.5 lbs",
-    "quantity": 1
+    "quantity": 1,
+    "specs": {
+      "height": "5\"",
+      "width": "6\" diameter",
+      "ringDiameter": "12\"",
+      "weight": "3.5 lbs",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "6\"W \u00d7 5\"H \u00b7 12\" ring \u00b7 3.5 lbs",
+    "bestUse": "Indoor accent \u00b7 Studio \u00b7 Living room"
   },
   {
     "id": "teal-flower-planter-008",
     "slug": "teal-flower-ring-planter",
-    "name": "Teal Ring Planter — Flower Edition",
+    "name": "Teal Ring Planter \u00e2\u20ac\u201d Flower Edition",
+    "productNumber": 4,
     "price": 7500,
-    "description": "Some planters hold plants. This one puts on a show. Photographed overflowing with vibrant pink petunias, trailing lobelia, and lush sweet potato vine, this teal ring planter demonstrates what happens when handmade pottery meets serious flower power. The earthy teal glaze — with its warm brown undertones — provides a grounding, natural backdrop that lets even the most colorful blooms take center stage without visual competition. The 12-inch circular metal ring frame creates a halo effect around the arrangement, adding structure and drama. Whether you plant it up for a summer porch display, hang it as a living wreath alternative, or use it year-round with trailing houseplants, this is a planter that earns its place as a conversation piece. The teal glaze deepens with age and exposure to natural light, becoming even more beautiful over time.",
+    "description": "Some planters hold plants. This one puts on a show. Photographed overflowing with vibrant pink petunias, trailing lobelia, and lush sweet potato vine, this teal ring planter demonstrates what happens when handmade pottery meets serious flower power. The earthy teal glaze \u00e2\u20ac\u201d with its warm brown undertones \u00e2\u20ac\u201d provides a grounding, natural backdrop that lets even the most colorful blooms take center stage without visual competition. The 12-inch circular metal ring frame creates a halo effect around the arrangement, adding structure and drama. Whether you plant it up for a summer porch display, hang it as a living wreath alternative, or use it year-round with trailing houseplants, this is a planter that earns its place as a conversation piece. The teal glaze deepens with age and exposure to natural light, becoming even more beautiful over time.",
     "details": [
       "Approximately 6\" diameter x 5\" tall planter bowl",
       "12\" diameter circular black metal ring frame included",
@@ -180,15 +139,334 @@
       "Wheel-thrown stoneware, kiln-fired to cone 6",
       "Extra-deep bowl for generous root space",
       "Drainage hole for outdoor flower plantings",
-      "Powder-coated ring — weather-resistant for porch/patio",
-      "Handmade — glaze color deepens beautifully with age"
+      "Powder-coated ring \u00e2\u20ac\u201d weather-resistant for porch/patio",
+      "Handmade \u00e2\u20ac\u201d glaze color deepens beautifully with age"
     ],
-    "images": ["/images/products/teal-flower-ring-planter_hero.jpg"],
+    "images": [
+      "/images/products/teal-flower-ring-planter_hero.jpg",
+      "/images/products/teal-flower-ring-planter_flowers.jpg"
+    ],
     "category": "hanging-planters",
-    "tags": ["teal", "hanging", "metal-ring", "flowers"],
+    "tags": [
+      "teal",
+      "hanging",
+      "metal-ring",
+      "flowers"
+    ],
     "status": "available",
     "stripePriceId": "price_placeholder_008",
     "shippingWeight": "3.5 lbs",
-    "quantity": 1
+    "quantity": 1,
+    "specs": {
+      "height": "5\"",
+      "width": "6\" diameter",
+      "ringDiameter": "12\"",
+      "weight": "3.5 lbs",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "6\"W \u00d7 5\"H \u00b7 12\" ring \u00b7 3.5 lbs",
+    "bestUse": "Garden hanging \u00b7 Porch \u00b7 Outdoor wall"
+  },
+  {
+    "id": "celadon-drip-vase-009",
+    "slug": "celadon-drip-vase",
+    "name": "Celadon Drip-Glaze Vase",
+    "productNumber": 5,
+    "price": 6500,
+    "description": "Soft, serene, and effortlessly elegant \u00e2\u20ac\u201d this celadon vase is a masterclass in understated beauty. The pale seafoam-green body has a calming, almost jade-like quality, while the white crawl glaze cascading from the rim creates an organic, lace-like texture that catches the light in unexpected ways. The crawl effect happens naturally during firing as the glaze contracts and separates, leaving a raised, crater-like pattern that's mesmerizing up close. Standing approximately 7 inches tall with a classic curved silhouette, this vase is perfectly proportioned for a generous bouquet of tulips, a spray of wildflowers, or a simple arrangement of greenery. Shown here with vibrant yellow tulips on a warm wood dining table \u00e2\u20ac\u201d the contrast between the cool celadon and bright flowers is absolutely stunning.",
+    "details": [
+      "Approximately 7\" tall x 4.5\" diameter at widest point",
+      "Wide 3\" mouth opening \u00e2\u20ac\u201d perfect for medium bouquets",
+      "Celadon green body with white crawl-glaze rim detail",
+      "Wheel-thrown stoneware, kiln-fired to cone 6 (2,200\u00c2\u00b0F)",
+      "Watertight \u00e2\u20ac\u201d holds fresh flowers and water without leaking",
+      "Lead-free, food-safe glazes",
+      "Weighted base for stability",
+      "Handmade \u00e2\u20ac\u201d crawl pattern is unique to each piece"
+    ],
+    "images": [
+      "/images/products/celadon-drip-vase_hero.jpg",
+      "/images/products/celadon-drip-vase_lifestyle.jpg",
+      "/images/products/celadon-drip-vase_marble.jpg"
+    ],
+    "category": "vases",
+    "tags": [
+      "celadon",
+      "green",
+      "drip-glaze",
+      "vase",
+      "crawl-glaze"
+    ],
+    "status": "available",
+    "stripePriceId": "price_placeholder_009",
+    "shippingWeight": "2 lbs",
+    "quantity": 1,
+    "specs": {
+      "height": "7\"",
+      "width": "4.5\" diameter",
+      "mouth": "3\"",
+      "weight": "2 lbs",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "4.5\"W \u00d7 7\"H \u00b7 3\" mouth \u00b7 2 lbs",
+    "bestUse": "Bookshelf \u00b7 Side table \u00b7 Bud vase"
+  },
+  {
+    "id": "navy-faceted-planter-010",
+    "slug": "navy-faceted-planter",
+    "name": "Navy Faceted Planter with Saucer",
+    "productNumber": 6,
+    "price": 5500,
+    "description": "Bold, architectural, and impossible to ignore \u00e2\u20ac\u201d this faceted planter combines a deep midnight navy body with a dramatic cascading glaze in sage green and warm amber that flows over the geometric edges like a frozen waterfall. The faceted shape gives each face its own unique glaze story: the green pools in the valleys between facets while the navy peaks through at the edges, creating a dimensional effect that changes from every angle. The matching navy saucer with a subtle gloss finish completes the look and protects your surfaces. At approximately 5.5 inches tall, it's the perfect size for a statement desk plant \u00e2\u20ac\u201d a money tree, a compact fiddle leaf, or a lush pothos. Shown here with a braided money tree, this planter transforms any shelf or tabletop into a curated display.",
+    "details": [
+      "Approximately 5.5\" tall x 5\" diameter at widest point",
+      "Hand-faceted geometric shape \u00e2\u20ac\u201d no two are identical",
+      "Deep navy body with sage-green and amber cascading glaze",
+      "Matching glazed saucer included",
+      "Wheel-thrown and hand-carved stoneware, kiln-fired to cone 6",
+      "Drainage hole for healthy root systems",
+      "Lead-free glazes throughout",
+      "Handmade \u00e2\u20ac\u201d facet angles and glaze flow unique to each piece"
+    ],
+    "images": [
+      "/images/products/navy-faceted-planter_hero.jpg",
+      "/images/products/navy-faceted-planter_shelf.jpg",
+      "/images/products/navy-faceted-planter_collection.jpg"
+    ],
+    "category": "planters",
+    "tags": [
+      "navy",
+      "faceted",
+      "geometric",
+      "planter",
+      "saucer"
+    ],
+    "status": "available",
+    "stripePriceId": "price_placeholder_010",
+    "shippingWeight": "3 lbs",
+    "quantity": 1,
+    "specs": {
+      "height": "5.5\"",
+      "width": "5\" diameter",
+      "weight": "3 lbs",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "5\"W \u00d7 5.5\"H \u00b7 With saucer \u00b7 3 lbs",
+    "bestUse": "Desk planter \u00b7 Shelf display \u00b7 Indoor"
+  },
+  {
+    "id": "amber-orchid-pot-011",
+    "slug": "amber-orchid-pot",
+    "name": "Amber Orchid Pot with Saucer",
+    "productNumber": 7,
+    "price": 4500,
+    "description": "Warm as honey, rich as autumn \u00e2\u20ac\u201d this amber-glazed orchid pot radiates golden warmth from every angle. The deep yellow-amber body has a sun-drenched quality that brightens any corner, while a subtle sage-green drip glaze at the rim adds just enough organic contrast to keep things interesting. The classic tapered shape is purposefully sized for orchids and small-to-medium houseplants, with a generous drainage hole and a matching amber saucer to catch excess water. Shown here cradling a white phalaenopsis orchid with smooth white river stones at the base \u00e2\u20ac\u201d the warm amber against cool white petals is pure elegance. At just under 5 inches tall, this pot is perfectly scaled for windowsills, bedside tables, and bathroom shelves.",
+    "details": [
+      "Approximately 4.5\" tall x 4\" diameter at top",
+      "Classic tapered orchid pot shape",
+      "Rich amber/golden yellow glaze with sage-green rim drip",
+      "Matching amber-glazed saucer included",
+      "Wheel-thrown stoneware, kiln-fired to cone 6",
+      "Drainage hole for orchid health",
+      "Lead-free, food-safe glaze",
+      "Handmade \u00e2\u20ac\u201d amber tone depth varies per piece"
+    ],
+    "images": [
+      "/images/products/amber-orchid-pot_hero.jpg",
+      "/images/products/amber-orchid-pot_detail.jpg"
+    ],
+    "category": "planters",
+    "tags": [
+      "amber",
+      "yellow",
+      "orchid",
+      "pot",
+      "saucer"
+    ],
+    "status": "available",
+    "stripePriceId": "price_placeholder_011",
+    "shippingWeight": "1.5 lbs",
+    "quantity": 1,
+    "specs": {
+      "height": "4.5\"",
+      "width": "4\" diameter",
+      "weight": "1.5 lbs",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "4\"W \u00d7 4.5\"H \u00b7 With saucer \u00b7 1.5 lbs",
+    "bestUse": "Orchids \u00b7 Windowsill \u00b7 Bathroom accent"
+  },
+  {
+    "id": "teal-mountain-planter-012",
+    "slug": "teal-mountain-planter",
+    "name": "Teal Mountain Drip Planter with Saucer",
+    "productNumber": 8,
+    "price": 5500,
+    "description": "Named for the way the blue-green glaze flows over the rim like mountain ridges meeting a valley floor, this planter is a landscape in miniature. A soft sage-green rim transitions through dramatic bands of deep teal and cobalt blue before meeting a warm golden-brown base \u00e2\u20ac\u201d the three-zone color palette evokes mountains, sky, and earth. The matching sage-green saucer ties everything together with quiet elegance. This is a planter that rewards a closer look: the glaze transitions aren't printed or planned \u00e2\u20ac\u201d they happen organically in the kiln as different glazes melt, flow, and meet at unpredictable boundaries. Every piece emerges with its own unique mountain line. At 4.5 inches tall, it's ideal for compact plants like anthuriums, small ferns, or a trailing pothos.",
+    "details": [
+      "Approximately 4.5\" tall x 5\" diameter at rim",
+      "Three-zone glaze: sage green rim, teal-cobalt middle, golden-brown base",
+      "Matching sage-green glazed saucer included",
+      "Wheel-thrown stoneware, kiln-fired to cone 6",
+      "Drainage hole for plant health",
+      "Lead-free glazes throughout",
+      "Sturdy construction \u00e2\u20ac\u201d feels substantial in the hand",
+      "Handmade \u00e2\u20ac\u201d glaze boundaries shift uniquely per piece"
+    ],
+    "images": [
+      "/images/products/teal-mountain-planter_hero.jpg",
+      "/images/products/teal-mountain-planter_studio.jpg",
+      "/images/products/teal-mountain-planter_plant.jpg",
+      "/images/products/teal-mountain-planter_empty.jpg"
+    ],
+    "category": "planters",
+    "tags": [
+      "teal",
+      "blue",
+      "mountain",
+      "drip-glaze",
+      "planter",
+      "saucer"
+    ],
+    "status": "available",
+    "stripePriceId": "price_placeholder_012",
+    "shippingWeight": "2.5 lbs",
+    "quantity": 1,
+    "specs": {
+      "height": "4.5\"",
+      "width": "5\" diameter",
+      "weight": "2.5 lbs",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "5\"W \u00d7 4.5\"H \u00b7 With saucer \u00b7 2.5 lbs",
+    "bestUse": "Succulents \u00b7 Coffee table \u00b7 Indoor"
+  },
+  {
+    "id": "navy-round-planter-013",
+    "slug": "navy-round-planter",
+    "name": "Navy Round Planter with Saucer",
+    "productNumber": 9,
+    "price": 5500,
+    "description": "Classic meets dramatic in this generously sized round planter. The deep midnight navy body anchors the piece with quiet authority, while a cascading drip glaze in sage green and creamy white flows from the rim like a frozen waterfall \u00e2\u20ac\u201d each drip following its own gravity-determined path during the kiln firing. The round, slightly tapered shape is a timeless pottery form that works with everything from spring primroses to summer petunias to year-round houseplants. The matching navy saucer with a subtle gloss finish completes the set and catches any excess drainage. At 6 inches tall with a wide mouth, this planter accommodates fuller plants and mixed arrangements beautifully.",
+    "details": [
+      "Approximately 6\" tall x 6\" diameter at rim",
+      "Classic round tapered shape",
+      "Deep navy body with sage-green and white cascading glaze",
+      "Matching glazed saucer included",
+      "Wheel-thrown stoneware, kiln-fired to cone 6",
+      "Drainage hole for healthy root systems",
+      "Lead-free glazes throughout",
+      "Handmade \u00e2\u20ac\u201d drip pattern unique to each piece"
+    ],
+    "images": [
+      "/images/products/navy-round-planter-primrose.jpg",
+      "/images/products/navy-round-planter-tulips.jpg"
+    ],
+    "category": "planters",
+    "tags": [
+      "navy",
+      "round",
+      "drip-glaze",
+      "planter",
+      "saucer"
+    ],
+    "status": "available",
+    "stripePriceId": "price_placeholder_013",
+    "shippingWeight": "3 lbs",
+    "quantity": 1,
+    "specs": {
+      "height": "6\"",
+      "width": "6\" diameter",
+      "weight": "3 lbs",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "6\"W \u00d7 6\"H \u00b7 With saucer \u00b7 3 lbs",
+    "bestUse": "Entry table \u00b7 Spring bulbs \u00b7 Porch"
+  },
+  {
+    "id": "herringbone-orchid-pots-014",
+    "slug": "herringbone-orchid-pots",
+    "name": "Herringbone Pattern Orchid Pot Set",
+    "productNumber": 10,
+    "price": 7500,
+    "description": "Modern meets handmade in this striking pair of orchid pots featuring a hand-painted herringbone chevron pattern in graphite on a creamy white body. The crisp geometric lines are softened by the subtle irregularities of the hand-painted brushstrokes \u00e2\u20ac\u201d no two chevrons are exactly alike, giving each pot a warmth that printed patterns can never achieve. A soft seafoam-green glazed base adds a pop of color that ties beautifully into plant foliage. Sold as a matching pair, these pots are perfectly sized for phalaenopsis orchids and come with coordinating saucers. Shown here with elegant white orchids, the contrast between the geometric pattern and organic flower forms is absolutely stunning. Display them together on a windowsill, mantle, or dining table for maximum visual impact.",
+    "details": [
+      "Set of 2 matching orchid pots with saucers",
+      "Approximately 5\" tall x 4.5\" diameter each",
+      "Hand-painted graphite herringbone chevron pattern",
+      "Creamy white body with seafoam-green glazed base",
+      "Wheel-thrown stoneware with hand-applied decoration",
+      "Kiln-fired to cone 6 (2,200\u00c2\u00b0F)",
+      "Drainage holes for orchid health",
+      "Handmade \u00e2\u20ac\u201d each chevron pattern has unique brushstroke character"
+    ],
+    "images": [
+      "/images/products/herringbone-pots-orchids.jpg"
+    ],
+    "category": "planters",
+    "tags": [
+      "herringbone",
+      "chevron",
+      "orchid",
+      "pot",
+      "set",
+      "white",
+      "pattern"
+    ],
+    "status": "available",
+    "stripePriceId": "price_placeholder_014",
+    "shippingWeight": "3 lbs",
+    "quantity": 1,
+    "specs": {
+      "height": "5\"",
+      "width": "4.5\" diameter",
+      "weight": "3 lbs (set of 2)",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "4.5\"W \u00d7 5\"H \u00b7 Set of 2 \u00b7 3 lbs",
+    "bestUse": "Orchid pair \u00b7 Shelf styling \u00b7 Gift set"
+  },
+  {
+    "id": "navy-square-planter-015",
+    "slug": "navy-square-planter",
+    "name": "Navy Square Planter with Saucer",
+    "productNumber": 11,
+    "price": 5500,
+    "description": "Bold geometry meets organic glaze art in this square-form planter that commands attention from every angle. The architectural silhouette \u00e2\u20ac\u201d clean lines, flat facets, a perfectly square footprint \u00e2\u20ac\u201d provides a structured canvas for the wild, unpredictable cascade of bubbly sage-green and amber glaze that flows over the navy body. The contrast between the precise shape and the organic glaze movement creates a visual tension that's endlessly interesting. Each of the four faces catches the drip glaze differently, meaning you can rotate the planter to show a different 'painting' depending on your mood. The matching square navy saucer completes the geometric theme. Shown here in a vibrant garden surrounded by pink kalanchoe and daffodils, this planter is equally at home on a modern desk or a cottage garden shelf.",
+    "details": [
+      "Approximately 5\" tall x 5\" wide x 5\" deep",
+      "Square architectural form with flat facets",
+      "Deep navy body with bubbly sage-green and amber drip glaze",
+      "Matching square glazed saucer included",
+      "Wheel-thrown and hand-shaped stoneware, kiln-fired to cone 6",
+      "Drainage hole for plant health",
+      "Lead-free glazes throughout",
+      "Handmade \u00e2\u20ac\u201d four unique faces per piece"
+    ],
+    "images": [
+      "/images/products/square-planter-garden-scene.jpg"
+    ],
+    "category": "planters",
+    "tags": [
+      "navy",
+      "square",
+      "geometric",
+      "drip-glaze",
+      "planter",
+      "saucer"
+    ],
+    "status": "available",
+    "stripePriceId": "price_placeholder_015",
+    "shippingWeight": "3 lbs",
+    "quantity": 1,
+    "specs": {
+      "height": "5\"",
+      "width": "5\"",
+      "depth": "5\"",
+      "weight": "3 lbs",
+      "note": "Estimated dimensions \u00e2\u20ac\u201d final specs confirmed by maker"
+    },
+    "quickSpec": "5\" \u00d7 5\" \u00d7 5\" \u00b7 With saucer \u00b7 3 lbs",
+    "bestUse": "Garden accent \u00b7 Outdoor table \u00b7 Patio"
   }
 ]
