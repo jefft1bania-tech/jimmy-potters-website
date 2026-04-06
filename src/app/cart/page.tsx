@@ -5,46 +5,16 @@ import Image from 'next/image';
 import { useCart } from '@/components/cart/CartProvider';
 import { formatPrice } from '@/lib/products';
 import { useState } from 'react';
-import {
-  EAST_COAST_STATES,
-  SHIPPING_TIERS,
-  getShippingRate,
-  formatShippingPrice,
-} from '@/lib/shipping';
+import { EAST_COAST_STATES } from '@/lib/shipping';
+import { calculateSalesTax, getTaxDisplayRate, formatTaxAmount } from '@/lib/tax';
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, total, itemCount } = useCart();
-  const [loading, setLoading] = useState(false);
   const [selectedState, setSelectedState] = useState('');
-  const [selectedTier, setSelectedTier] = useState<'ground' | 'express' | 'overnight'>('ground');
 
-  const shippingCost = selectedState ? (getShippingRate(selectedState, selectedTier) || 0) : 0;
-  const orderTotal = total + shippingCost;
-
-  const handleCheckout = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: items.map((item) => ({
-            stripePriceId: item.stripePriceId,
-            id: item.id,
-            quantity: item.quantity,
-          })),
-        }),
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch {
-      alert('Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const salesTax = selectedState ? calculateSalesTax(total, selectedState) : 0;
+  const taxRate = selectedState ? getTaxDisplayRate(selectedState) : null;
+  const orderTotal = total + salesTax; // Shipping is free
 
   if (itemCount === 0) {
     return (
@@ -169,21 +139,29 @@ export default function CartPage() {
 
             <div className="divider-faire" />
 
-            <div className="flex justify-between py-4 text-sm font-body">
+            {/* Subtotal */}
+            <div className="flex justify-between py-3 text-sm font-body">
               <span className="text-stone-500">Subtotal</span>
               <span className="price-faire">{formatPrice(total)}</span>
             </div>
 
-            {/* FedEx Shipping Selection */}
-            <div className="pb-4 space-y-3">
-              <div className="flex items-center gap-2 text-sm text-stone-400 font-heading font-bold">
+            {/* Free Shipping */}
+            <div className="flex justify-between py-3 text-sm font-body">
+              <div className="flex items-center gap-2">
                 <svg className="w-4 h-4 text-[#C9A96E]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                 </svg>
-                Shipping via FedEx
+                <span className="text-stone-500">Shipping</span>
               </div>
+              <span className="text-emerald-400 font-heading font-bold">FREE</span>
+            </div>
+            <p className="text-stone-600 text-[10px] font-body -mt-1 mb-2 pl-6">
+              Free FedEx Ground Shipping (3–5 business days)
+            </p>
 
-              {/* State select */}
+            {/* State selector for tax calculation */}
+            <div className="py-3 space-y-2">
+              <label className="text-stone-500 text-xs font-body">Shipping state (for tax estimate)</label>
               <select
                 value={selectedState}
                 onChange={(e) => setSelectedState(e.target.value)}
@@ -196,62 +174,22 @@ export default function CartPage() {
                   </option>
                 ))}
               </select>
+            </div>
 
-              {/* Tier select */}
-              {selectedState && (
-                <div className="space-y-1.5">
-                  {SHIPPING_TIERS.map((tier) => {
-                    const rate = getShippingRate(selectedState, tier.id);
-                    if (!rate) return null;
-                    return (
-                      <label
-                        key={tier.id}
-                        className={`flex items-center justify-between p-2.5 rounded-lg cursor-pointer border transition-colors ${
-                          selectedTier === tier.id
-                            ? 'border-[#C9A96E]/50 bg-[#C9A96E]/10'
-                            : 'border-stone-700/40 bg-stone-800/40 hover:border-stone-600'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="radio"
-                            name="shipping-tier"
-                            value={tier.id}
-                            checked={selectedTier === tier.id}
-                            onChange={() => setSelectedTier(tier.id)}
-                            className="accent-[#C9A96E]"
-                          />
-                          <div>
-                            <span className="text-stone-200 text-xs font-heading font-bold">{tier.name}</span>
-                            <span className="text-stone-500 text-[10px] font-body block">{tier.deliveryTime}</span>
-                          </div>
-                        </div>
-                        <span className="text-[#C9A96E] text-xs font-heading font-bold">
-                          {formatShippingPrice(rate)}
-                        </span>
-                      </label>
-                    );
-                  })}
-                </div>
-              )}
-
-              {!selectedState && (
-                <p className="text-stone-600 text-[10px] font-body">
-                  Currently shipping to East Coast states (NY to FL). Select your state to see rates.
-                </p>
-              )}
+            {/* Sales Tax */}
+            <div className="flex justify-between py-3 text-sm font-body">
+              <div>
+                <span className="text-stone-500">Sales Tax</span>
+                {taxRate && <span className="text-stone-600 text-[10px] ml-1">({taxRate})</span>}
+              </div>
+              <span className="text-stone-300">
+                {selectedState ? formatTaxAmount(salesTax) : 'Select state'}
+              </span>
             </div>
 
             <div className="divider-faire" />
 
-            {/* Shipping line item */}
-            <div className="flex justify-between py-2 text-sm font-body">
-              <span className="text-stone-500">Shipping</span>
-              <span className="text-stone-400">
-                {selectedState ? formatShippingPrice(shippingCost) : 'Select state'}
-              </span>
-            </div>
-
+            {/* Total */}
             <div className="flex justify-between py-4">
               <span className="font-heading font-bold text-white">Total</span>
               <span className="price-faire text-lg">{formatPrice(orderTotal)}</span>

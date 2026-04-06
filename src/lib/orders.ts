@@ -29,9 +29,12 @@ export interface Order {
   items: OrderItem[];
   shipping: ShippingAddress;
   shippingTier: string;
-  shippingCost: number;
-  subtotal: number;
-  total: number;
+  shippingCost: number;            // customer-facing shipping cost (now always 0)
+  internalShippingCost: number;    // actual FedEx cost absorbed by seller (cents)
+  salesTaxCollected: number;       // sales tax charged to buyer (cents)
+  buyerState: string;              // two-letter state abbreviation
+  subtotal: number;                // product total before tax (cents)
+  total: number;                   // final charge: subtotal + salesTax (cents)
   stripePaymentIntentId: string;
   stripeCustomerId?: string;
   status: 'pending' | 'paid' | 'shipped' | 'delivered';
@@ -82,4 +85,8 @@ export function getOrdersByEmail(email: string): Order[] {
 
 export function getOrdersByMemberId(memberId: string): Order[] {
   return readOrders().filter((o) => o.memberId === memberId);
+}
+
+export function getAllOrders(): Order[] {
+  return readOrders();
 }

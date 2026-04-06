@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe';
-import { createMember, findMemberByEmail, generateToken, stripPrivate } from '@/lib/auth';
+import { createMember, findMemberByEmail, generateToken } from '@/lib/auth';
 import { createOrder, type OrderItem, type ShippingAddress } from '@/lib/orders';
-import bcrypt from 'bcryptjs';
+import { calculateSalesTax } from '@/lib/tax';
+import { getInternalShippingCost } from '@/lib/shipping';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,20 +15,28 @@ interface CheckoutPayload {
   newsletter?: boolean;
   items: OrderItem[];
   shipping: ShippingAddress;
-  shippingTier: string;
-  shippingCost: number;
-  subtotal: number;
-  total: number;
+  subtotal: number;    // product total in cents (from client)
+  salesTax: number;    // client-calculated tax (verified server-side)
+  total: number;       // client-calculated total (verified server-side)
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body: CheckoutPayload = await req.json();
-    const { flow, email, name, items, shipping, shippingTier, shippingCost, subtotal, total } = body;
+    const { flow, email, name, items, shipping, subtotal } = body;
 
-    if (!email || !name || !items?.length || !shipping || !total) {
+    if (!email || !name || !items?.length || !shipping || !subtotal) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
+
+    const buyerState = shipping.state;
+
+    // ═══ SERVER-SIDE TAX CALCULATION (authoritative) ═══
+    const salesTax = calculateSalesTax(subtotal, buyerState);
+    const total = subtotal + salesTax; // Product total + tax. Shipping is FREE to buyer.
+
+    // ═══ INTERNAL SHIPPING COST (not charged to buyer) ═══
+    const internalShippingCost = getInternalShippingCost(buyerState);
 
     const stripe = getStripe();
     let stripeCustomerId: string | undefined;
@@ -41,25 +50,20 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Password must be at least 6 characters' }, { status: 400 });
       }
 
-      // Check for existing account
       const existing = findMemberByEmail(email);
       if (existing) {
         return NextResponse.json({ error: 'An account with this email already exists. Please use guest checkout or log in.' }, { status: 409 });
       }
 
-      // Create member account
       const member = await createMember(email, name, password);
       memberId = member.id;
 
-      // Update newsletter preference
       if (newsletter !== undefined) {
         member.preferences.newsletter = newsletter;
       }
 
-      // Generate auth token
       token = generateToken(member);
 
-      // Create Stripe Customer linked to account
       const customer = await stripe.customers.create({
         email: email.toLowerCase(),
         name,
@@ -80,6 +84,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ═══ CREATE PAYMENT INTENT ═══
+    // Amount = subtotal + salesTax. Shipping is absorbed by seller.
     const paymentIntent = await stripe.paymentIntents.create({
       amount: total,
       currency: 'usd',
@@ -90,9 +95,12 @@ export async function POST(req: NextRequest) {
         checkout_flow: flow,
         member_id: memberId || '',
         product_ids: items.map((i) => `${i.productId}:${i.quantity || 1}`).join(','),
-        shipping_tier: shippingTier,
+        buyer_state: buyerState,
+        subtotal: String(subtotal),
+        sales_tax: String(salesTax),
+        internal_shipping_cost: String(internalShippingCost),
+        shipping_method: 'FedEx Ground (Free)',
       },
-      // Don't save payment method for guests
       ...(flow === 'guest'
         ? { setup_future_usage: undefined }
         : { setup_future_usage: 'off_session' }
@@ -107,18 +115,23 @@ export async function POST(req: NextRequest) {
       memberId,
       items,
       shipping,
-      shippingTier,
-      shippingCost,
+      shippingTier: 'ground',
+      shippingCost: 0,                         // $0 to customer
+      internalShippingCost,                    // actual FedEx cost
+      salesTaxCollected: salesTax,             // tax charged
+      buyerState,                              // state abbreviation
       subtotal,
       total,
       stripePaymentIntentId: paymentIntent.id,
       stripeCustomerId,
     });
 
-    // Build response
+    // Build response — send server-calculated tax back to client for display
     const response: Record<string, unknown> = {
       clientSecret: paymentIntent.client_secret,
       orderId: order.id,
+      salesTax,
+      total,
     };
 
     if (flow === 'register' && token) {
@@ -127,7 +140,6 @@ export async function POST(req: NextRequest) {
 
     const res = NextResponse.json(response);
 
-    // Set auth cookie for registered users
     if (flow === 'register' && token) {
       res.cookies.set('jp_token', token, {
         httpOnly: true,

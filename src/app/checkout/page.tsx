@@ -5,12 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/components/cart/CartProvider';
 import { formatPrice } from '@/lib/products';
-import {
-  EAST_COAST_STATES,
-  SHIPPING_TIERS,
-  getShippingRate,
-  formatShippingPrice,
-} from '@/lib/shipping';
+import { EAST_COAST_STATES } from '@/lib/shipping';
+import { calculateSalesTax, getTaxDisplayRate, formatTaxAmount } from '@/lib/tax';
 import CheckoutForm from './CheckoutForm';
 import StripeProvider from '@/components/checkout/StripeProvider';
 
@@ -24,9 +20,8 @@ export default function CheckoutPage() {
   const [error, setError] = useState('');
   const [creating, setCreating] = useState(false);
 
-  // Shipping state
+  // State (for shipping address + tax)
   const [selectedState, setSelectedState] = useState('');
-  const [selectedTier, setSelectedTier] = useState<'ground' | 'express' | 'overnight'>('ground');
 
   // Form fields
   const [email, setEmail] = useState('');
@@ -41,8 +36,14 @@ export default function CheckoutPage() {
   const [shipCity, setShipCity] = useState('');
   const [shipZip, setShipZip] = useState('');
 
-  const shippingCost = selectedState ? (getShippingRate(selectedState, selectedTier) || 0) : 0;
-  const orderTotal = total + shippingCost;
+  // Server-confirmed values (after payment intent created)
+  const [confirmedTax, setConfirmedTax] = useState<number | null>(null);
+  const [confirmedTotal, setConfirmedTotal] = useState<number | null>(null);
+
+  // Client-side tax estimate (updates live as state changes)
+  const salesTax = selectedState ? calculateSalesTax(total, selectedState) : 0;
+  const taxRate = selectedState ? getTaxDisplayRate(selectedState) : null;
+  const orderTotal = total + salesTax; // Shipping = $0 (free)
 
   if (itemCount === 0) {
     return (
@@ -95,9 +96,8 @@ export default function CheckoutPage() {
             postalCode: shipZip,
             country: 'US',
           },
-          shippingTier: selectedTier,
-          shippingCost,
           subtotal: total,
+          salesTax,
           total: orderTotal,
         }),
       });
@@ -110,12 +110,19 @@ export default function CheckoutPage() {
 
       setClientSecret(data.clientSecret);
       setOrderId(data.orderId);
+      // Use server-confirmed values
+      setConfirmedTax(data.salesTax);
+      setConfirmedTotal(data.total);
     } catch {
       setError('Network error. Please try again.');
     } finally {
       setCreating(false);
     }
   };
+
+  // Display values — use server-confirmed after payment intent, client estimate before
+  const displayTax = confirmedTax !== null ? confirmedTax : salesTax;
+  const displayTotal = confirmedTotal !== null ? confirmedTotal : orderTotal;
 
   return (
     <div className="shop-bg min-h-screen">
@@ -207,7 +214,6 @@ export default function CheckoutPage() {
                         </div>
                       </div>
 
-                      {/* Password + Newsletter — only for register flow */}
                       {flow === 'register' && (
                         <>
                           <div>
@@ -239,7 +245,7 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
-                {/* Step 3: Shipping */}
+                {/* Step 3: Shipping Address */}
                 {flow && (
                   <div className="card-faire-detail p-6">
                     <h2 className="font-heading font-bold text-sm uppercase tracking-wider text-stone-400 mb-4">
@@ -278,29 +284,17 @@ export default function CheckoutPage() {
                         </div>
                       </div>
 
-                      {/* Shipping tier */}
+                      {/* Free shipping confirmation */}
                       {selectedState && (
-                        <div className="space-y-1.5 mt-2">
-                          <p className="text-stone-500 text-xs font-heading font-bold flex items-center gap-1.5">
-                            <svg className="w-3.5 h-3.5 text-[#C9A96E]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg>
-                            FedEx Shipping
-                          </p>
-                          {SHIPPING_TIERS.map((tier) => {
-                            const rate = getShippingRate(selectedState, tier.id);
-                            if (!rate) return null;
-                            return (
-                              <label key={tier.id} className={`flex items-center justify-between p-2.5 rounded-lg cursor-pointer border transition-colors ${selectedTier === tier.id ? 'border-[#C9A96E]/50 bg-[#C9A96E]/10' : 'border-stone-700/40 bg-stone-800/40 hover:border-stone-600'}`}>
-                                <div className="flex items-center gap-2">
-                                  <input type="radio" name="shipping" value={tier.id} checked={selectedTier === tier.id} onChange={() => setSelectedTier(tier.id)} className="accent-[#C9A96E]" />
-                                  <div>
-                                    <span className="text-stone-200 text-xs font-heading font-bold">{tier.name}</span>
-                                    <span className="text-stone-500 text-[10px] font-body block">{tier.deliveryTime}</span>
-                                  </div>
-                                </div>
-                                <span className="text-[#C9A96E] text-xs font-heading font-bold">{formatShippingPrice(rate)}</span>
-                              </label>
-                            );
-                          })}
+                        <div className="flex items-center gap-3 p-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5 mt-2">
+                          <svg className="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                          </svg>
+                          <div>
+                            <p className="text-emerald-400 text-xs font-heading font-bold">Free FedEx Ground Shipping</p>
+                            <p className="text-stone-500 text-[10px] font-body">3–5 business days with tracking & insurance</p>
+                          </div>
+                          <span className="ml-auto text-emerald-400 text-sm font-heading font-bold">$0.00</span>
                         </div>
                       )}
                     </div>
@@ -367,24 +361,39 @@ export default function CheckoutPage() {
 
             <div className="divider-faire" />
 
+            {/* Subtotal */}
             <div className="flex justify-between py-2 text-sm font-body">
               <span className="text-stone-500">Subtotal</span>
               <span className="price-faire">{formatPrice(total)}</span>
             </div>
+
+            {/* Free Shipping */}
             <div className="flex justify-between py-2 text-sm font-body">
               <span className="text-stone-500">Shipping</span>
-              <span className="text-stone-400">{selectedState ? formatShippingPrice(shippingCost) : 'Select state'}</span>
+              <span className="text-emerald-400 font-heading font-bold">FREE</span>
+            </div>
+
+            {/* Sales Tax */}
+            <div className="flex justify-between py-2 text-sm font-body">
+              <div>
+                <span className="text-stone-500">Sales Tax</span>
+                {taxRate && <span className="text-stone-600 text-[10px] ml-1">({taxRate})</span>}
+              </div>
+              <span className="text-stone-300">
+                {selectedState ? formatTaxAmount(displayTax) : 'Select state'}
+              </span>
             </div>
 
             <div className="divider-faire" />
 
+            {/* Total */}
             <div className="flex justify-between py-4">
               <span className="font-heading font-bold text-white">Total</span>
-              <span className="price-faire text-lg">{formatPrice(orderTotal)}</span>
+              <span className="price-faire text-lg">{formatPrice(displayTotal)}</span>
             </div>
 
             <p className="text-[10px] text-stone-600 text-center font-body mt-2">
-              Secure checkout powered by Stripe. Shipped via FedEx with tracking & insurance.
+              Secure checkout powered by Stripe. Free FedEx Ground shipping with tracking & insurance.
             </p>
           </div>
         </div>
