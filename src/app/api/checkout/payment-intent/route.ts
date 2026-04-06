@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
         order_type: 'product',
         checkout_flow: flow,
         member_id: memberId || '',
-        product_ids: items.map((i) => i.productId).join(','),
+        product_ids: items.map((i) => `${i.productId}:${i.quantity || 1}`).join(','),
         shipping_tier: shippingTier,
       },
       // Don't save payment method for guests

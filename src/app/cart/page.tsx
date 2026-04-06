@@ -13,7 +13,7 @@ import {
 } from '@/lib/shipping';
 
 export default function CartPage() {
-  const { items, removeItem, total, itemCount } = useCart();
+  const { items, removeItem, updateQuantity, total, itemCount } = useCart();
   const [loading, setLoading] = useState(false);
   const [selectedState, setSelectedState] = useState('');
   const [selectedTier, setSelectedTier] = useState<'ground' | 'express' | 'overnight'>('ground');
@@ -31,6 +31,7 @@ export default function CartPage() {
           items: items.map((item) => ({
             stripePriceId: item.stripePriceId,
             id: item.id,
+            quantity: item.quantity,
           })),
         }),
       });
@@ -98,7 +99,7 @@ export default function CartPage() {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-3">
             {items.map((item) => (
-              <div key={item.id} className="card-faire-detail p-4 flex items-center gap-5">
+              <div key={item.id} className="card-faire-detail p-4 flex items-center gap-4">
                 <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-[#292524]">
                   <Image
                     src={item.image}
@@ -112,13 +113,44 @@ export default function CartPage() {
                   <h3 className="font-heading font-bold text-white text-sm truncate">
                     {item.name}
                   </h3>
-                  <p className="price-faire text-base mt-0.5">
-                    {formatPrice(item.price)}
+                  <p className="price-faire text-sm mt-0.5">
+                    {formatPrice(item.price)} each
                   </p>
+                  {item.quantity > 1 && (
+                    <p className="text-stone-400 text-xs font-body mt-0.5">
+                      Subtotal: {formatPrice(item.price * item.quantity)}
+                    </p>
+                  )}
                 </div>
+
+                {/* Quantity controls */}
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors border border-stone-700 hover:border-[#C9A96E] bg-stone-800 hover:bg-stone-700 text-stone-300"
+                    aria-label={`Decrease quantity of ${item.name}`}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
+                    </svg>
+                  </button>
+                  <span className="font-heading font-bold text-white text-sm min-w-[1.5rem] text-center">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors border border-stone-700 hover:border-[#C9A96E] bg-stone-800 hover:bg-stone-700 text-stone-300"
+                    aria-label={`Increase quantity of ${item.name}`}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                  </button>
+                </div>
+
                 <button
                   onClick={() => removeItem(item.id)}
-                  className="text-stone-600 hover:text-red-400 transition-colors p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300 rounded-lg"
+                  className="text-stone-600 hover:text-red-400 transition-colors p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300 rounded-lg flex-shrink-0"
                   aria-label={`Remove ${item.name} from cart`}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">

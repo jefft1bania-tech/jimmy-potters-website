@@ -3,21 +3,24 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Product } from '@/types/product';
 
-interface CartItem {
+export interface CartItem {
   id: string;
   slug: string;
   name: string;
   price: number;
   image: string;
   stripePriceId: string;
+  quantity: number;
 }
 
 interface CartContextType {
   items: CartItem[];
   addItem: (product: Product) => void;
   removeItem: (id: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
   isInCart: (id: string) => boolean;
+  getItemQuantity: (id: string) => number;
   itemCount: number;
   total: number;
 }
@@ -35,7 +38,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const stored = localStorage.getItem(CART_KEY);
       if (stored) {
-        setItems(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        // Migrate old cart items that lack quantity
+        const migrated = parsed.map((item: CartItem) => ({
+          ...item,
+          quantity: item.quantity || 1,
+        }));
+        setItems(migrated);
       }
     } catch {
       // ignore parse errors
@@ -52,8 +61,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addItem = useCallback((product: Product) => {
     setItems((prev) => {
-      // One-of-a-kind: don't add duplicates
-      if (prev.some((item) => item.id === product.id)) return prev;
+      const existing = prev.find((item) => item.id === product.id);
+      if (existing) {
+        // Increment quantity
+        return prev.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
       return [
         ...prev,
         {
@@ -63,6 +79,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           price: product.price,
           image: product.images[0],
           stripePriceId: product.stripePriceId,
+          quantity: 1,
         },
       ];
     });
@@ -70,6 +87,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const removeItem = useCallback((id: string) => {
     setItems((prev) => prev.filter((item) => item.id !== id));
+  }, []);
+
+  const updateQuantity = useCallback((id: string, quantity: number) => {
+    if (quantity < 1) {
+      setItems((prev) => prev.filter((item) => item.id !== id));
+      return;
+    }
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity } : item
+      )
+    );
   }, []);
 
   const clearCart = useCallback(() => {
@@ -81,12 +110,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     [items]
   );
 
-  const itemCount = items.length;
-  const total = items.reduce((sum, item) => sum + item.price, 0);
+  const getItemQuantity = useCallback(
+    (id: string) => {
+      const item = items.find((i) => i.id === id);
+      return item ? item.quantity : 0;
+    },
+    [items]
+  );
+
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, clearCart, isInCart, itemCount, total }}
+      value={{ items, addItem, removeItem, updateQuantity, clearCart, isInCart, getItemQuantity, itemCount, total }}
     >
       {children}
     </CartContext.Provider>

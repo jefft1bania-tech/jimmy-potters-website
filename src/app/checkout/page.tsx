@@ -84,6 +84,7 @@ export default function CheckoutPage() {
             name: item.name,
             price: item.price,
             image: item.image,
+            quantity: item.quantity,
           })),
           shipping: {
             name: shipName,
@@ -353,7 +354,12 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-white text-xs font-body font-medium truncate">{item.name}</p>
-                    <p className="price-faire text-sm">{formatPrice(item.price)}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="price-faire text-sm">{formatPrice(item.price)}</p>
+                      {item.quantity > 1 && (
+                        <span className="text-stone-500 text-xs font-body">x{item.quantity} = {formatPrice(item.price * item.quantity)}</span>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}

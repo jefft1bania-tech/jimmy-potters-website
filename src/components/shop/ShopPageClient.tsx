@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Product } from '@/types/product';
 import { formatPrice } from '@/lib/products';
 import { useLanguage } from '@/components/LanguageProvider';
+import { useCart } from '@/components/cart/CartProvider';
 
 const ITEMS_PER_PAGE = 9;
 
@@ -29,6 +30,7 @@ function buildProductCards(products: Product[]): ProductCard[] {
 export default function ShopPageClient({ products }: ShopPageClientProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const { t } = useLanguage();
+  const { addItem, isInCart, getItemQuantity } = useCart();
 
   const allCards = buildProductCards(products);
   const totalProducts = allCards.length;
@@ -135,68 +137,130 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
 
         {/* Product Grid — one card per product, no duplicates */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-          {currentCards.map((card) => (
-            <Link
-              key={card.product.id}
-              href={`/shop/${card.product.slug}`}
-              className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A96E] focus-visible:ring-offset-4 focus-visible:ring-offset-[#1C1917] rounded-2xl"
-            >
-              <article className="card-faire group">
-                {/* Image — primary only */}
-                <div className="faire-image-wrap aspect-[4/5]">
-                  <Image
-                    src={card.imageSrc}
-                    alt={card.product.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
+          {currentCards.map((card) => {
+            const isSold = card.product.status === 'sold';
+            const inCart = isInCart(card.product.id);
+            const qty = getItemQuantity(card.product.id);
 
-                  {/* Badge — top left: One of a Kind */}
-                  <div className="absolute top-3 left-3 z-10">
-                    <span
-                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-heading font-bold backdrop-blur-sm border border-[rgba(201,169,110,0.3)]"
-                      style={{ background: 'rgba(201, 169, 110, 0.15)', color: '#E8D5A3' }}
-                    >
-                      {t.shop.oneOfAKind}
-                    </span>
-                  </div>
+            return (
+              <div key={card.product.id} className="relative">
+                <Link
+                  href={`/shop/${card.product.slug}`}
+                  className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A96E] focus-visible:ring-offset-4 focus-visible:ring-offset-[#1C1917] rounded-2xl"
+                >
+                  <article className={`card-faire group ${isSold ? 'opacity-50' : ''}`}>
+                    {/* Image — primary only */}
+                    <div className="faire-image-wrap aspect-[4/5]">
+                      <Image
+                        src={card.imageSrc}
+                        alt={card.product.name}
+                        fill
+                        className={`object-cover ${isSold ? 'grayscale' : ''}`}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
 
-                  {/* Badge — top right: product number */}
-                  <div className="absolute top-3 right-3 z-10">
-                    <span className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#C9A96E] text-[#1a1a1a] font-heading font-black text-lg md:text-xl leading-none shadow-lg">
-                      {card.product.productNumber}
-                    </span>
-                  </div>
-                </div>
+                      {/* Badge — top left: One of a Kind */}
+                      <div className="absolute top-3 left-3 z-10">
+                        {isSold ? (
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-heading font-bold bg-black/60 text-stone-400 backdrop-blur-sm border border-stone-700/50">
+                            Sold
+                          </span>
+                        ) : (
+                          <span
+                            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-heading font-bold backdrop-blur-sm border border-[rgba(201,169,110,0.3)]"
+                            style={{ background: 'rgba(201, 169, 110, 0.15)', color: '#E8D5A3' }}
+                          >
+                            {t.shop.oneOfAKind}
+                          </span>
+                        )}
+                      </div>
 
-                {/* Info */}
-                <div className="px-4 pt-4 pb-5">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-heading font-semibold text-sm text-stone-200 leading-snug line-clamp-2 group-hover:text-white transition-colors">
-                      {card.product.name}
-                    </h3>
-                    <span className="text-xs font-heading font-bold text-stone-500 whitespace-nowrap mt-0.5">
-                      #{card.product.productNumber}
-                    </span>
-                  </div>
-                  <p className="price-faire text-base mt-1.5">
-                    {formatPrice(card.product.price)}
-                  </p>
-                  {card.product.quickSpec && (
-                    <p className="text-stone-300 font-body text-xs mt-2 leading-snug">
-                      {card.product.quickSpec}
-                    </p>
-                  )}
-                  {card.product.bestUse && (
-                    <p className="text-[#C9A96E]/80 font-body text-xs mt-1 leading-snug italic">
-                      {card.product.bestUse}
-                    </p>
-                  )}
-                </div>
-              </article>
-            </Link>
-          ))}
+                      {/* Badge — top right: product number */}
+                      <div className="absolute top-3 right-3 z-10">
+                        <span className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#C9A96E] text-[#1a1a1a] font-heading font-black text-lg md:text-xl leading-none shadow-lg">
+                          {card.product.productNumber}
+                        </span>
+                      </div>
+
+                      {/* Cart quantity badge — bottom left of image */}
+                      {inCart && (
+                        <div className="absolute bottom-3 left-3 z-10">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-heading font-bold backdrop-blur-md border border-[rgba(201,169,110,0.4)]"
+                            style={{ background: 'rgba(201, 169, 110, 0.2)', color: '#E8D5A3' }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                            {qty} in cart
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Info */}
+                    <div className="px-4 pt-4 pb-5">
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="font-heading font-semibold text-sm text-stone-200 leading-snug line-clamp-2 group-hover:text-white transition-colors">
+                          {card.product.name}
+                        </h3>
+                        <span className="text-xs font-heading font-bold text-stone-500 whitespace-nowrap mt-0.5">
+                          #{card.product.productNumber}
+                        </span>
+                      </div>
+                      <p className="price-faire text-base mt-1.5">
+                        {formatPrice(card.product.price)}
+                      </p>
+                      {card.product.quickSpec && (
+                        <p className="text-stone-300 font-body text-xs mt-2 leading-snug">
+                          {card.product.quickSpec}
+                        </p>
+                      )}
+                      {card.product.bestUse && (
+                        <p className="text-[#C9A96E]/80 font-body text-xs mt-1 leading-snug italic">
+                          {card.product.bestUse}
+                        </p>
+                      )}
+                    </div>
+                  </article>
+                </Link>
+
+                {/* Add to Cart button — overlaid at bottom of card */}
+                {!isSold && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      addItem(card.product);
+                    }}
+                    className="absolute bottom-[7.5rem] left-3 right-3 z-20 py-2.5 rounded-xl font-heading font-bold text-sm text-center transition-all duration-200 backdrop-blur-md border"
+                    style={{
+                      background: inCart
+                        ? 'rgba(201, 169, 110, 0.15)'
+                        : 'rgba(201, 169, 110, 0.9)',
+                      color: inCart ? '#E8D5A3' : '#1a1a1a',
+                      borderColor: 'rgba(201, 169, 110, 0.4)',
+                    }}
+                    aria-label={`Add ${card.product.name} to cart`}
+                  >
+                    {inCart ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                        Add Another ({qty})
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-5.98.286h5.98zm0 0h6m-6 0a3 3 0 005.98.286H7.5zm6 0h2.25m0 0l-.644 2.577A1.5 1.5 0 0113.662 18H7.338a1.5 1.5 0 01-1.444-1.173L5.25 14.25m9.75-9l.375 1.5M17.25 6.375l.375 1.5m0 0l.375 1.5M18 8.625l-1.5.375m1.5-.375l1.5.375" />
+                        </svg>
+                        Add to Cart
+                      </span>
+                    )}
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {/* Pagination */}

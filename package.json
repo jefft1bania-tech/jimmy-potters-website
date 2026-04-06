@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:e2e": "npx playwright test",
+    "test:e2e:headed": "npx playwright test --headed",
+    "test:e2e:debug": "npx playwright test --debug"
   },
   "keywords": [],
   "author": "",
@@ -27,11 +30,13 @@
     "stripe": "^20.4.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "autoprefixer": "^10.4.27",
+    "dotenv": "^17.4.1",
     "postcss": "^8.5.8",
     "tailwindcss": "^3.4.19",
     "typescript": "^6.0.2"
