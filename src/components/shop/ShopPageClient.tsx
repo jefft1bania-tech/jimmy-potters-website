@@ -49,8 +49,8 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
       {/* Hero background — luxury backyard with fire pit */}
       <div className="relative h-[40vh] md:h-[50vh] overflow-hidden">
         <img
-          src="/images/brand/shop-hero.jpg"
-          alt="Luxury South Florida backyard with fire pit, palm trees, and blue sky"
+          src="/images/brand/jimmy-potters-studio.jpeg"
+          alt="Jimmy Potters pottery studio — handmade ceramics workshop"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[#0C0A09]" />

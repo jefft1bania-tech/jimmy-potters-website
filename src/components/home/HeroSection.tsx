@@ -67,13 +67,26 @@ export default function HeroSection() {
                 {t.hero.eyebrow}
               </span>
 
-              <h1 className="font-heading font-bold text-4xl md:text-5xl text-white leading-[1.05] tracking-tight">
-                {t.hero.title1}
-                <br />
-                <span className="italic font-normal text-[#E8D5A3]">
-                  {t.hero.title2}
-                </span>
-              </h1>
+              <div className="relative">
+                {/* Jok mascot — positioned above "Kind" */}
+                <div className="absolute -top-[180px] right-[10%] w-[160px] h-[200px] z-10 pointer-events-auto">
+                  <iframe
+                    src="/jok-viewer.html"
+                    width="160"
+                    height="200"
+                    style={{ border: 'none', background: 'transparent', pointerEvents: 'none' }}
+                    title="Jok 3D mascot"
+                    loading="lazy"
+                  />
+                </div>
+                <h1 className="font-heading font-bold text-4xl md:text-5xl text-white leading-[1.05] tracking-tight">
+                  {t.hero.title1}
+                  <br />
+                  <span className="italic font-normal text-[#E8D5A3]">
+                    {t.hero.title2}
+                  </span>
+                </h1>
+              </div>
 
               <p className="mt-4 text-sm text-white/55 font-body leading-relaxed">
                 {t.hero.subtitle}

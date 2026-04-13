@@ -5,7 +5,7 @@ import LifestyleGallery from '@/components/home/LifestyleGallery';
 export default function HomePage() {
   return (
     <>
-      {/* Hero — luxury studio atmosphere with pottery showcase */}
+      {/* Hero — luxury studio atmosphere with pottery showcase + Jok mascot */}
       <HeroSection />
 
       {/* Product sections — dark gallery */}
