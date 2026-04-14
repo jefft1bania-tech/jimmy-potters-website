@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useLanguage } from '@/components/LanguageProvider';
+import KitChatWidget from '@/components/kit/ChatWidget';
 import faqData from '../../../data/kit-faq.json';
 
 export default function KitPageClient() {
@@ -25,41 +26,101 @@ export default function KitPageClient() {
 
   return (
     <div>
-      {/* Hero — Kit image with overlay */}
-      <section className="relative flex items-center justify-center overflow-hidden bg-[#f8b4b4] py-8">
-        <div className="relative w-full max-w-lg mx-auto">
-          <Image
-            src="/kit-date-night.jpeg"
-            alt="Jimmy Potters Home Pottery Kit — Date Night Edition with paint tubes, clay shapes, sculpting tools, and stamp mat"
-            width={800}
-            height={1200}
-            className="w-full h-auto"
-            priority
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
-        </div>
+      {/* Kit FAQ Chat Widget */}
+      <KitChatWidget />
 
-        <div className="relative section-container py-20 md:py-28 text-center">
-          <span className="inline-block font-body text-[10px] font-semibold tracking-[0.3em] uppercase text-white/80 mb-4">
-            {t.kit.dateNightTitle}
-          </span>
-          <h1
-            className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white leading-[1.05] tracking-tight"
-            style={{ textShadow: '0 2px 20px rgba(0,0,0,0.3)' }}
-          >
-            {t.kit.title}
-          </h1>
-          <p className="text-white/80 font-body mt-4 text-lg max-w-xl mx-auto" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}>
-            {t.kit.subtitle}
-          </p>
+      {/* Hero — Split layout: image left, text right */}
+      <section className="bg-[#3B2314] pt-20">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-8 md:py-12">
+            {/* Kit image — crop black bars via CSS, show kit content */}
+            <div className="flex justify-center overflow-hidden rounded-2xl shadow-2xl max-w-md mx-auto" style={{maxHeight: '500px'}}>
+              <Image
+                src="/kit-date-night.jpeg"
+                alt="Jimmy Potters Home Pottery Kit — Date Night Edition with paint tubes, clay shapes, sculpting tools, and stamp mat"
+                width={720}
+                height={1560}
+                className="w-full h-auto"
+                style={{marginTop: '-27%', marginBottom: '-30%'}}
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            {/* Text content */}
+            <div className="text-center md:text-left py-4">
+              <span className="inline-block font-body font-bold text-[10px] font-extrabold tracking-[0.3em] uppercase text-[#C9A96E] mb-4">
+                {t.kit.dateNightTitle}
+              </span>
+              <h1 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-black font-extrabold leading-[1.05] tracking-tight">
+                {t.kit.title}
+              </h1>
+              <p className="text-black font-extrabold/70 font-body font-bold mt-4 text-lg max-w-xl">
+                {t.kit.subtitle}
+              </p>
+              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                <Link
+                  href="/checkout"
+                  className="inline-flex items-center justify-center gap-2 bg-[#C9A96E] hover:bg-[#B8923E] text-black font-extrabold font-body font-bold font-extrabold py-5 px-12 rounded-xl transition-all duration-200 text-lg shadow-lg"
+                >
+                  {t.kit.buyBtn} — {t.kit.price}
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Content */}
-      <div className="bg-[#F7F3EE]">
+      <div className="bg-[#3B2314]">
         <div className="section-container py-16 md:py-20">
-          <div className="max-w-4xl mx-auto space-y-8">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-8">
+
+            {/* LEFT COLUMN — Video Tutorials */}
+            <aside className="space-y-3 order-2 lg:order-1 lg:sticky lg:top-24 lg:self-start">
+              <h2 className="text-xl font-heading font-extrabold text-black font-extrabold mb-4">
+                {lang === 'es' ? 'Video Tutoriales' : 'Video Tutorials'}
+              </h2>
+              {[
+                { title: lang === 'es' ? 'Cómo Hacer un Jarrón' : 'How to Make a Vase', duration: '0:30', src: '/tutorial-1.mp4' },
+                { title: lang === 'es' ? 'Pintar con Esmalte' : 'Painting with Glaze', duration: '0:30', src: '/tutorial-2.mp4' },
+                { title: lang === 'es' ? 'Crear Formas de Corazón' : 'Creating Heart Shapes', duration: '0:30', src: '/tutorial-3.mp4' },
+                { title: lang === 'es' ? 'Técnicas de Estampado' : 'Stamping Techniques', duration: '0:30', src: '/tutorial-4.mp4' },
+                { title: lang === 'es' ? 'Bandeja Decorativa' : 'Decorative Tray', duration: '0:30', src: '/tutorial-5.mp4' },
+                { title: lang === 'es' ? 'Arcoíris de Arcilla' : 'Clay Rainbow', duration: '0:30', src: '/tutorial-6.mp4' },
+              ].map((video, i) => (
+                <div key={i} className="bg-white rounded-lg border border-stone-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                  {video.src ? (
+                    <div className="relative aspect-video bg-stone-800">
+                      <video
+                        className="w-full h-full object-cover"
+                        controls
+                        preload="metadata"
+                        poster=""
+                      >
+                        <source src={video.src} type="video/mp4" />
+                      </video>
+                    </div>
+                  ) : (
+                    <div className="relative aspect-video bg-stone-800 flex items-center justify-center cursor-pointer group">
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/30" />
+                      <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#C96B3A" className="w-5 h-5 ml-0.5">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                      <span className="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">{video.duration}</span>
+                      <span className="absolute top-1 left-1 bg-[#C9A96E] text-black text-[10px] font-extrabold px-1.5 py-0.5 rounded">{lang === 'es' ? 'Próximo' : 'Soon'}</span>
+                    </div>
+                  )}
+                  <div className="p-2">
+                    <h3 className="font-body font-extrabold text-stone-900 text-sm leading-tight">{video.title}</h3>
+                  </div>
+                </div>
+              ))}
+            </aside>
+
+            {/* RIGHT COLUMN — Main Content */}
+            <div className="space-y-8 order-1 lg:order-2">
 
             {/* Date Night Description */}
             <section className="bg-white rounded-2xl shadow-sm p-8 md:p-12 border border-stone-100">
@@ -71,10 +132,10 @@ export default function KitPageClient() {
                   {t.kit.dateNightTitle}
                 </h2>
               </div>
-              <p className="text-stone-600 font-body leading-relaxed text-[15px]">
+              <p className="text-stone-600 font-body font-bold leading-relaxed text-xl">
                 {t.kit.dateNightDesc}
               </p>
-              <p className="text-stone-400 font-body text-sm mt-4 italic">
+              <p className="text-stone-400 font-body font-bold text-lg mt-4 italic">
                 {t.kit.perfectFor}
               </p>
             </section>
@@ -95,7 +156,7 @@ export default function KitPageClient() {
                     <div className="w-10 h-10 rounded-lg bg-[#C9A96E]/10 flex items-center justify-center flex-shrink-0">
                       <span className="text-lg">{item.icon}</span>
                     </div>
-                    <p className="text-stone-700 font-body text-sm leading-relaxed pt-2">
+                    <p className="text-stone-700 font-body font-bold text-lg leading-relaxed pt-2">
                       {item.text}
                     </p>
                   </div>
@@ -110,10 +171,10 @@ export default function KitPageClient() {
                   <div className="w-12 h-12 rounded-xl bg-[#C9A96E]/10 flex items-center justify-center mx-auto mb-4">
                     <span className="font-heading font-bold text-lg text-[#C9A96E]">{step.number}</span>
                   </div>
-                  <h3 className="font-heading font-bold text-base text-stone-900 mb-2">
+                  <h3 className="font-heading font-bold text-xl text-stone-900 mb-2">
                     {t.kit.howItWorks}
                   </h3>
-                  <p className="text-stone-500 font-body text-sm leading-relaxed">
+                  <p className="text-stone-500 font-body font-bold text-lg leading-relaxed">
                     {step.text}
                   </p>
                 </div>
@@ -123,13 +184,12 @@ export default function KitPageClient() {
             {/* Price & CTA */}
             <section className="bg-white rounded-2xl shadow-sm overflow-hidden border border-stone-100">
               {/* Kit image strip */}
-              <div className="relative bg-[#f8b4b4] rounded-xl overflow-hidden flex items-center justify-center p-4">
+              <div className="relative h-72 md:h-96 rounded-xl overflow-hidden">
                 <Image
                   src="/kit-date-night.jpeg"
                   alt="Jimmy Potters Home Pottery Kit contents"
-                  width={400}
-                  height={600}
-                  className="w-full max-w-sm h-auto rounded-lg"
+                  fill
+                  className="object-cover object-center rounded-lg"
                   sizes="(max-width: 768px) 100vw, 896px"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
@@ -139,17 +199,17 @@ export default function KitPageClient() {
                 <h2 className="font-heading font-bold text-3xl md:text-4xl text-stone-900 mb-2">
                   {t.kit.price}
                 </h2>
-                <p className="text-stone-500 font-body text-sm mb-2">
+                <p className="text-stone-500 font-body font-bold text-lg mb-2">
                   {t.kit.videoAccess}
                 </p>
-                <p className="text-stone-400 font-body text-xs mb-8">
+                <p className="text-stone-400 font-body font-bold text-xl mb-8">
                   {t.kit.perfectFor}
                 </p>
 
                 <div className="flex flex-col sm:flex-row justify-center gap-3">
                   <Link
                     href="/checkout"
-                    className="inline-flex items-center justify-center gap-2 bg-[#C9A96E] text-[#1a1a1a] hover:bg-[#E8D5A3] font-body font-semibold py-3 px-8 rounded-xl transition-all duration-200 text-sm"
+                    className="inline-flex items-center justify-center gap-2 bg-[#C9A96E] text-[#1a1a1a] hover:bg-[#E8D5A3] font-body font-bold font-extrabold py-5 px-12 rounded-xl transition-all duration-200 text-lg"
                   >
                     {t.kit.buyBtn}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
@@ -158,7 +218,7 @@ export default function KitPageClient() {
                   </Link>
                   <Link
                     href="/shop"
-                    className="inline-flex items-center justify-center gap-2 border border-stone-300 text-stone-600 hover:border-stone-400 hover:text-stone-800 font-body font-semibold py-3 px-8 rounded-xl transition-all duration-200 text-sm"
+                    className="inline-flex items-center justify-center gap-2 border border-stone-300 text-stone-600 hover:border-stone-400 hover:text-stone-800 font-body font-bold font-extrabold py-5 px-12 rounded-xl transition-all duration-200 text-lg"
                   >
                     {t.nav.shop}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
@@ -181,7 +241,7 @@ export default function KitPageClient() {
                       onClick={() => setOpenFaq(openFaq === faq.id ? null : faq.id)}
                       className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-stone-50 transition-colors"
                     >
-                      <span className="font-body font-semibold text-stone-800 text-sm md:text-base pr-4">
+                      <span className="font-body font-bold font-extrabold text-stone-800 text-lg md:text-xl pr-4">
                         {lang === 'es' ? faq.question_es : faq.question_en}
                       </span>
                       <svg
@@ -196,7 +256,7 @@ export default function KitPageClient() {
                       </svg>
                     </button>
                     {openFaq === faq.id && (
-                      <div className="px-5 pb-4 text-stone-600 font-body text-sm leading-relaxed border-t border-stone-100 pt-3">
+                      <div className="px-5 pb-4 text-stone-600 font-body font-bold text-lg leading-relaxed border-t border-stone-100 pt-3">
                         {lang === 'es' ? faq.answer_es : faq.answer_en}
                       </div>
                     )}
@@ -205,7 +265,8 @@ export default function KitPageClient() {
               </div>
             </section>
 
-          </div>
+          </div>{/* end RIGHT COLUMN */}
+          </div>{/* end 2-column grid */}
         </div>
       </div>
     </div>
