@@ -153,6 +153,8 @@ function identifyTopics(question: string): string[] {
 
   // Kit / Home Pottery Kit
   if (q.match(/kit|date night|home potter|clay kit|pottery kit/)) topics.push('kit');
+  // Quantity / how many
+  if (q.match(/how many|how much.*make|how much.*create|quantity|number of|pieces.*make|pots.*get|items.*make/)) topics.push('quantity');
   // Pricing
   if (q.match(/price|cost|how much|expensive|cheap|afford|worth|value|\$/)) topics.push('pricing');
   // Shipping & delivery
@@ -453,6 +455,11 @@ export function reasonAboutQuestion(question: string): string {
     response += `\n\n${SHIPPING.packaging}\n${SHIPPING.coverage}`;
     response += `\n\nThe Home Pottery Kit always ships FREE!`;
     return response;
+  }
+
+  // QUANTITY — how many pieces can I make
+  if (topics.includes('quantity')) {
+    return `With the Home Pottery Kit's 2KG of air-dry clay, you can make 3-4 small pieces or 1-2 larger ones. 🏺 The Date Night Edition also includes pre-formed shapes (rainbow arch, wavy tray, hearts, geometric tiles) so you have plenty to work with! Plus sculpting tools for custom creations. ${KIT.clayTip}\n\nIf you want more pieces, the kit includes enough for TWO people. Order at ${KIT.url} ($100, free shipping)`;
   }
 
   // PROCESS / HOW MADE (before product match to avoid "pot" in "pottery" false positive)

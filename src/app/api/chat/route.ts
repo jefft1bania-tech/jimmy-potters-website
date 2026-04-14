@@ -33,12 +33,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Messages required' }, { status: 400 });
     }
 
-    const lastUserMessage = messages[messages.length - 1]?.content || '';
     const clientSessionId = sessionId || 'anonymous';
+
+    // Build conversational context from the last 5 messages so the reasoning
+    // engine can handle follow-ups like "tell me more" or "how much is that one?"
+    const recentMessages = messages.slice(-5);
+    const lastUserMessage = recentMessages[recentMessages.length - 1]?.content || '';
+
+    let questionWithContext = lastUserMessage;
+    if (recentMessages.length > 1) {
+      const contextLines = recentMessages.slice(0, -1).map(
+        (m: { role: string; content: string }) =>
+          `${m.role === 'user' ? 'Customer' : 'Assistant'}: ${m.content}`
+      );
+      questionWithContext =
+        `[Previous conversation]\n${contextLines.join('\n')}\n[Current question]\n${lastUserMessage}`;
+    }
 
     // Chain-of-thought reasoning engine — analyzes question topics,
     // matches against full knowledge base, generates intelligent response
-    const reply = reasonAboutQuestion(lastUserMessage);
+    const reply = reasonAboutQuestion(questionWithContext);
     const interactionId = logInteraction(lastUserMessage, reply, clientSessionId);
 
     return NextResponse.json({ reply, interactionId });

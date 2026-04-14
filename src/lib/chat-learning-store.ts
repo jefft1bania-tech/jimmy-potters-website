@@ -9,9 +9,12 @@
  * 5. Frequently asked questions are tracked to identify knowledge gaps
  * 6. The system continuously improves from real client interactions
  *
- * Storage: In-memory Map (persists across requests within the same serverless instance).
- * For production persistence, this can be backed by Vercel KV, Redis, or a database.
+ * Storage: JSON file at data/chat-learnings.json — survives server restarts.
+ * In-memory Maps are hydrated from disk on first access and flushed after every write.
  */
+
+import fs from 'fs';
+import path from 'path';
 
 interface ChatInteraction {
   id: string;
@@ -39,11 +42,80 @@ interface FAQEntry {
   topic: string;
 }
 
-// In-memory stores (persist across requests in the same Lambda instance)
+interface PersistedData {
+  interactions: Record<string, ChatInteraction>;
+  learnedPatterns: Record<string, LearnedPattern>;
+  faqTracker: Record<string, FAQEntry>;
+  topicCounter: Record<string, number>;
+}
+
+// JSON file path — lives alongside products.json in the data/ directory
+const DATA_FILE = path.join(process.cwd(), 'data', 'chat-learnings.json');
+
+// In-memory stores (hydrated from disk on first access)
 const interactions: Map<string, ChatInteraction> = new Map();
 const learnedPatterns: Map<string, LearnedPattern> = new Map();
 const faqTracker: Map<string, FAQEntry> = new Map();
 const topicCounter: Map<string, number> = new Map();
+let hydrated = false;
+
+/**
+ * Load persisted data from disk into in-memory Maps.
+ * Called lazily on first read/write — safe to call multiple times.
+ */
+function hydrateFromDisk(): void {
+  if (hydrated) return;
+  hydrated = true;
+
+  try {
+    if (!fs.existsSync(DATA_FILE)) return;
+    const raw = fs.readFileSync(DATA_FILE, 'utf-8');
+    const data: PersistedData = JSON.parse(raw);
+
+    if (data.interactions) {
+      for (const [k, v] of Object.entries(data.interactions)) {
+        interactions.set(k, v);
+      }
+    }
+    if (data.learnedPatterns) {
+      for (const [k, v] of Object.entries(data.learnedPatterns)) {
+        learnedPatterns.set(k, v);
+      }
+    }
+    if (data.faqTracker) {
+      for (const [k, v] of Object.entries(data.faqTracker)) {
+        faqTracker.set(k, v);
+      }
+    }
+    if (data.topicCounter) {
+      for (const [k, v] of Object.entries(data.topicCounter)) {
+        topicCounter.set(k, v);
+      }
+    }
+  } catch {
+    // If the file is corrupt or unreadable, start fresh — no crash
+    console.warn('[chat-learning-store] Could not load persisted data, starting fresh.');
+  }
+}
+
+/**
+ * Flush all in-memory Maps to disk as JSON.
+ * Called after every mutation so data survives restarts.
+ */
+function flushToDisk(): void {
+  const data: PersistedData = {
+    interactions: Object.fromEntries(interactions),
+    learnedPatterns: Object.fromEntries(learnedPatterns),
+    faqTracker: Object.fromEntries(faqTracker),
+    topicCounter: Object.fromEntries(topicCounter),
+  };
+
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  } catch {
+    console.error('[chat-learning-store] Failed to persist data to disk.');
+  }
+}
 
 // Generate a unique ID
 function generateId(): string {
@@ -89,6 +161,7 @@ function detectTopic(question: string): string {
 
 // Find similar learned patterns
 function findSimilarPatterns(question: string, limit: number = 5): LearnedPattern[] {
+  hydrateFromDisk();
   const normalized = normalizeQuestion(question);
   const words = normalized.split(' ').filter((w) => w.length > 2);
   const topic = detectTopic(question);
@@ -131,6 +204,7 @@ export function logInteraction(
   answer: string,
   sessionId: string
 ): string {
+  hydrateFromDisk();
   const id = generateId();
   const topic = detectTopic(question);
 
@@ -177,6 +251,7 @@ export function logInteraction(
     });
   }
 
+  flushToDisk();
   return id;
 }
 
@@ -184,6 +259,7 @@ export function logInteraction(
  * Rate an interaction — feeds the learning loop
  */
 export function rateInteraction(interactionId: string, rating: 'helpful' | 'not_helpful'): void {
+  hydrateFromDisk();
   const interaction = interactions.get(interactionId);
   if (!interaction) return;
 
@@ -219,6 +295,8 @@ export function rateInteraction(interactionId: string, rating: 'helpful' | 'not_
       }
     }
   }
+
+  flushToDisk();
 }
 
 /**
@@ -227,6 +305,7 @@ export function rateInteraction(interactionId: string, rating: 'helpful' | 'not_
  * inform future responses.
  */
 export function getLearnedContext(currentQuestion: string): string {
+  hydrateFromDisk();
   const similarPatterns = findSimilarPatterns(currentQuestion);
 
   if (similarPatterns.length === 0) return '';
@@ -244,6 +323,7 @@ ${lines.join('\n')}`;
  * Get FAQ insights — most asked questions
  */
 export function getTopFAQs(limit: number = 10): FAQEntry[] {
+  hydrateFromDisk();
   return Array.from(faqTracker.values())
     .sort((a, b) => b.count - a.count)
     .slice(0, limit);
@@ -253,6 +333,7 @@ export function getTopFAQs(limit: number = 10): FAQEntry[] {
  * Get topic distribution — what clients ask about most
  */
 export function getTopicStats(): Record<string, number> {
+  hydrateFromDisk();
   const stats: Record<string, number> = {};
   for (const [topic, count] of topicCounter.entries()) {
     stats[topic] = count;
@@ -264,6 +345,7 @@ export function getTopicStats(): Record<string, number> {
  * Get total interaction count
  */
 export function getInteractionCount(): number {
+  hydrateFromDisk();
   return interactions.size;
 }
 
@@ -271,6 +353,7 @@ export function getInteractionCount(): number {
  * Get total learned patterns count
  */
 export function getLearnedPatternCount(): number {
+  hydrateFromDisk();
   return learnedPatterns.size;
 }
 
@@ -283,6 +366,7 @@ export function exportLearnings(): {
   topicStats: Record<string, number>;
   totalInteractions: number;
 } {
+  hydrateFromDisk();
   return {
     patterns: Array.from(learnedPatterns.values()),
     faqs: getTopFAQs(50),
@@ -295,8 +379,10 @@ export function exportLearnings(): {
  * Import learned patterns (for bootstrapping from previous data)
  */
 export function importLearnings(patterns: LearnedPattern[]): void {
+  hydrateFromDisk();
   for (const p of patterns) {
     const normalized = normalizeQuestion(p.question);
     learnedPatterns.set(normalized, p);
   }
+  flushToDisk();
 }
