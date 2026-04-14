@@ -88,9 +88,12 @@ export default function ChatWidget() {
   const [isListening, setIsListening] = useState(false);
   const [interimTranscript, setInterimTranscript] = useState('');
   const [speechSupported, setSpeechSupported] = useState(false);
+  const [typingText, setTypingText] = useState('');
+  const [typingIndex, setTypingIndex] = useState(-1);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
+  const fullReplyRef = useRef('');
 
   // Check speech recognition support on mount
   useEffect(() => {
@@ -99,7 +102,27 @@ export default function ChatWidget() {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, interimTranscript]);
+  }, [messages, interimTranscript, typingText]);
+
+  // Typing animation — reveal reply character by character
+  useEffect(() => {
+    if (typingIndex < 0) return;
+    const full = fullReplyRef.current;
+    if (typingIndex >= full.length) {
+      // Done typing — commit the full message and reset
+      setTypingText('');
+      setTypingIndex(-1);
+      return;
+    }
+    // Reveal 2-4 chars at a time for natural speed
+    const charsPerTick = full[typingIndex] === '\n' ? 1 : 3;
+    const nextIndex = Math.min(typingIndex + charsPerTick, full.length);
+    const timer = setTimeout(() => {
+      setTypingText(full.slice(0, nextIndex));
+      setTypingIndex(nextIndex);
+    }, 15);
+    return () => clearTimeout(timer);
+  }, [typingIndex]);
 
   useEffect(() => {
     if (isOpen && !isListening) {
@@ -129,6 +152,8 @@ export default function ChatWidget() {
             }),
           });
           const data = await res.json();
+          // Start typing animation
+          fullReplyRef.current = data.reply;
           setMessages((prev2) => [
             ...prev2,
             {
@@ -138,6 +163,8 @@ export default function ChatWidget() {
               rated: false,
             },
           ]);
+          setTypingText('');
+          setTypingIndex(0);
         } catch {
           setMessages((prev2) => [
             ...prev2,
@@ -319,7 +346,10 @@ export default function ChatWidget() {
                         {'\u{1F3A4}'} You asked
                       </span>
                     )}
-                    {msg.content}
+                    {/* Typing animation for the last assistant message */}
+                    {msg.role === 'assistant' && i === messages.length - 1 && typingIndex >= 0
+                      ? (typingText || '\u00A0')
+                      : msg.content}
                   </div>
                 </div>
 
