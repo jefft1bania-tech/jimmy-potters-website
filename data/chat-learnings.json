@@ -8,6 +8,24 @@
       "rating": null,
       "topic": "general",
       "sessionId": "anonymous"
+    },
+    "1776202657211-jci81y": {
+      "id": "1776202657211-jci81y",
+      "question": "what paint color do i get with the kit",
+      "answer": "The Home Pottery Kit ($100) includes:\n\n1. 2KG air-dry clay\n2. Paint set (pastel, floral, earth, or classic tones)\n3. Sculpting tools in canvas bag\n4. 2 fine paintbrushes\n5. Waterproof varnish (glossy or matte)\n6. Pre-formed clay shapes\n7. Gift-ready branded box\n8. Video tutorial access\n\nNo kiln needed — air dries in 24-48 hours! 🏺",
+      "timestamp": 1776202657211,
+      "rating": null,
+      "topic": "kit-contents",
+      "sessionId": "session-1776202656674-oj3yug"
+    },
+    "1776202657218-4ob8a4": {
+      "id": "1776202657218-4ob8a4",
+      "question": "what paint color do i get with the kit",
+      "answer": "The Home Pottery Kit ($100) includes:\n\n1. 2KG air-dry clay\n2. Paint set (pastel, floral, earth, or classic tones)\n3. Sculpting tools in canvas bag\n4. 2 fine paintbrushes\n5. Waterproof varnish (glossy or matte)\n6. Pre-formed clay shapes\n7. Gift-ready branded box\n8. Video tutorial access\n\nNo kiln needed — air dries in 24-48 hours! 🏺",
+      "timestamp": 1776202657219,
+      "rating": null,
+      "topic": "kit-contents",
+      "sessionId": "session-1776202656674-oj3yug"
     }
   },
   "learnedPatterns": {},
@@ -17,9 +35,16 @@
       "count": 1,
       "bestAnswer": "For questions about refunds or cancellations, please reach out directly — jimmy@jimmypotters.com or (703) 862-1300. We're happy to help! 🏺",
       "topic": "general"
+    },
+    "what paint color do i get with the kit": {
+      "question": "what paint color do i get with the kit",
+      "count": 2,
+      "bestAnswer": "The Home Pottery Kit ($100) includes:\n\n1. 2KG air-dry clay\n2. Paint set (pastel, floral, earth, or classic tones)\n3. Sculpting tools in canvas bag\n4. 2 fine paintbrushes\n5. Waterproof varnish (glossy or matte)\n6. Pre-formed clay shapes\n7. Gift-ready branded box\n8. Video tutorial access\n\nNo kiln needed — air dries in 24-48 hours! 🏺",
+      "topic": "kit-contents"
     }
   },
   "topicCounter": {
-    "general": 1
+    "general": 1,
+    "kit-contents": 2
   }
 }
