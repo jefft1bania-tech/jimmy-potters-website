@@ -18,10 +18,11 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/shop', label: t.nav.shop },
+    { href: '/kit', label: t.nav.kit },
     { href: '/about', label: t.nav.about },
   ];
 
-  const isShopRoute = pathname.startsWith('/shop') || pathname.startsWith('/cart');
+  const isShopRoute = pathname.startsWith('/shop') || pathname.startsWith('/cart') || pathname.startsWith('/kit');
   const isDarkNav = isShopRoute || pathname === '/';
 
   useEffect(() => {

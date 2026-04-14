@@ -8,6 +8,7 @@ const translations = {
     // Nav links
     nav: {
       shop: 'Shop',
+      kit: 'Kit',
       about: 'About',
       signIn: 'Sign In / Sign Up',
       myAccount: 'My Account',
@@ -122,6 +123,27 @@ const translations = {
       shipping: 'Shipping',
     },
 
+    // Kit page
+    kit: {
+      title: 'Home Pottery Kit',
+      subtitle: 'Everything you need to create pottery at home',
+      dateNightTitle: 'Date Night Edition',
+      dateNightDesc: 'A complete pottery experience for two. Open the box, follow our step-by-step video tutorial, and create beautiful handmade pieces together. No experience needed.',
+      whatsInside: "What's Inside",
+      item1: '3 custom Jimmy Potters paint tubes',
+      item2: 'Pre-formed clay shapes (rainbow, tray, hearts & more)',
+      item3: 'Professional sculpting tools',
+      item4: 'Textured stamp mat for unique designs',
+      howItWorks: 'How It Works',
+      step1: 'Order your kit — ships with free FedEx',
+      step2: 'Watch the guided video tutorial',
+      step3: 'Create your masterpiece at home',
+      price: '$65.00',
+      buyBtn: 'Buy Kit',
+      videoAccess: 'Includes access to our exclusive video tutorial',
+      perfectFor: 'Perfect for date nights, family time, or a creative gift',
+    },
+
     // Cart
     cart: {
       title: 'Your Cart',
@@ -142,6 +164,7 @@ const translations = {
 
     nav: {
       shop: 'Tienda',
+      kit: 'Kit',
       about: 'Nosotros',
       signIn: 'Iniciar Sesión / Registrarse',
       myAccount: 'Mi Cuenta',
@@ -245,6 +268,26 @@ const translations = {
       freeShipping: 'Envío gratuito en todos los pedidos',
       details: 'Detalles',
       shipping: 'Envío',
+    },
+
+    kit: {
+      title: 'Kit de Cerámica en Casa',
+      subtitle: 'Todo lo que necesitas para crear cerámica en casa',
+      dateNightTitle: 'Edición Noche de Cita',
+      dateNightDesc: 'Una experiencia completa de cerámica para dos. Abre la caja, sigue nuestro video tutorial paso a paso y crea hermosas piezas hechas a mano juntos. No se necesita experiencia.',
+      whatsInside: 'Qué Incluye',
+      item1: '3 tubos de pintura personalizados Jimmy Potters',
+      item2: 'Formas de arcilla preformadas (arcoíris, bandeja, corazones y más)',
+      item3: 'Herramientas profesionales de escultura',
+      item4: 'Tapete con textura para diseños únicos',
+      howItWorks: 'Cómo Funciona',
+      step1: 'Ordena tu kit — envío gratis con FedEx',
+      step2: 'Mira el video tutorial guiado',
+      step3: 'Crea tu obra maestra en casa',
+      price: '$65.00',
+      buyBtn: 'Comprar Kit',
+      videoAccess: 'Incluye acceso a nuestro video tutorial exclusivo',
+      perfectFor: 'Perfecto para noches de cita, tiempo en familia o un regalo creativo',
     },
 
     cart: {
