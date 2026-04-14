@@ -138,7 +138,7 @@ export default function AuthModal() {
 
           {mode === 'signup' && (
             <div className="bg-vibrant-lavender/30 rounded-xl p-3">
-              <p className="text-xs text-gray-500 font-body leading-relaxed">
+              <p className="text-xs text-black font-body leading-relaxed">
                 By signing up, you&apos;ll receive updates about new pottery drops, upcoming classes, and our newsletter. You can manage these preferences anytime.
               </p>
             </div>

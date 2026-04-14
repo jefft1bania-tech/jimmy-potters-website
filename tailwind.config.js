@@ -12,7 +12,7 @@ module.exports = {
           'bg-secondary': '#1C1917',
           'bg-footer': '#0A0908',
           'card': '#FFFFFF',
-          'text': '#1E293B',
+          'text': '#000000',
           'text-light': '#FFFFFF',
           'cta': '#92653A',
           'cta-hover': '#7A5430',

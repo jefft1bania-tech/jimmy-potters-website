@@ -13,7 +13,7 @@
   --color-bg-secondary: #1C1917;
   --color-bg-footer: #0A0908;
   --color-card: #FFFFFF;
-  --color-text: #1E293B;
+  --color-text: #000000;
   --color-text-light: #FFFFFF;
   --color-cta: #92653A;
   --color-cta-hover: #7A5430;
@@ -295,7 +295,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .badge-sold {
-    @apply badge bg-gray-200 text-gray-500;
+    @apply badge bg-gray-200 text-black;
   }
 
   .badge-green {

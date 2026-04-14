@@ -13,7 +13,7 @@ export default function AccountPage() {
     return (
       <div className="shop-section text-center">
         <div className="card-faire-detail p-16">
-          <p className="text-gray-400 font-body">Loading...</p>
+          <p className="text-black font-body">Loading...</p>
         </div>
       </div>
     );
@@ -27,7 +27,7 @@ export default function AccountPage() {
           <h1 className="font-heading font-black text-2xl text-brand-text">
             Join Jimmy Potters
           </h1>
-          <p className="text-gray-400 font-body mt-3 leading-relaxed">
+          <p className="text-black font-body mt-3 leading-relaxed">
             Create a free account to receive newsletters, get notified about
             new pottery drops, and stay up to date.
           </p>
@@ -108,7 +108,7 @@ export default function AccountPage() {
                   <span className="text-2xl" aria-hidden="true">{pref.icon}</span>
                   <div>
                     <p className="font-heading font-bold text-sm text-brand-text">{pref.label}</p>
-                    <p className="text-xs text-gray-400 font-body mt-0.5">{pref.description}</p>
+                    <p className="text-xs text-black font-body mt-0.5">{pref.description}</p>
                   </div>
                 </div>
                 <button
@@ -153,7 +153,7 @@ export default function AccountPage() {
         <div className="text-center">
           <button
             onClick={logout}
-            className="text-sm text-gray-400 font-body hover:text-red-400 transition-colors"
+            className="text-sm text-black font-body hover:text-red-400 transition-colors"
           >
             Sign Out
           </button>

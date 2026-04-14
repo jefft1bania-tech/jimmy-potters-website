@@ -17,15 +17,15 @@ export default function SuccessPage() {
           <h1 className="font-heading font-black text-3xl text-brand-text tracking-tight">
             Thank You
           </h1>
-          <p className="text-gray-400 font-body mt-4 leading-relaxed">
+          <p className="text-black font-body mt-4 leading-relaxed">
             Your order is confirmed. You&apos;ll receive a confirmation email
             with tracking once your pottery ships.
           </p>
-          <div className="bg-gray-50 rounded-xl p-4 mt-6 text-sm text-gray-400 font-body">
+          <div className="bg-gray-50 rounded-xl p-4 mt-6 text-sm text-black font-body">
             Orders ship within 3–5 business days, carefully packaged.
           </div>
           <div className="mt-8">
-            <Link href="/shop" className="inline-block bg-brand-text text-white hover:bg-gray-800 font-heading font-bold py-3 px-6 rounded-xl transition-all duration-200">
+            <Link href="/shop" className="inline-block bg-brand-text text-white hover:bg-black font-heading font-bold py-3 px-6 rounded-xl transition-all duration-200">
               Continue Shopping
             </Link>
           </div>

@@ -120,7 +120,7 @@ export default function KitPageClient() {
                     </div>
                   )}
                   <div className="p-2">
-                    <h3 className="font-body font-extrabold text-stone-900 text-sm leading-tight">{video.title}</h3>
+                    <h3 className="font-body font-extrabold text-black text-sm leading-tight">{video.title}</h3>
                   </div>
                 </div>
               ))}
@@ -135,14 +135,14 @@ export default function KitPageClient() {
                 <div className="w-10 h-10 rounded-xl bg-[#C9A96E]/10 flex items-center justify-center">
                   <span className="text-xl">💑</span>
                 </div>
-                <h2 className="font-heading font-bold text-2xl text-stone-900">
+                <h2 className="font-heading font-bold text-2xl text-black">
                   {t.kit.dateNightTitle}
                 </h2>
               </div>
-              <p className="text-stone-600 font-body font-bold leading-relaxed text-xl">
+              <p className="text-black font-body font-bold leading-relaxed text-xl">
                 {t.kit.dateNightDesc}
               </p>
-              <p className="text-stone-400 font-body font-bold text-lg mt-4 italic">
+              <p className="text-black font-body font-bold text-lg mt-4 italic">
                 {t.kit.perfectFor}
               </p>
             </section>
@@ -153,7 +153,7 @@ export default function KitPageClient() {
                 <div className="w-10 h-10 rounded-xl bg-[#C9A96E]/10 flex items-center justify-center">
                   <span className="text-xl">📦</span>
                 </div>
-                <h2 className="font-heading font-bold text-2xl text-stone-900">
+                <h2 className="font-heading font-bold text-2xl text-black">
                   {t.kit.whatsInside}
                 </h2>
               </div>
@@ -163,7 +163,7 @@ export default function KitPageClient() {
                     <div className="w-10 h-10 rounded-lg bg-[#C9A96E]/10 flex items-center justify-center flex-shrink-0">
                       <span className="text-lg">{item.icon}</span>
                     </div>
-                    <p className="text-stone-700 font-body font-bold text-lg leading-relaxed pt-2">
+                    <p className="text-black font-body font-bold text-lg leading-relaxed pt-2">
                       {item.text}
                     </p>
                   </div>
@@ -178,10 +178,10 @@ export default function KitPageClient() {
                   <div className="w-12 h-12 rounded-xl bg-[#C9A96E]/10 flex items-center justify-center mx-auto mb-4">
                     <span className="font-heading font-bold text-lg text-[#C9A96E]">{step.number}</span>
                   </div>
-                  <h3 className="font-heading font-bold text-xl text-stone-900 mb-2">
+                  <h3 className="font-heading font-bold text-xl text-black mb-2">
                     {t.kit.howItWorks}
                   </h3>
-                  <p className="text-stone-500 font-body font-bold text-lg leading-relaxed">
+                  <p className="text-black font-body font-bold text-lg leading-relaxed">
                     {step.text}
                   </p>
                 </div>
@@ -203,13 +203,13 @@ export default function KitPageClient() {
               </div>
 
               <div className="p-8 md:p-12 text-center -mt-8 relative">
-                <h2 className="font-heading font-bold text-3xl md:text-4xl text-stone-900 mb-2">
+                <h2 className="font-heading font-bold text-3xl md:text-4xl text-black mb-2">
                   {t.kit.price}
                 </h2>
-                <p className="text-stone-500 font-body font-bold text-lg mb-2">
+                <p className="text-black font-body font-bold text-lg mb-2">
                   {t.kit.videoAccess}
                 </p>
-                <p className="text-stone-400 font-body font-bold text-xl mb-8">
+                <p className="text-black font-body font-bold text-xl mb-8">
                   {t.kit.perfectFor}
                 </p>
 
@@ -225,7 +225,7 @@ export default function KitPageClient() {
                   </Link>
                   <Link
                     href="/shop"
-                    className="inline-flex items-center justify-center gap-2 border border-stone-300 text-stone-600 hover:border-stone-400 hover:text-stone-800 font-body font-bold font-extrabold py-5 px-12 rounded-xl transition-all duration-200 text-lg"
+                    className="inline-flex items-center justify-center gap-2 border border-stone-300 text-black hover:border-stone-400 hover:text-black font-body font-bold font-extrabold py-5 px-12 rounded-xl transition-all duration-200 text-lg"
                   >
                     {t.nav.shop}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
@@ -238,7 +238,7 @@ export default function KitPageClient() {
 
             {/* FAQ Section */}
             <section className="mt-16 pb-12">
-              <h2 className="text-2xl md:text-3xl font-heading font-bold text-stone-800 text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-heading font-bold text-black text-center mb-8">
                 {lang === 'es' ? 'Preguntas Frecuentes' : 'Frequently Asked Questions'}
               </h2>
               <div className="max-w-2xl mx-auto space-y-3">
@@ -248,7 +248,7 @@ export default function KitPageClient() {
                       onClick={() => setOpenFaq(openFaq === faq.id ? null : faq.id)}
                       className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-stone-50 transition-colors"
                     >
-                      <span className="font-body font-bold font-extrabold text-stone-800 text-lg md:text-xl pr-4">
+                      <span className="font-body font-bold font-extrabold text-black text-lg md:text-xl pr-4">
                         {lang === 'es' ? faq.question_es : faq.question_en}
                       </span>
                       <svg
@@ -257,13 +257,13 @@ export default function KitPageClient() {
                         viewBox="0 0 24 24"
                         strokeWidth={2}
                         stroke="currentColor"
-                        className={`w-5 h-5 text-stone-400 flex-shrink-0 transition-transform duration-200 ${openFaq === faq.id ? 'rotate-180' : ''}`}
+                        className={`w-5 h-5 text-black flex-shrink-0 transition-transform duration-200 ${openFaq === faq.id ? 'rotate-180' : ''}`}
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                       </svg>
                     </button>
                     {openFaq === faq.id && (
-                      <div className="px-5 pb-4 text-stone-600 font-body font-bold text-lg leading-relaxed border-t border-stone-100 pt-3">
+                      <div className="px-5 pb-4 text-black font-body font-bold text-lg leading-relaxed border-t border-stone-100 pt-3">
                         {lang === 'es' ? faq.answer_es : faq.answer_en}
                       </div>
                     )}
