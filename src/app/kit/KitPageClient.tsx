@@ -2,10 +2,13 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useLanguage } from '@/components/LanguageProvider';
+import faqData from '../../../data/kit-faq.json';
 
 export default function KitPageClient() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const kitItems = [
     { icon: '🎨', text: t.kit.item1 },
@@ -161,6 +164,42 @@ export default function KitPageClient() {
                     </svg>
                   </Link>
                 </div>
+              </div>
+            </section>
+
+            {/* FAQ Section */}
+            <section className="mt-16 pb-12">
+              <h2 className="text-2xl md:text-3xl font-heading font-bold text-stone-800 text-center mb-8">
+                {lang === 'es' ? 'Preguntas Frecuentes' : 'Frequently Asked Questions'}
+              </h2>
+              <div className="max-w-2xl mx-auto space-y-3">
+                {faqData.map((faq) => (
+                  <div key={faq.id} className="border border-stone-200 rounded-xl overflow-hidden">
+                    <button
+                      onClick={() => setOpenFaq(openFaq === faq.id ? null : faq.id)}
+                      className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-stone-50 transition-colors"
+                    >
+                      <span className="font-body font-semibold text-stone-800 text-sm md:text-base pr-4">
+                        {lang === 'es' ? faq.question_es : faq.question_en}
+                      </span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className={`w-5 h-5 text-stone-400 flex-shrink-0 transition-transform duration-200 ${openFaq === faq.id ? 'rotate-180' : ''}`}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                    </button>
+                    {openFaq === faq.id && (
+                      <div className="px-5 pb-4 text-stone-600 font-body text-sm leading-relaxed border-t border-stone-100 pt-3">
+                        {lang === 'es' ? faq.answer_es : faq.answer_en}
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             </section>
 

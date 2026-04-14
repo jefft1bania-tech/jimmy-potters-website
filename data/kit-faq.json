@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "question_en": "What's included in the Home Pottery Kit?",
+    "question_es": "¿Qué incluye el Kit de Cerámica en Casa?",
+    "answer_en": "Each kit includes 3 custom Jimmy Potters paint tubes, pre-formed clay shapes (rainbow arch, wavy tray, hearts, and geometric tiles), professional sculpting tools, a textured stamp mat, and access to our step-by-step video tutorial. Everything you need to create pottery at home — no kiln or wheel required.",
+    "answer_es": "Cada kit incluye 3 tubos de pintura personalizados Jimmy Potters, formas de arcilla preformadas (arcoíris, bandeja ondulada, corazones y baldosas geométricas), herramientas profesionales de escultura, un tapete texturizado para estampar, y acceso a nuestro video tutorial paso a paso. Todo lo que necesitas para crear cerámica en casa — sin horno ni torno.",
+    "category": "product"
+  },
+  {
+    "id": 2,
+    "question_en": "Do I need any experience to use this kit?",
+    "question_es": "¿Necesito experiencia para usar este kit?",
+    "answer_en": "Not at all! Our kits are designed for complete beginners. The pre-formed clay shapes mean you don't need a pottery wheel, and our video tutorial walks you through every step. Whether you've never touched clay before or you're a seasoned crafter, you'll create something beautiful.",
+    "answer_es": "¡Para nada! Nuestros kits están diseñados para principiantes completos. Las formas de arcilla preformadas significan que no necesitas un torno, y nuestro video tutorial te guía paso a paso. Ya sea que nunca hayas tocado arcilla o seas un artesano experimentado, crearás algo hermoso.",
+    "category": "product"
+  },
+  {
+    "id": 3,
+    "question_en": "How long does it take to complete the project?",
+    "question_es": "¿Cuánto tiempo toma completar el proyecto?",
+    "answer_en": "Most people finish their pottery pieces in about 1.5 to 2 hours. It's the perfect length for a date night or a relaxing afternoon activity. The video tutorial is designed to go at your pace — pause and rewind as much as you need.",
+    "answer_es": "La mayoría de las personas terminan sus piezas de cerámica en aproximadamente 1.5 a 2 horas. Es la duración perfecta para una noche de cita o una tarde relajante. El video tutorial está diseñado para ir a tu ritmo — pausa y rebobina tanto como necesites.",
+    "category": "product"
+  },
+  {
+    "id": 4,
+    "question_en": "What is the Date Night Edition?",
+    "question_es": "¿Qué es la Edición Noche de Cita?",
+    "answer_en": "The Date Night Edition is specially curated for couples. It includes enough clay and materials for two people to create together, plus romantic-themed shapes like hearts and arches. It's a unique alternative to dinner and a movie — you'll both go home with handmade keepsakes.",
+    "answer_es": "La Edición Noche de Cita está especialmente curada para parejas. Incluye suficiente arcilla y materiales para que dos personas creen juntas, además de formas temáticas románticas como corazones y arcos. Es una alternativa única a cenar y ver una película — ambos se llevarán recuerdos hechos a mano.",
+    "category": "product"
+  },
+  {
+    "id": 5,
+    "question_en": "How does the video tutorial work?",
+    "question_es": "¿Cómo funciona el video tutorial?",
+    "answer_en": "After your purchase, you'll receive a link to our exclusive prerecorded video tutorial. It's hosted online so you can watch it on any device — phone, tablet, laptop, or TV. The video guides you through each step of the creation process, from unwrapping your kit to painting your finished piece.",
+    "answer_es": "Después de tu compra, recibirás un enlace a nuestro video tutorial pregrabado exclusivo. Está alojado en línea para que puedas verlo en cualquier dispositivo — teléfono, tableta, laptop o televisor. El video te guía a través de cada paso del proceso de creación, desde abrir tu kit hasta pintar tu pieza terminada.",
+    "category": "video"
+  },
+  {
+    "id": 6,
+    "question_en": "Do I need to fire the clay in a kiln?",
+    "question_es": "¿Necesito hornear la arcilla en un horno de cerámica?",
+    "answer_en": "No! Our kits use air-dry clay that hardens naturally at room temperature. Just shape it, let it dry for 24-48 hours, and then paint it with the included paints. No kiln, no oven — just patience and creativity.",
+    "answer_es": "¡No! Nuestros kits usan arcilla de secado al aire que se endurece naturalmente a temperatura ambiente. Solo dale forma, déjala secar por 24-48 horas, y luego píntala con las pinturas incluidas. Sin horno de cerámica, sin horno convencional — solo paciencia y creatividad.",
+    "category": "product"
+  },
+  {
+    "id": 7,
+    "question_en": "How much does shipping cost?",
+    "question_es": "¿Cuánto cuesta el envío?",
+    "answer_en": "Shipping is completely free! Every order ships via FedEx with full tracking and insurance. We handle everything from our Fort Lauderdale studio to your doorstep.",
+    "answer_es": "¡El envío es completamente gratis! Cada pedido se envía por FedEx con seguimiento completo y seguro. Nos encargamos de todo desde nuestro estudio en Fort Lauderdale hasta tu puerta.",
+    "category": "shipping"
+  },
+  {
+    "id": 8,
+    "question_en": "How long does shipping take?",
+    "question_es": "¿Cuánto tarda el envío?",
+    "answer_en": "Standard shipping takes 3-5 business days within the continental US. Express and overnight options are also available at checkout if you need it sooner.",
+    "answer_es": "El envío estándar toma de 3 a 5 días hábiles dentro de los Estados Unidos continentales. Opciones de envío exprés y al día siguiente también están disponibles al momento de pagar si lo necesitas antes.",
+    "category": "shipping"
+  },
+  {
+    "id": 9,
+    "question_en": "Is this a good gift?",
+    "question_es": "¿Es un buen regalo?",
+    "answer_en": "Absolutely! The Home Pottery Kit makes an incredible gift for birthdays, anniversaries, Valentine's Day, holidays, or just because. The branded box is beautifully designed and ready to gift — no wrapping needed. It's a gift that creates a memory, not just a moment.",
+    "answer_es": "¡Absolutamente! El Kit de Cerámica en Casa es un regalo increíble para cumpleaños, aniversarios, San Valentín, fiestas o simplemente porque sí. La caja con marca está bellamente diseñada y lista para regalar — no necesita envoltura. Es un regalo que crea un recuerdo, no solo un momento.",
+    "category": "gifting"
+  },
+  {
+    "id": 10,
+    "question_en": "Can kids use this kit?",
+    "question_es": "¿Pueden los niños usar este kit?",
+    "answer_en": "Yes! While the Date Night Edition is designed for couples, kids ages 6 and up love it too. The pre-formed shapes and simple tools make it easy for little hands. We also run after-school pottery classes for kids — check out our Classes page for more info.",
+    "answer_es": "¡Sí! Aunque la Edición Noche de Cita está diseñada para parejas, a los niños de 6 años en adelante también les encanta. Las formas preformadas y herramientas simples son fáciles para manos pequeñas. También ofrecemos clases de cerámica después de la escuela — consulta nuestra página de Clases para más información.",
+    "category": "product"
+  },
+  {
+    "id": 11,
+    "question_en": "Will there be other kit editions?",
+    "question_es": "¿Habrá otras ediciones del kit?",
+    "answer_en": "Yes! We're planning seasonal editions throughout the year — Summer, Holiday, and more. Each edition features unique shapes, colors, and themes. Sign up for our email list to be the first to know when new editions drop.",
+    "answer_es": "¡Sí! Estamos planeando ediciones de temporada durante todo el año — Verano, Navidad, y más. Cada edición presenta formas, colores y temas únicos. Suscríbete a nuestra lista de correo para ser el primero en saber cuándo salen nuevas ediciones.",
+    "category": "product"
+  },
+  {
+    "id": 12,
+    "question_en": "What if my clay piece breaks?",
+    "question_es": "¿Qué pasa si mi pieza de arcilla se rompe?",
+    "answer_en": "Air-dry clay can be fragile before it fully cures. If a piece breaks during the drying process, you can usually repair it with a little water and gentle pressure. Once fully dry and painted, the pieces are quite durable for display. Our video tutorial includes tips on handling and drying for the best results.",
+    "answer_es": "La arcilla de secado al aire puede ser frágil antes de curarse completamente. Si una pieza se rompe durante el proceso de secado, generalmente puedes repararla con un poco de agua y presión suave. Una vez completamente seca y pintada, las piezas son bastante duraderas para exhibición. Nuestro video tutorial incluye consejos sobre manejo y secado para los mejores resultados.",
+    "category": "product"
+  }
+]
