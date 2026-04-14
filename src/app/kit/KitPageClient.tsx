@@ -88,7 +88,7 @@ export default function KitPageClient() {
                 {lang === 'es' ? 'Video Tutoriales' : 'Video Tutorials'}
               </h2>
               {[
-                { title: lang === 'es' ? 'Cómo Hacer un Jarrón' : 'How to Make a Vase', duration: '0:30', src: '/tutorial-1.mp4' },
+                { title: lang === 'es' ? 'Cómo Hacer un Jarrón' : 'How to Make a Vase', duration: '4:18', src: '/tutorial-1-cartoon.mp4' },
                 { title: lang === 'es' ? 'Pintar con Esmalte' : 'Painting with Glaze', duration: '8:45', src: null },
                 { title: lang === 'es' ? 'Crear Formas de Corazón' : 'Creating Heart Shapes', duration: '10:15', src: null },
                 { title: lang === 'es' ? 'Técnicas de Estampado' : 'Stamping Techniques', duration: '7:20', src: null },
