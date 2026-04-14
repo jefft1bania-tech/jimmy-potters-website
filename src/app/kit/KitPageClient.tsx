@@ -26,13 +26,14 @@ export default function KitPageClient() {
   return (
     <div>
       {/* Hero — Kit image with overlay */}
-      <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center overflow-hidden bg-[#f5c6c6]">
-        <div className="absolute inset-0 flex items-center justify-center">
+      <section className="relative flex items-center justify-center overflow-hidden bg-[#f8b4b4] py-8">
+        <div className="relative w-full max-w-lg mx-auto">
           <Image
             src="/kit-date-night.jpeg"
             alt="Jimmy Potters Home Pottery Kit — Date Night Edition with paint tubes, clay shapes, sculpting tools, and stamp mat"
-            fill
-            className="object-contain"
+            width={800}
+            height={1200}
+            className="w-full h-auto"
             priority
             sizes="100vw"
           />
@@ -122,12 +123,13 @@ export default function KitPageClient() {
             {/* Price & CTA */}
             <section className="bg-white rounded-2xl shadow-sm overflow-hidden border border-stone-100">
               {/* Kit image strip */}
-              <div className="relative h-64 md:h-80 bg-[#f5c6c6] rounded-xl overflow-hidden">
+              <div className="relative bg-[#f8b4b4] rounded-xl overflow-hidden flex items-center justify-center p-4">
                 <Image
                   src="/kit-date-night.jpeg"
                   alt="Jimmy Potters Home Pottery Kit contents"
-                  fill
-                  className="object-contain"
+                  width={400}
+                  height={600}
+                  className="w-full max-w-sm h-auto rounded-lg"
                   sizes="(max-width: 768px) 100vw, 896px"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
