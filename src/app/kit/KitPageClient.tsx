@@ -34,9 +34,17 @@ export default function KitPageClient() {
       <section className="bg-[#3B2314] pt-20">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-8 md:py-12">
-            {/* Kit image carousel */}
+            {/* Kit hero image — cropped, on left */}
             <div className="flex justify-center">
-              <KitCarousel />
+              <Image
+                src="/kit-date-night.jpeg"
+                alt="Jimmy Potters Home Pottery Kit — Date Night Edition with paint tubes, clay shapes, sculpting tools, and stamp mat"
+                width={720}
+                height={676}
+                className="w-full max-w-md h-auto rounded-2xl shadow-2xl"
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
             </div>
             {/* Text content */}
             <div className="text-center md:text-left py-4">
@@ -59,6 +67,13 @@ export default function KitPageClient() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Kit Photo Carousel */}
+      <section className="bg-[#3B2314] py-8">
+        <div className="max-w-3xl mx-auto px-4">
+          <KitCarousel />
         </div>
       </section>
 
