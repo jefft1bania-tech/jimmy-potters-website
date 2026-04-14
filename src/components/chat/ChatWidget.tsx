@@ -114,13 +114,13 @@ export default function ChatWidget() {
       setTypingIndex(-1);
       return;
     }
-    // Reveal 2-4 chars at a time for natural speed
-    const charsPerTick = full[typingIndex] === '\n' ? 1 : 3;
+    // Reveal 1-2 chars at a time for readable typing speed
+    const charsPerTick = full[typingIndex] === '\n' ? 1 : 1;
     const nextIndex = Math.min(typingIndex + charsPerTick, full.length);
     const timer = setTimeout(() => {
       setTypingText(full.slice(0, nextIndex));
       setTypingIndex(nextIndex);
-    }, 15);
+    }, 25);
     return () => clearTimeout(timer);
   }, [typingIndex]);
 

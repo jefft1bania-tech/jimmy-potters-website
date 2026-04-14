@@ -362,19 +362,12 @@ export function reasonAboutQuestion(question: string): string {
 
   // KIT + PRICING (most common question)
   if (topics.includes('kit') && topics.includes('pricing')) {
-    let response = `The ${KIT.name} is ${KIT.price} with free shipping! 🏺\n\nIt includes:\n`;
-    response += KIT.contents.map((c, i) => `${i + 1}. ${c}`).join('\n');
-    response += `\n\n${KIT.clay} Takes about ${KIT.duration}. ${KIT.video}\n\nOrder at ${KIT.url}`;
-    return response;
+    return `The Home Pottery Kit is $100 with free shipping! 🏺 It includes 2KG of air-dry clay, a paint set (choose your palette), sculpting tools, brushes, waterproof varnish, and a step-by-step video tutorial. Perfect for two people — takes about 1.5-2 hours. Order at ${KIT.url}`;
   }
 
   // KIT + CONTENTS
   if (topics.includes('kit') && topics.includes('contents')) {
-    let response = `The ${KIT.name} (${KIT.price}) includes:\n\n`;
-    response += KIT.contents.map((c, i) => `${i + 1}. ${c}`).join('\n');
-    response += `\n\nPaint palette options: ${KIT.paintOptions}`;
-    response += `\n\n${KIT.clay}\n\n💡 Pro tips from Jimmy:\n- Paint: ${KIT.paintTip}\n- Brushes: ${KIT.brushTip}\n- Varnish: ${KIT.varnishTip}\n- Tools: ${KIT.toolsTip}\n- Clay storage: ${KIT.clayTip}`;
-    return response;
+    return `The Home Pottery Kit ($100) includes:\n\n1. 2KG air-dry clay\n2. Paint set (pastel, floral, earth, or classic tones)\n3. Sculpting tools in canvas bag\n4. 2 fine paintbrushes\n5. Waterproof varnish (glossy or matte)\n6. Pre-formed clay shapes\n7. Gift-ready branded box\n8. Video tutorial access\n\nNo kiln needed — air dries in 24-48 hours! 🏺`;
   }
 
   // KIT + SHIPPING
@@ -435,10 +428,7 @@ export function reasonAboutQuestion(question: string): string {
 
   // KIT (general)
   if (topics.includes('kit')) {
-    let response = `The ${KIT.name} is ${KIT.price} with free shipping! 🏺\n\nWhat's inside:\n`;
-    response += KIT.contents.map((c, i) => `${i + 1}. ${c}`).join('\n');
-    response += `\n\nPaint palette options: ${KIT.paintOptions}\n${KIT.clay}\nTakes about ${KIT.duration}. Perfect for ${KIT.audience.toLowerCase()}.\n\nOrder at ${KIT.url}`;
-    return response;
+    return `The Home Pottery Kit is $100 with free shipping! 🏺 Includes clay, paints (choose your palette), tools, brushes, varnish, and a video tutorial. Designed for two people, takes 1.5-2 hours. No kiln needed — air-dry clay. Order at ${KIT.url}`;
   }
 
   // SHIPPING (with state match)
@@ -448,12 +438,7 @@ export function reasonAboutQuestion(question: string): string {
 
   // SHIPPING (general)
   if (topics.includes('shipping')) {
-    let response = `All orders ship via FedEx from ${SHIPPING.origin} with free shipping! 📦\n\n`;
-    response += `Shipping options for pottery:\n`;
-    response += SHIPPING.tiers.map(t => `- ${t.name} (${t.time}): ${t.range}`).join('\n');
-    response += `\n\n${SHIPPING.packaging}\n${SHIPPING.coverage}`;
-    response += `\n\nThe Home Pottery Kit always ships FREE!`;
-    return response;
+    return `Free shipping on all orders! 📦 Ships via FedEx from Fort Lauderdale, FL.\n\n- Ground: 3-5 days ($9.99-$16.99 for pottery)\n- 2Day: $18.99-$29.99\n- Overnight: $34.99-$54.99\n\nThe Home Pottery Kit ships FREE. Double-boxed with tracking and insurance.`;
   }
 
   // SAFETY + AGE (kids safety question — before general age handler)
