@@ -82,11 +82,11 @@ export default function KitPageClient() {
               </h2>
               {[
                 { title: lang === 'es' ? 'Cómo Hacer un Jarrón' : 'How to Make a Vase', duration: '0:30', src: '/tutorial-1.mp4' },
-                { title: lang === 'es' ? 'Pintar con Esmalte' : 'Painting with Glaze', duration: '0:30', src: '/tutorial-2.mp4' },
-                { title: lang === 'es' ? 'Crear Formas de Corazón' : 'Creating Heart Shapes', duration: '0:30', src: '/tutorial-3.mp4' },
-                { title: lang === 'es' ? 'Técnicas de Estampado' : 'Stamping Techniques', duration: '0:30', src: '/tutorial-4.mp4' },
-                { title: lang === 'es' ? 'Bandeja Decorativa' : 'Decorative Tray', duration: '0:30', src: '/tutorial-5.mp4' },
-                { title: lang === 'es' ? 'Arcoíris de Arcilla' : 'Clay Rainbow', duration: '0:30', src: '/tutorial-6.mp4' },
+                { title: lang === 'es' ? 'Pintar con Esmalte' : 'Painting with Glaze', duration: '8:45', src: null },
+                { title: lang === 'es' ? 'Crear Formas de Corazón' : 'Creating Heart Shapes', duration: '10:15', src: null },
+                { title: lang === 'es' ? 'Técnicas de Estampado' : 'Stamping Techniques', duration: '7:20', src: null },
+                { title: lang === 'es' ? 'Bandeja Decorativa' : 'Decorative Tray', duration: '15:00', src: null },
+                { title: lang === 'es' ? 'Arcoíris de Arcilla' : 'Clay Rainbow', duration: '9:50', src: null },
               ].map((video, i) => (
                 <div key={i} className="bg-white rounded-lg border border-stone-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                   {video.src ? (
