@@ -1,0 +1,25 @@
+{
+  "interactions": {
+    "1776186786358-ky2tzf": {
+      "id": "1776186786358-ky2tzf",
+      "question": "What is your return policy?",
+      "answer": "For questions about refunds or cancellations, please reach out directly — jimmy@jimmypotters.com or (703) 862-1300. We're happy to help! 🏺",
+      "timestamp": 1776186786358,
+      "rating": null,
+      "topic": "general",
+      "sessionId": "anonymous"
+    }
+  },
+  "learnedPatterns": {},
+  "faqTracker": {
+    "what is your return policy": {
+      "question": "What is your return policy?",
+      "count": 1,
+      "bestAnswer": "For questions about refunds or cancellations, please reach out directly — jimmy@jimmypotters.com or (703) 862-1300. We're happy to help! 🏺",
+      "topic": "general"
+    }
+  },
+  "topicCounter": {
+    "general": 1
+  }
+}

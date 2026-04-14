@@ -310,17 +310,16 @@ function findMatchingProduct(question: string): Product | null {
 
 function findStateShipping(question: string): string | null {
   const q = question.toLowerCase();
+  // Only match full state names (not 2-letter abbreviations which cause false positives)
   const stateMap: Record<string, string> = {
-    'virginia': 'VA, DC, MD, DE', 'va': 'VA, DC, MD, DE', 'dc': 'VA, DC, MD, DE',
-    'maryland': 'VA, DC, MD, DE', 'md': 'VA, DC, MD, DE', 'delaware': 'VA, DC, MD, DE', 'de': 'VA, DC, MD, DE',
-    'pennsylvania': 'PA, NJ, WV', 'pa': 'PA, NJ, WV', 'new jersey': 'PA, NJ, WV', 'nj': 'PA, NJ, WV',
-    'west virginia': 'PA, NJ, WV', 'wv': 'PA, NJ, WV',
-    'new york': 'NY, CT, NC', 'ny': 'NY, CT, NC', 'connecticut': 'NY, CT, NC', 'ct': 'NY, CT, NC',
-    'north carolina': 'NY, CT, NC', 'nc': 'NY, CT, NC',
-    'massachusetts': 'MA, RI, NH, SC, GA', 'ma': 'MA, RI, NH, SC, GA', 'rhode island': 'MA, RI, NH, SC, GA',
-    'new hampshire': 'MA, RI, NH, SC, GA', 'nh': 'MA, RI, NH, SC, GA', 'south carolina': 'MA, RI, NH, SC, GA',
-    'sc': 'MA, RI, NH, SC, GA', 'georgia': 'MA, RI, NH, SC, GA', 'ga': 'MA, RI, NH, SC, GA',
-    'florida': 'FL', 'fl': 'FL',
+    'virginia': 'VA, DC, MD, DE', 'delaware': 'VA, DC, MD, DE', 'maryland': 'VA, DC, MD, DE',
+    'washington dc': 'VA, DC, MD, DE', 'washington d.c.': 'VA, DC, MD, DE',
+    'pennsylvania': 'PA, NJ, WV', 'new jersey': 'PA, NJ, WV', 'west virginia': 'PA, NJ, WV',
+    'new york': 'NY, CT, NC', 'connecticut': 'NY, CT, NC', 'north carolina': 'NY, CT, NC',
+    'massachusetts': 'MA, RI, NH, SC, GA', 'rhode island': 'MA, RI, NH, SC, GA',
+    'new hampshire': 'MA, RI, NH, SC, GA', 'south carolina': 'MA, RI, NH, SC, GA',
+    'georgia': 'MA, RI, NH, SC, GA',
+    'florida': 'FL',
   };
 
   for (const [state, zone] of Object.entries(stateMap)) {
@@ -455,6 +454,16 @@ export function reasonAboutQuestion(question: string): string {
     response += `\n\n${SHIPPING.packaging}\n${SHIPPING.coverage}`;
     response += `\n\nThe Home Pottery Kit always ships FREE!`;
     return response;
+  }
+
+  // SAFETY + AGE (kids safety question — before general age handler)
+  if (topics.includes('safety') && topics.includes('age')) {
+    return `Absolutely safe for kids! 🎨\n\n📦 Home Pottery Kit: Uses non-toxic air-dry clay and non-toxic paints. Safe for ages 6+. No chemicals, no kiln, no heat.\n🏫 After-School Programs: All materials are non-toxic and kid-safe. We provide aprons.\n🏺 Shop Pottery: Lead-free, food-safe glazes. Safe around children.\n\nIf your child has specific sensitivities, we recommend testing a small piece of clay on their hand first. Contact ${BUSINESS.email} for ingredient questions.`;
+  }
+
+  // ALLERGY + AGE
+  if (topics.includes('allergy') && topics.includes('age')) {
+    return `All our materials are non-toxic and safe for children! The Home Pottery Kit uses standard air-dry clay and non-toxic paints, safe for ages 6+. For specific allergy concerns, contact ${BUSINESS.email} and we can provide detailed ingredient information. 🎨`;
   }
 
   // QUANTITY — how many pieces can I make
