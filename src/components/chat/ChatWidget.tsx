@@ -1,6 +1,50 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+
+// Web Speech API types (not in all TS libs)
+interface SpeechRecognitionEvent extends Event {
+  resultIndex: number;
+  results: SpeechRecognitionResultList;
+}
+
+interface SpeechRecognitionResultList {
+  length: number;
+  [index: number]: SpeechRecognitionResult;
+}
+
+interface SpeechRecognitionResult {
+  isFinal: boolean;
+  length: number;
+  [index: number]: SpeechRecognitionAlternative;
+}
+
+interface SpeechRecognitionAlternative {
+  transcript: string;
+  confidence: number;
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string;
+}
+
+interface SpeechRecognitionInstance extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  maxAlternatives: number;
+  onstart: (() => void) | null;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: ((event: SpeechRecognitionErrorEvent) => void) | null;
+  onend: (() => void) | null;
+  start(): void;
+  stop(): void;
+  abort(): void;
+}
+
+interface SpeechRecognitionConstructor {
+  new (): SpeechRecognitionInstance;
+}
 
 interface Message {
   role: 'user' | 'assistant';
@@ -20,74 +64,100 @@ function getSessionId(): string {
   return id;
 }
 
+// Check if browser supports speech recognition
+function getSpeechRecognition(): SpeechRecognitionConstructor | null {
+  if (typeof window === 'undefined') return null;
+  return (
+    (window as unknown as { SpeechRecognition?: SpeechRecognitionConstructor }).SpeechRecognition ||
+    (window as unknown as { webkitSpeechRecognition?: SpeechRecognitionConstructor }).webkitSpeechRecognition ||
+    null
+  );
+}
+
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
       content:
-        "Hi! I'm Jimmy, your pottery assistant! 🏺 Ask me anything about our handmade pottery, after-school programs, virtual clay camp, pricing, or shipping! Sign up for our newsletter at the top of the page for 10% off!",
+        "Hi! I'm Jimmy, your pottery assistant! \u{1F3FA} Ask me anything about our handmade pottery, after-school programs, virtual clay camp, pricing, or shipping! You can type or tap the mic to speak. Sign up for our newsletter at the top of the page for 10% off!",
     },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [interimTranscript, setInterimTranscript] = useState('');
+  const [speechSupported, setSpeechSupported] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
+
+  // Check speech recognition support on mount
+  useEffect(() => {
+    setSpeechSupported(!!getSpeechRecognition());
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, interimTranscript]);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !isListening) {
       inputRef.current?.focus();
     }
-  }, [isOpen]);
+  }, [isOpen, isListening]);
 
-  const sendMessage = async (text?: string) => {
+  const sendMessage = useCallback(async (text?: string) => {
     const msgText = (text || input).trim();
     if (!msgText || loading) return;
 
     const userMessage: Message = { role: 'user', content: msgText };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
+    setMessages(prev => {
+      const newMessages = [...prev, userMessage];
+
+      // Fire the API call
+      (async () => {
+        try {
+          const res = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              messages: newMessages
+                .filter((_, i) => i !== 0)
+                .map((m) => ({ role: m.role, content: m.content })),
+              sessionId: getSessionId(),
+            }),
+          });
+          const data = await res.json();
+          setMessages((prev2) => [
+            ...prev2,
+            {
+              role: 'assistant',
+              content: data.reply,
+              interactionId: data.interactionId,
+              rated: false,
+            },
+          ]);
+        } catch {
+          setMessages((prev2) => [
+            ...prev2,
+            {
+              role: 'assistant',
+              content:
+                "I'm having trouble connecting right now. Please try again or email jimmy@jimmypotters.com! \u{1F3FA}",
+            },
+          ]);
+        } finally {
+          setLoading(false);
+        }
+      })();
+
+      return newMessages;
+    });
+
     if (!text) setInput('');
     setLoading(true);
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: newMessages
-            .filter((m) => m !== messages[0])
-            .map((m) => ({ role: m.role, content: m.content })),
-          sessionId: getSessionId(),
-        }),
-      });
-      const data = await res.json();
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'assistant',
-          content: data.reply,
-          interactionId: data.interactionId,
-          rated: false,
-        },
-      ]);
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'assistant',
-          content:
-            "I'm having trouble connecting right now. Please try again or email jimmy@jimmypotters.com! 🏺",
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [input, loading]);
 
   const rateMessage = async (index: number, rating: 'helpful' | 'not_helpful') => {
     const msg = messages[index];
@@ -111,6 +181,69 @@ export default function ChatWidget() {
       // Silent fail on rating
     }
   };
+
+  const toggleListening = useCallback(() => {
+    if (isListening) {
+      // Stop listening
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      setInterimTranscript('');
+      return;
+    }
+
+    const SpeechRecognitionClass = getSpeechRecognition();
+    if (!SpeechRecognitionClass) return;
+
+    const recognition = new SpeechRecognitionClass();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+      setInterimTranscript('');
+    };
+
+    recognition.onresult = (event) => {
+      let interim = '';
+      let final = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          final += transcript;
+        } else {
+          interim += transcript;
+        }
+      }
+      if (final) {
+        setInput(final);
+        setInterimTranscript('');
+        // Auto-send after a short delay so user sees their transcribed text
+        setTimeout(() => {
+          setIsListening(false);
+          // We need to send the final transcript directly
+          sendMessage(final);
+        }, 400);
+      } else {
+        setInterimTranscript(interim);
+      }
+    };
+
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      setIsListening(false);
+      setInterimTranscript('');
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+      setInterimTranscript('');
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+  }, [isListening, sendMessage]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -144,14 +277,21 @@ export default function ChatWidget() {
           {/* Header */}
           <div className="bg-gradient-to-r from-brand-bg-primary to-brand-bg-secondary p-4 flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl">
-              🏺
+              {'\u{1F3FA}'}
             </div>
             <div className="flex-1">
               <h3 className="font-heading font-bold text-white text-sm">
                 Jimmy Potters Assistant
               </h3>
               <p className="text-white/60 text-xs font-body">
-                Ask about pottery, classes & more
+                {isListening ? (
+                  <span className="text-red-300 flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse inline-block" />
+                    Listening... speak now
+                  </span>
+                ) : (
+                  'Type or tap the mic to ask'
+                )}
               </p>
             </div>
             <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-white/50 text-[10px] font-body">
@@ -174,6 +314,11 @@ export default function ChatWidget() {
                         : 'bg-white text-brand-text shadow-sm border border-brand-border/50 rounded-bl-md'
                     }`}
                   >
+                    {msg.role === 'user' && (
+                      <span className="text-[10px] text-white/60 block mb-0.5">
+                        {'\u{1F3A4}'} You asked
+                      </span>
+                    )}
                     {msg.content}
                   </div>
                 </div>
@@ -212,6 +357,29 @@ export default function ChatWidget() {
                 )}
               </div>
             ))}
+
+            {/* Interim transcript while listening */}
+            {isListening && interimTranscript && (
+              <div className="flex justify-end">
+                <div className="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm font-body leading-relaxed bg-brand-cta/60 text-white rounded-br-md border-2 border-dashed border-brand-cta">
+                  <span className="text-[10px] text-white/60 block mb-0.5">
+                    {'\u{1F3A4}'} Hearing...
+                  </span>
+                  {interimTranscript}
+                </div>
+              </div>
+            )}
+
+            {/* Listening indicator */}
+            {isListening && !interimTranscript && (
+              <div className="flex justify-center">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-200 text-red-600 text-xs font-body">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+                  Listening... speak your question
+                </div>
+              </div>
+            )}
+
             {loading && (
               <div className="flex justify-start">
                 <div className="bg-white text-brand-text shadow-sm border border-brand-border/50 rounded-2xl rounded-bl-md px-4 py-3">
@@ -251,19 +419,46 @@ export default function ChatWidget() {
           {/* Input */}
           <div className="p-3 bg-white border-t border-brand-border/30">
             <div className="flex gap-2">
+              {/* Mic Button */}
+              {speechSupported && (
+                <button
+                  onClick={toggleListening}
+                  className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
+                    isListening
+                      ? 'bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/30 animate-pulse'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-brand-cta'
+                  }`}
+                  aria-label={isListening ? 'Stop listening' : 'Speak your question'}
+                  title={isListening ? 'Tap to stop' : 'Tap to speak'}
+                  disabled={loading}
+                >
+                  {isListening ? (
+                    // Stop icon
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5">
+                      <rect x="6" y="6" width="12" height="12" rx="2" />
+                    </svg>
+                  ) : (
+                    // Mic icon
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                    </svg>
+                  )}
+                </button>
+              )}
               <input
                 ref={inputRef}
                 type="text"
-                value={input}
+                value={isListening ? interimTranscript || '' : input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask about pottery, classes, pricing..."
+                placeholder={isListening ? 'Listening...' : 'Type or tap mic to ask...'}
                 className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 border border-brand-border/50 focus:border-brand-cta focus:ring-2 focus:ring-brand-cta/20 outline-none text-sm font-body text-brand-text placeholder:text-gray-400 transition-all"
-                disabled={loading}
+                disabled={loading || isListening}
+                readOnly={isListening}
               />
               <button
                 onClick={() => sendMessage()}
-                disabled={!input.trim() || loading}
+                disabled={!input.trim() || loading || isListening}
                 className="px-4 py-2.5 rounded-xl bg-brand-cta hover:bg-brand-cta-hover text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
@@ -271,6 +466,11 @@ export default function ChatWidget() {
                 </svg>
               </button>
             </div>
+            {speechSupported && !isListening && messages.length <= 2 && (
+              <p className="text-[10px] text-gray-400 mt-1.5 text-center font-body">
+                {'\u{1F3A4}'} Tap the mic to ask your question by voice
+              </p>
+            )}
           </div>
         </div>
       )}
