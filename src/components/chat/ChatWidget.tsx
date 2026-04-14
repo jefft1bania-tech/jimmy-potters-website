@@ -284,7 +284,7 @@ export default function ChatWidget() {
       {/* Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-brand-cta hover:bg-brand-cta-hover text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 flex items-center justify-center"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-14 h-14 rounded-full bg-brand-cta hover:bg-brand-cta-hover text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 flex items-center justify-center"
         aria-label={isOpen ? 'Close chat' : 'Open chat'}
       >
         {isOpen ? (
@@ -298,9 +298,9 @@ export default function ChatWidget() {
         )}
       </button>
 
-      {/* Chat Window */}
+      {/* Chat Window — mobile-first: full width on small screens, fixed width on desktop */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-48px)] bg-white rounded-2xl shadow-2xl border border-brand-border overflow-hidden flex flex-col" style={{ height: '500px', maxHeight: 'calc(100vh - 140px)' }}>
+        <div className="fixed z-50 bg-white rounded-2xl shadow-2xl border border-brand-border overflow-hidden flex flex-col bottom-20 right-3 left-3 sm:left-auto sm:right-6 sm:bottom-24 sm:w-[360px]" style={{ height: 'min(500px, calc(100vh - 120px))', maxHeight: 'calc(100dvh - 120px)' }}>
           {/* Header */}
           <div className="bg-gradient-to-r from-brand-bg-primary to-brand-bg-secondary p-4 flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl">
