@@ -30,50 +30,50 @@ export default function KitPageClient() {
       {/* Kit FAQ Chat Widget */}
       <KitChatWidget />
 
-      {/* Hero — Split layout: image left, text right */}
+      {/* Hero — Split layout: carousel left, text right */}
       <section className="bg-[#3B2314] pt-20">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-8 md:py-12">
-            {/* Kit hero image — cropped, on left */}
-            <div className="flex justify-center">
-              <Image
-                src="/kit-date-night.jpeg"
-                alt="Jimmy Potters Home Pottery Kit — Date Night Edition with paint tubes, clay shapes, sculpting tools, and stamp mat"
-                width={720}
-                height={676}
-                className="w-full max-w-md h-auto rounded-2xl shadow-2xl"
-                priority
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-8 md:py-16">
+            {/* Carousel on left */}
+            <div className="max-w-lg mx-auto lg:mx-0">
+              <KitCarousel />
             </div>
-            {/* Text content */}
-            <div className="text-center md:text-left py-4">
-              <span className="inline-block font-body font-bold text-[10px] font-extrabold tracking-[0.3em] uppercase text-[#C9A96E] mb-4">
+            {/* Text content on right */}
+            <div className="text-center lg:text-left py-4">
+              <span className="inline-block font-body font-bold text-[10px] tracking-[0.3em] uppercase text-[#C9A96E] mb-4">
                 {t.kit.dateNightTitle}
               </span>
-              <h1 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-black font-extrabold leading-[1.05] tracking-tight">
+              <h1 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white leading-[1.05] tracking-tight">
                 {t.kit.title}
               </h1>
-              <p className="text-black font-extrabold/70 font-body font-bold mt-4 text-lg max-w-xl">
+              <p className="text-white/70 font-body mt-4 text-lg max-w-xl mx-auto lg:mx-0">
                 {t.kit.subtitle}
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                 <Link
                   href="/checkout"
-                  className="inline-flex items-center justify-center gap-2 bg-[#C9A96E] hover:bg-[#B8923E] text-black font-extrabold font-body font-bold font-extrabold py-5 px-12 rounded-xl transition-all duration-200 text-lg shadow-lg"
+                  className="inline-flex items-center justify-center gap-2 bg-[#C9A96E] hover:bg-[#B8923E] text-black font-body font-bold py-5 px-12 rounded-xl transition-all duration-200 text-lg shadow-lg"
                 >
                   {t.kit.buyBtn} — {t.kit.price}
                 </Link>
               </div>
+              {/* Quick highlights */}
+              <div className="mt-8 grid grid-cols-2 gap-3 max-w-sm mx-auto lg:mx-0">
+                <div className="flex items-center gap-2 text-white/60 text-sm font-body">
+                  <span className="text-[#C9A96E]">✓</span> Free Shipping
+                </div>
+                <div className="flex items-center gap-2 text-white/60 text-sm font-body">
+                  <span className="text-[#C9A96E]">✓</span> No Kiln Needed
+                </div>
+                <div className="flex items-center gap-2 text-white/60 text-sm font-body">
+                  <span className="text-[#C9A96E]">✓</span> For Two People
+                </div>
+                <div className="flex items-center gap-2 text-white/60 text-sm font-body">
+                  <span className="text-[#C9A96E]">✓</span> Video Tutorial
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Kit Photo Carousel */}
-      <section className="bg-[#3B2314] py-8">
-        <div className="max-w-3xl mx-auto px-4">
-          <KitCarousel />
         </div>
       </section>
 
