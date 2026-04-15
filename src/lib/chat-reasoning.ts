@@ -520,7 +520,8 @@ export function reasonAboutQuestion(question: string): string {
   }
 
   // SPECIFIC PRODUCT (only if the match is strong — skip if general topics cover it)
-  if (productMatch && !topics.includes('process') && !topics.includes('mess') && !topics.includes('whattoexpect') && !topics.includes('classes')) {
+  // Only show a specific product if the question is clearly about THAT product (not a general question that happens to contain a product word)
+  if (productMatch && topics.includes('products') && topics.length <= 3 && !topics.includes('process') && !topics.includes('mess') && !topics.includes('whattoexpect') && !topics.includes('classes') && !topics.includes('tax') && !topics.includes('eco') && !topics.includes('bulk')) {
     const p = productMatch;
     const specs = Object.entries(p.specs).filter(([k]) => k !== 'note').map(([k, v]) => `${k}: ${v}`).join(', ');
     return `${p.name} — ${formatPrice(p.price)} 🏺\n\n${p.description.slice(0, 300)}\n\nSpecs: ${specs}\n\n${p.details.slice(0, 4).join('. ')}.\n\nEvery piece is one of a kind — handmade, wheel-thrown stoneware with lead-free glazes. Free shipping! Browse all pottery at www.jimmypotters.com/shop`;
@@ -926,6 +927,15 @@ export function reasonAboutQuestion(question: string): string {
     return `Pottery is an amazing team building activity! 🏢\n\n📦 Home Pottery Kits ($100 each): Ship directly to team members for virtual team building\n🏫 On-Site Events: We bring pottery to your location\n🎨 Creative Workshops: Customizable for your team's needs\n\nContact ${BUSINESS.email} or ${BUSINESS.phone} to discuss corporate packages, volume pricing, and custom experiences. It's a memorable alternative to the usual team outing!`;
   }
 
-  // ── Step 5: If no topic matched, give a helpful default ──
-  return `Great question! Here's a quick overview of what Jimmy Potters offers:\n\n🏺 Handmade Pottery: $45-$75 (one-of-a-kind pieces)\n📦 Home Pottery Kit: ${KIT.price} (Date Night Edition, free shipping)\n🏫 After-School Programs: $235-$250 (K-5th grade)\n💻 Virtual Clay Camp: $155 (ages 7-14)\n\nFree shipping on all orders! 10% off for newsletter subscribers. What would you like to know more about? Email us at ${BUSINESS.email} for anything I can't answer here.`;
+  // ── Step 5: If no topic matched, give a helpful & honest response ──
+  // Log unmatched questions for learning (available via export-learnings API)
+  console.log(`[CHAT-LEARNING] Unmatched question: "${question}" | Topics found: [${topics.join(', ')}]`);
+
+  // Vary the fallback response to avoid repetition
+  const fallbacks = [
+    `That's a great question! I want to make sure I give you the right answer. For this one, I'd recommend reaching out directly to our team:\n\n📧 ${BUSINESS.email}\n📱 ${BUSINESS.phone}\n\nThey'll be able to help you right away! In the meantime, feel free to ask me about our products, shipping, the Home Pottery Kit, or classes. 🏺`,
+    `I appreciate the question! I'm best at answering about our pottery products ($45-$75), the Home Pottery Kit ($100 with free shipping), after-school programs ($235-$250), and shipping details. For anything else, our team at ${BUSINESS.email} can help! What else can I tell you about? 🏺`,
+    `Hmm, I want to give you an accurate answer rather than guess! 😊 Our team can help with that — reach out at ${BUSINESS.email} or ${BUSINESS.phone}. But I'm great with questions about our handmade pottery, kits, classes, shipping, or pricing. What would you like to know? 🏺`,
+  ];
+  return fallbacks[Math.floor(Math.random() * fallbacks.length)];
 }
