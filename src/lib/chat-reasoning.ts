@@ -504,11 +504,34 @@ export function reasonAboutQuestion(question: string): string {
     return `Here's what to expect! 🎨\n\n📦 Home Pottery Kit: Unbox, watch the video tutorial, shape and paint your pieces (1.5-2 hrs). Let air-dry 24-48 hrs. No special equipment or experience needed!\n\n🏫 After-School Program: Your child attends 1-hour sessions at school for 6-8 weeks. All materials provided — they just need to show up! Projects build in complexity over the session.\n\n💻 Virtual Clay Camp: Kit arrives before class. Join on Zoom, follow along with the instructor. Live Q&A and guidance throughout!`;
   }
 
+  // ECO / SUSTAINABILITY (before product match — "eco-friendly pottery" must not match a product)
+  if (topics.includes('eco')) {
+    return ORDERS.sustainability;
+  }
+
+  // PET SAFE (before general safety — "safe for pets" must not match general safety)
+  if (topics.includes('petsafe')) {
+    return `Yes! Our pottery is completely pet-safe. All glazes are non-toxic, lead-free, and food-safe. Our planters are perfect for pet-friendly homes. Just make sure the plant itself is pet-safe! 🐾`;
+  }
+
+  // BULK / WHOLESALE (before drainage — "do you do wholesale" must not match drainage)
+  if (topics.includes('bulk')) {
+    return ORDERS.bulk;
+  }
+
   // SPECIFIC PRODUCT (only if the match is strong — skip if general topics cover it)
   if (productMatch && !topics.includes('process') && !topics.includes('mess') && !topics.includes('whattoexpect')) {
     const p = productMatch;
     const specs = Object.entries(p.specs).filter(([k]) => k !== 'note').map(([k, v]) => `${k}: ${v}`).join(', ');
     return `${p.name} — ${formatPrice(p.price)} 🏺\n\n${p.description.slice(0, 300)}\n\nSpecs: ${specs}\n\n${p.details.slice(0, 4).join('. ')}.\n\nEvery piece is one of a kind — handmade, wheel-thrown stoneware with lead-free glazes. Free shipping! Browse all pottery at www.jimmypotters.com/shop`;
+  }
+
+  // CLASSES + PRICING (before general pricing — "how much are pottery classes" must show class price)
+  if (topics.includes('classes') && topics.includes('pricing')) {
+    let response = `Here's our class pricing! 🏫\n\n🏫 After-School Programs: ${PROGRAMS.afterSchool.price} per child (${PROGRAMS.afterSchool.duration}, ${PROGRAMS.afterSchool.grades})\n💻 Virtual Clay Camp: ${PROGRAMS.virtualCamp.price} (${PROGRAMS.virtualCamp.ages}, 4-week course)\n\nSchools we serve:\n`;
+    response += PROGRAMS.afterSchool.schools.map(s => `- ${s.name}: ${s.days}`).join('\n');
+    response += `\n\n${PROGRAMS.afterSchool.materials}. ${PROGRAMS.virtualCamp.sibling}`;
+    return response;
   }
 
   // PRICING (general)
@@ -593,6 +616,11 @@ export function reasonAboutQuestion(question: string): string {
   // SOCIAL
   if (topics.includes('social')) {
     return `Follow us! 📱\n\nInstagram: ${BUSINESS.instagram}\nFacebook: ${BUSINESS.facebook}\n\nWe post new pieces, class updates, and behind-the-scenes studio content!`;
+  }
+
+  // GIFT (before discounts — "do you offer gift wrapping?" must not match discount 'offer' pattern)
+  if (topics.includes('gift')) {
+    return `Our pottery and kits make beautiful gifts! 🎁\n\n📦 Home Pottery Kit (${KIT.price}): Comes in a branded gift-ready box — no wrapping needed!\n🏺 Handmade Pottery ($45-$75): Ships carefully packaged and gift-ready\n\nFree shipping on all orders. Perfect for birthdays, anniversaries, Valentine's Day, holidays, or housewarming!`;
   }
 
   // DISCOUNTS / NEWSLETTER
@@ -741,6 +769,11 @@ export function reasonAboutQuestion(question: string): string {
   // CORPORATE / TEAM BUILDING
   if (topics.includes('corporate')) {
     return `We offer team building pottery experiences! Options include:\n- Virtual Clay Camp sessions for remote teams ($155/person, kits shipped)\n- Home Pottery Kits in bulk for corporate gifts\n- Custom corporate events (contact us for pricing)\n\nEmail ${BUSINESS.email} to plan your team event! 🏢`;
+  }
+
+  // COLOR / GLAZE (before availability — "what colors are available?" must show colors, not availability)
+  if (topics.includes('color')) {
+    return `Our pottery features unique handmade glazes — no two pieces are exactly alike! 🎨\n\nCurrent colors include:\n- Teal & Deep Teal (hanging planters)\n- Mint-Blue Gradient\n- Dark Green (Studio Edition)\n- Navy Blue (table planters)\n- Orange Drip-Glaze (vases)\n- Celadon Crawl-Glaze\n- Amber (orchid pots)\n- Herringbone Pattern\n\nEvery glaze pattern is one of a kind. Browse the Shop or Gallery to see exact colors!`;
   }
 
   // AVAILABILITY / STOCK
