@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useLanguage } from '@/components/LanguageProvider';
 import KitChatWidget from '@/components/kit/ChatWidget';
 import KitCarousel from '@/components/kit/KitCarousel';
+import ClassGallery from '@/components/kit/ClassGallery';
 import faqData from '../../../data/kit-faq.json';
 
 export default function KitPageClient() {
@@ -76,6 +77,9 @@ export default function KitPageClient() {
           </div>
         </div>
       </section>
+
+      {/* Class Gallery — kids in action */}
+      <ClassGallery />
 
       {/* Content */}
       <div className="bg-[#3B2314]">
