@@ -52,7 +52,14 @@ export async function POST(req: NextRequest) {
 
     // Chain-of-thought reasoning engine — analyzes question topics,
     // matches against full knowledge base, generates intelligent response
-    const reply = reasonAboutQuestion(questionWithContext);
+    let reply = reasonAboutQuestion(questionWithContext);
+
+    // Count user messages in conversation — after 3+, offer human handoff
+    const userMessageCount = messages.filter((m: { role: string }) => m.role === 'user').length;
+    if (userMessageCount >= 3 && userMessageCount % 3 === 0) {
+      reply += '\n\n---\n💬 You\'ve got great questions! Want to chat with a real person? We\'d love to help personally:\n\n📧 jimmy@jimmypotters.com\n📱 (703) 862-1300\n💬 WhatsApp: tap the green button below\n\nWe typically respond within a few hours!';
+    }
+
     const interactionId = logInteraction(lastUserMessage, reply, clientSessionId);
 
     return NextResponse.json({ reply, interactionId });
