@@ -520,7 +520,7 @@ export function reasonAboutQuestion(question: string): string {
   }
 
   // SPECIFIC PRODUCT (only if the match is strong — skip if general topics cover it)
-  if (productMatch && !topics.includes('process') && !topics.includes('mess') && !topics.includes('whattoexpect')) {
+  if (productMatch && !topics.includes('process') && !topics.includes('mess') && !topics.includes('whattoexpect') && !topics.includes('classes')) {
     const p = productMatch;
     const specs = Object.entries(p.specs).filter(([k]) => k !== 'note').map(([k, v]) => `${k}: ${v}`).join(', ');
     return `${p.name} — ${formatPrice(p.price)} 🏺\n\n${p.description.slice(0, 300)}\n\nSpecs: ${specs}\n\n${p.details.slice(0, 4).join('. ')}.\n\nEvery piece is one of a kind — handmade, wheel-thrown stoneware with lead-free glazes. Free shipping! Browse all pottery at www.jimmypotters.com/shop`;
