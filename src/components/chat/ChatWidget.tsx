@@ -300,7 +300,7 @@ export default function ChatWidget() {
 
       {/* Chat Window — mobile-first: full width on small screens, fixed width on desktop */}
       {isOpen && (
-        <div className="fixed z-50 bg-white rounded-2xl shadow-2xl border border-brand-border overflow-hidden flex flex-col bottom-20 right-3 left-3 sm:left-auto sm:right-6 sm:bottom-24 sm:w-[360px]" style={{ height: 'min(500px, calc(100vh - 120px))', maxHeight: 'calc(100dvh - 120px)' }}>
+        <div className="fixed z-50 bg-white rounded-2xl shadow-2xl border border-brand-border overflow-hidden flex flex-col bottom-20 right-3 left-3 sm:left-auto sm:right-6 sm:bottom-24 sm:w-[400px]" style={{ height: 'min(600px, calc(100vh - 120px))', maxHeight: 'calc(100dvh - 120px)' }}>
           {/* Header */}
           <div className="bg-gradient-to-r from-brand-bg-primary to-brand-bg-secondary p-4 flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl">
@@ -328,7 +328,7 @@ export default function ChatWidget() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-3 bg-gray-50">
             {messages.map((msg, i) => (
               <div key={i}>
                 <div
