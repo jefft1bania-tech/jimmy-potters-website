@@ -139,6 +139,30 @@ const SAFETY = {
   firing: 'Kiln-fired to cone 6 (2,200°F) for lasting durability',
   use: 'Safe for plants, food display, and normal household use',
   drainage: 'Every planter has a drainage hole. Hanging planters include removable silicone plug. Table planters come with matching saucers.',
+  microwave: 'Our kiln-fired pottery is microwave safe for reheating. Avoid rapid temperature changes (e.g. freezer to microwave).',
+  dishwasher: 'Hand washing is recommended to preserve glaze color and finish. Dishwasher safe but hand wash extends the life of the glaze.',
+  outdoor: 'Our kiln-fired stoneware is durable for outdoor use. In freezing climates, bring pots inside during winter to prevent freeze-thaw cracking.',
+  cleaning: 'Wipe with a damp cloth or hand wash with mild soap. For stubborn stains on unglazed surfaces, a baking soda paste works well.',
+  allergy: 'All materials are non-toxic. Our glazes are lead-free and cadmium-free. Kit clay is non-toxic air-dry clay safe for ages 6+.',
+};
+
+const HANDMADE = {
+  uniqueness: 'Every piece is one-of-a-kind. Slight variations in size, color, glaze pattern, and shape are intentional features of handmade pottery — not defects. No two pieces are ever exactly alike.',
+  process: 'Each piece is wheel-thrown by hand on a potter\'s wheel, dried slowly, bisque-fired, hand-glazed, and kiln-fired to cone 6 (2,200°F). The whole process takes 2-3 weeks per piece.',
+  artist: 'Jimmy Potters is a Fort Lauderdale-based pottery studio. Every piece is handcrafted with care and attention to detail.',
+  photoAccuracy: 'Product photos show the actual piece you\'ll receive (each is unique). Colors may vary slightly due to screen settings, but what you see is very close to the real piece.',
+  leadTime: 'Most in-stock pieces ship within 1-2 business days. Custom or made-to-order pieces take 3-4 weeks.',
+};
+
+const ORDERS = {
+  tracking: 'Once your order ships, you\'ll receive a FedEx tracking number via email. You can track your package at fedex.com or in your Jimmy Potters account. Orders typically ship within 1-2 business days.',
+  cancel: 'To cancel or modify an order, contact us ASAP at jimmy@jimmypotters.com or (703) 862-1300. If the order hasn\'t shipped yet, we can make changes. Once shipped, we cannot cancel but you can return it.',
+  giftWrap: 'All pottery ships beautifully double-boxed with cushion wrap. The Home Pottery Kit comes in a branded gift-ready box — no wrapping needed! For a personal touch, include a gift note at checkout.',
+  giftCard: 'We don\'t currently offer digital gift cards, but you can purchase a Home Pottery Kit as a gift — it arrives in a beautiful branded box ready to give. Or email us for a custom gift arrangement!',
+  bulk: 'Interested in bulk or wholesale orders? Perfect for corporate gifts, event favors, or retail. Contact us at jimmy@jimmypotters.com with quantities and we\'ll put together a custom quote.',
+  international: 'We currently ship to all 50 US states only. International shipping is not yet available, but we\'re working on it! Sign up for our newsletter to be notified when we expand.',
+  reviews: 'Check out our Instagram @jimmypottersvirtualclayclass for customer photos and reviews! We also have feedback buttons in our chat for rating responses.',
+  sustainability: 'We\'re committed to sustainable practices. Our clay is natural and locally sourced. We use lead-free glazes, minimal packaging waste (recyclable boxes and paper cushioning), and kiln-fire in batches for energy efficiency.',
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -616,6 +640,109 @@ export function reasonAboutQuestion(question: string): string {
 
   if (topics.includes('payment')) {
     return `All payments are processed securely through Stripe. 💳 We accept all major credit and debit cards. Shipping address is collected at checkout. No sales tax is charged. Promo codes accepted: SIBLING15 for virtual classes, plus newsletter subscriber discounts. Guest checkout available — no account required! You can also create an account to track your orders.`;
+  }
+
+  // ORDER TRACKING / WHERE IS MY ORDER
+  if (topics.includes('tracking')) {
+    return `${ORDERS.tracking} If you have any issues, contact us at ${BUSINESS.email} or ${BUSINESS.phone} and we'll help track it down! 📦`;
+  }
+
+  // CANCEL / MODIFY ORDER
+  if (topics.includes('refund') && !topics.includes('kit')) {
+    return `${ORDERS.cancel}\n\nReturn policy: ${SAFETY.drainage ? 'If pottery arrives damaged, contact us with photos for a free replacement.' : ''} Unused/unopened kits can be returned within 14 days for a full refund.`;
+  }
+
+  // GIFT WRAPPING / GIFT OPTIONS
+  if (topics.includes('gift') && !topics.includes('kit')) {
+    return `${ORDERS.giftWrap}\n\nLooking for a gift idea? The Home Pottery Kit (${KIT.price}) comes in a beautiful branded box, ready to give. It's the perfect gift for couples, families, or creative friends! 🎁`;
+  }
+
+  // GIFT CARD
+  if (topics.includes('giftcard')) {
+    return ORDERS.giftCard;
+  }
+
+  // HANDMADE / WHY EACH PIECE IS UNIQUE
+  if (topics.includes('handmade') || topics.includes('process')) {
+    return `${HANDMADE.uniqueness}\n\n${HANDMADE.process}\n\n${HANDMADE.artist} 🏺`;
+  }
+
+  // PHOTO ACCURACY / WILL IT LOOK LIKE THE PICTURE
+  if (topics.includes('gallery') && topics.includes('products')) {
+    return `${HANDMADE.photoAccuracy} Check our Shop page and Gallery for photos of every available piece. Want to see a specific angle? Email us at ${BUSINESS.email}! 📸`;
+  }
+
+  // BULK / WHOLESALE
+  if (topics.includes('bulk')) {
+    return ORDERS.bulk;
+  }
+
+  // INTERNATIONAL SHIPPING
+  if (topics.includes('international')) {
+    return ORDERS.international;
+  }
+
+  // REVIEWS / TESTIMONIALS
+  if (topics.includes('reviews')) {
+    return ORDERS.reviews;
+  }
+
+  // MICROWAVE / DISHWASHER SAFE
+  if (q.match(/microwave/)) {
+    return `${SAFETY.microwave} ${SAFETY.dishwasher} All our glazes are food-safe and lead-free. 🏺`;
+  }
+  if (q.match(/dishwasher/)) {
+    return `${SAFETY.dishwasher} ${SAFETY.microwave} 🏺`;
+  }
+
+  // OUTDOOR USE
+  if (topics.includes('outdoor')) {
+    return `${SAFETY.outdoor} Our stoneware is fired to 2,200°F so it's very durable. For best results outdoors, use with drainage holes (all our planters have them). 🌿`;
+  }
+
+  // CARE / CLEANING
+  if (topics.includes('care')) {
+    return `${SAFETY.cleaning} ${SAFETY.dishwasher} For planters, wipe the exterior occasionally to keep the glaze looking fresh. 🏺`;
+  }
+
+  // ALLERGY / NON-TOXIC
+  if (topics.includes('allergy')) {
+    return `${SAFETY.allergy} Our kiln-fired stoneware uses only non-toxic, food-safe materials. Perfect for homes with kids and pets!`;
+  }
+
+  // ECO / SUSTAINABILITY
+  if (topics.includes('eco')) {
+    return ORDERS.sustainability;
+  }
+
+  // PET SAFE
+  if (topics.includes('petsafe')) {
+    return `Yes! Our pottery is completely pet-safe. All glazes are non-toxic, lead-free, and food-safe. Our planters are perfect for pet-friendly homes. Just make sure the plant itself is pet-safe! 🐾`;
+  }
+
+  // WEDDING / REGISTRY
+  if (topics.includes('wedding')) {
+    return `Handmade pottery makes a beautiful wedding gift or registry item! Each piece is one-of-a-kind — perfect for commemorating a special day. For bulk wedding favors or custom pieces, contact us at ${BUSINESS.email} to discuss options and pricing. 💍`;
+  }
+
+  // CORPORATE / TEAM BUILDING
+  if (topics.includes('corporate')) {
+    return `We offer team building pottery experiences! Options include:\n- Virtual Clay Camp sessions for remote teams ($155/person, kits shipped)\n- Home Pottery Kits in bulk for corporate gifts\n- Custom corporate events (contact us for pricing)\n\nEmail ${BUSINESS.email} to plan your team event! 🏢`;
+  }
+
+  // AVAILABILITY / STOCK
+  if (topics.includes('availability')) {
+    return `Each handmade piece is one-of-a-kind. When a piece sells, it's gone forever — we don't make duplicates. Check our Shop page for currently available pieces. New pieces are added regularly, so sign up for our newsletter to be notified! 🏺`;
+  }
+
+  // SUBSCRIPTION / MONTHLY BOX
+  if (topics.includes('subscription')) {
+    return `We don't currently offer a subscription box, but it's something we're exploring! Sign up for our newsletter to be the first to know if we launch one. In the meantime, our Home Pottery Kit makes a great recurring gift idea! 📦`;
+  }
+
+  // LEAD TIME / HOW LONG TO MAKE
+  if (q.match(/how long.*make|how long.*create|lead time|wait|when.*ready/)) {
+    return HANDMADE.leadTime;
   }
 
   // RETURNS
