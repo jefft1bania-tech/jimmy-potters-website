@@ -121,8 +121,12 @@ const SHIPPING = {
     'NY, CT, NC': { ground: '$13.99', twoDay: '$24.99', overnight: '$44.99' },
     'MA, RI, NH, SC, GA': { ground: '$14.99', twoDay: '$27.99', overnight: '$49.99' },
     'FL': { ground: '$16.99', twoDay: '$29.99', overnight: '$54.99' },
+    'CA, WA, OR': { ground: '$19.99', twoDay: '$34.99', overnight: '$59.99' },
+    'TX, IL, OH, MI': { ground: '$17.99', twoDay: '$31.99', overnight: '$54.99' },
+    'AZ, NV, CO, UT': { ground: '$18.99', twoDay: '$32.99', overnight: '$57.99' },
   },
-  coverage: 'Currently serving East Coast states (NY to FL). More states coming soon.',
+  coverage: 'Ships to all 50 US states! International shipping not yet available.',
+  salesTax: 'Jimmy Potters currently does NOT charge sales tax on online orders. Prices shown are the full amount you pay (plus shipping if not free).',
 };
 
 const PROMOTIONS = {
@@ -215,6 +219,8 @@ function identifyTopics(question: string): string[] {
   if (q.match(/other.*edition|new.*edition|seasonal|different.*kit|more.*kit|next.*kit/)) topics.push('seasonal');
   // Payment / checkout
   if (q.match(/pay|payment|credit card|debit|stripe|checkout|purchase|buy|order|cart/)) topics.push('payment');
+  // Sales tax
+  if (q.match(/tax|sales.?tax|charge.*tax|extra.*fee|additional.*cost|total.*cost/)) topics.push('tax');
   // Return policy
   if (q.match(/return|exchange|swap|wrong|broken.*ship|damaged.*ship/)) topics.push('returns');
   // Party / group / event
@@ -320,12 +326,15 @@ function findStateShipping(question: string): string | null {
     'new hampshire': 'MA, RI, NH, SC, GA', 'south carolina': 'MA, RI, NH, SC, GA',
     'georgia': 'MA, RI, NH, SC, GA',
     'florida': 'FL',
+    'california': 'CA, WA, OR', 'washington': 'CA, WA, OR', 'oregon': 'CA, WA, OR',
+    'texas': 'TX, IL, OH, MI', 'illinois': 'TX, IL, OH, MI', 'ohio': 'TX, IL, OH, MI', 'michigan': 'TX, IL, OH, MI',
+    'arizona': 'AZ, NV, CO, UT', 'nevada': 'AZ, NV, CO, UT', 'colorado': 'AZ, NV, CO, UT', 'utah': 'AZ, NV, CO, UT',
   };
 
   for (const [state, zone] of Object.entries(stateMap)) {
     if (q.includes(state)) {
       const rates = SHIPPING.zones[zone as keyof typeof SHIPPING.zones];
-      return `Shipping to ${zone}:\n- FedEx Ground (3-5 days): ${rates.ground}\n- FedEx 2Day: ${rates.twoDay}\n- FedEx Priority Overnight: ${rates.overnight}\n\nAll orders include tracking, insurance, and double-box cushion wrapping. The Home Pottery Kit ships FREE!`;
+      return `Shipping to ${zone}:\n- FedEx Ground (3-5 days): ${rates.ground}\n- FedEx 2Day: ${rates.twoDay}\n- FedEx Priority Overnight: ${rates.overnight}\n\nAll orders include tracking, insurance, and double-box cushion wrapping. The Home Pottery Kit ships FREE! We currently do NOT charge sales tax on online orders.`;
     }
   }
   return null;
@@ -600,8 +609,13 @@ export function reasonAboutQuestion(question: string): string {
   }
 
   // PAYMENT / CHECKOUT
+  if (topics.includes('tax')) {
+    const stateShippingInfo = findStateShipping(question);
+    return `Great question! Jimmy Potters currently does NOT charge sales tax on any online orders. 🎉 The price you see is exactly what you pay — no hidden fees or extra charges at checkout.${stateShippingInfo ? `\n\n${stateShippingInfo}` : ''} If you have the newsletter discount, that 10% comes off the listed price too!`;
+  }
+
   if (topics.includes('payment')) {
-    return `All payments are processed securely through Stripe. 💳 We accept all major credit and debit cards. Shipping address is collected at checkout. Promo codes accepted: SIBLING15 for virtual classes, plus newsletter subscriber discounts. Guest checkout available — no account required! You can also create an account to track your orders.`;
+    return `All payments are processed securely through Stripe. 💳 We accept all major credit and debit cards. Shipping address is collected at checkout. No sales tax is charged. Promo codes accepted: SIBLING15 for virtual classes, plus newsletter subscriber discounts. Guest checkout available — no account required! You can also create an account to track your orders.`;
   }
 
   // RETURNS
