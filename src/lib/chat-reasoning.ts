@@ -220,7 +220,7 @@ function identifyTopics(question: string): string[] {
   // Social
   if (q.match(/instagram|facebook|social|follow|insta|ig/)) topics.push('social');
   // Discounts
-  if (q.match(/discount|promo|coupon|code|save|deal|offer|sale|percent.*off/)) topics.push('discounts');
+  if (q.match(/discount|promo|coupon|code|save|deal|offer|percent.*off/) || (q.match(/sale/) && !q.match(/sales.?tax/))) topics.push('discounts');
   // Newsletter
   if (q.match(/newsletter|email.*list|subscribe|sign.*up/)) topics.push('newsletter');
   // Gift
