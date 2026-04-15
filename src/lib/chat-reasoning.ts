@@ -216,7 +216,7 @@ function identifyTopics(question: string): string[] {
   // Contact
   if (q.match(/contact|email|phone|reach|talk|call|message/)) topics.push('contact');
   // Location
-  if (q.match(/where|location|studio|store|visit|address|find you/)) topics.push('location');
+  if (q.match(/location|studio|store|visit|address|find you/) || (q.match(/where/) && !q.match(/where.*order|where.*package|where.*ship/))) topics.push('location');
   // Social
   if (q.match(/instagram|facebook|social|follow|insta|ig/)) topics.push('social');
   // Discounts
@@ -557,7 +557,15 @@ export function reasonAboutQuestion(question: string): string {
     return `It depends on the product:\n\n📦 Home Pottery Kit: Uses AIR-DRY clay — no kiln needed! Shape it, dry 24-48 hours at room temperature, then paint.\n🏺 Shop Pottery: These ARE kiln-fired to cone 6 (2,200°F) for permanent durability with lead-free glazes.\n\nThe kit is designed so anyone can create pottery at home without special equipment!`;
   }
 
-  // SAFETY
+  // MICROWAVE / DISHWASHER (before general safety)
+  if (q.match(/microwave/)) {
+    return `${SAFETY.microwave} ${SAFETY.dishwasher} All our glazes are food-safe and lead-free. 🏺`;
+  }
+  if (q.match(/dishwasher/)) {
+    return `${SAFETY.dishwasher} ${SAFETY.microwave} 🏺`;
+  }
+
+  // SAFETY (general)
   if (topics.includes('safety')) {
     return `Safety is important to us! 🏺\n\n- ${SAFETY.glazes}\n- ${SAFETY.firing}\n- ${SAFETY.use}\n- ${SAFETY.drainage}`;
   }
@@ -570,6 +578,11 @@ export function reasonAboutQuestion(question: string): string {
   // CONTACT
   if (topics.includes('contact')) {
     return `Reach us anytime! 📱\n\nEmail: ${BUSINESS.email}\nPhone: ${BUSINESS.phone}\nInstagram: ${BUSINESS.instagram}\nFacebook: ${BUSINESS.facebook}\nWebsite: ${BUSINESS.website}`;
+  }
+
+  // ORDER TRACKING / WHERE IS MY ORDER (must check before LOCATION)
+  if (topics.includes('tracking') || q.match(/where.*order|where.*package|order.*status|track.*order/)) {
+    return `${ORDERS.tracking} If you have any issues, contact us at ${BUSINESS.email} or ${BUSINESS.phone} and we'll help track it down! 📦`;
   }
 
   // LOCATION
