@@ -44,9 +44,22 @@ export default function KitPageClient() {
               <span className="inline-block font-body font-bold text-[10px] tracking-[0.3em] uppercase text-[#C9A96E] mb-4">
                 {t.kit.dateNightTitle}
               </span>
-              <h1 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white leading-[1.05] tracking-tight">
-                {t.kit.title}
-              </h1>
+              <div className="relative inline-block">
+                {/* Jok mascot — sits on top of "Pottery", stays sticky on scroll */}
+                <div className="absolute -top-[140px] left-[40%] w-[120px] h-[150px] z-10 pointer-events-none animate-[wave_3s_ease-in-out_infinite]">
+                  <iframe
+                    src="/jok-viewer.html"
+                    width="120"
+                    height="150"
+                    style={{ border: 'none', background: 'transparent', pointerEvents: 'none' }}
+                    title="Jok 3D mascot"
+                    loading="lazy"
+                  />
+                </div>
+                <h1 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white leading-[1.05] tracking-tight">
+                  {t.kit.title}
+                </h1>
+              </div>
               <p className="text-white/70 font-body mt-4 text-lg max-w-xl mx-auto lg:mx-0">
                 {t.kit.subtitle}
               </p>
