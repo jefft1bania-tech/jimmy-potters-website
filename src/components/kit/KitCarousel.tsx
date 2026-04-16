@@ -49,6 +49,7 @@ export default function KitCarousel() {
           fill
           className="object-contain transition-opacity duration-500"
           sizes="(max-width: 768px) 100vw, 640px"
+          quality={85}
           priority={current === 0}
         />
 

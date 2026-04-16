@@ -14,10 +14,14 @@ export default function KitPageClient() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const kitItems = [
-    { icon: '🎨', text: t.kit.item1 },
-    { icon: '🏺', text: t.kit.item2 },
+    { icon: '🧱', text: t.kit.item1 },
+    { icon: '🎨', text: t.kit.item2 },
     { icon: '🔧', text: t.kit.item3 },
-    { icon: '🌀', text: t.kit.item4 },
+    { icon: '🖌️', text: t.kit.item4 },
+    { icon: '✨', text: t.kit.item5 },
+    { icon: '🏺', text: t.kit.item6 },
+    { icon: '🎁', text: t.kit.item7 },
+    { icon: '🎬', text: t.kit.item8 },
   ];
 
   const steps = [
@@ -215,6 +219,7 @@ export default function KitPageClient() {
                   fill
                   className="object-contain object-center rounded-lg"
                   sizes="(max-width: 768px) 100vw, 896px"
+                  quality={85}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
               </div>
