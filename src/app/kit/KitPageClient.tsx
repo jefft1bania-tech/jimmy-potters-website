@@ -50,11 +50,11 @@ export default function KitPageClient() {
               </span>
               <div className="relative inline-block">
                 {/* Jok mascot — sits on top of "Pottery", stays sticky on scroll */}
-                <div className="absolute -top-[140px] left-[40%] w-[120px] h-[150px] z-10 pointer-events-none animate-[wave_3s_ease-in-out_infinite]">
+                <div className="absolute -top-[80px] left-[50%] -translate-x-1/2 w-[100px] h-[100px] z-10 pointer-events-none animate-[wave_3s_ease-in-out_infinite]">
                   <iframe
                     src="/jok-viewer.html"
-                    width="120"
-                    height="150"
+                    width="100"
+                    height="100"
                     style={{ border: 'none', background: 'transparent', pointerEvents: 'none' }}
                     title="Jok 3D mascot"
                     loading="lazy"
