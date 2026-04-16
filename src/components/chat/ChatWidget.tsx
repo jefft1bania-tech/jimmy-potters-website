@@ -114,9 +114,8 @@ export default function ChatWidget() {
       setTypingIndex(-1);
       return;
     }
-    // Reveal 1-2 chars at a time for readable typing speed
-    const charsPerTick = full[typingIndex] === '\n' ? 1 : 1;
-    const nextIndex = Math.min(typingIndex + charsPerTick, full.length);
+    // Reveal 1 char at a time for readable typing speed
+    const nextIndex = Math.min(typingIndex + 1, full.length);
     const timer = setTimeout(() => {
       setTypingText(full.slice(0, nextIndex));
       setTypingIndex(nextIndex);

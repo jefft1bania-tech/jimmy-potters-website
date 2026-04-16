@@ -56,7 +56,7 @@ const KIT = {
   clayTip: 'Keep any leftover clay wrapped up airtight so it stays fresh for your next project.',
   contents: [
     '2KG of Jimmy Potters branded air-dry clay (makes 3-4 small pieces or 1-2 larger ones)',
-    'A paint set of your choice — choose from pastel, floral, earth, or classic tones (6+ paint tubes)',
+    'Paint set of your choice — choose from pastel, floral, earth, or classic (8 tubes)',
     'Pottery carving, shaping, and cutting tools in a branded Jimmy Potters canvas drawstring bag',
     '2 ultra fine bristle paintbrushes — #10 Contoured Brush + #6 Detail Brush',
     'Waterproof varnish (70ml/2.4oz) — glossy or matte finish to seal your piece',
@@ -436,7 +436,7 @@ export function reasonAboutQuestion(question: string): string {
 
   // KIT + COLOR (paint options)
   if (topics.includes('kit') && topics.includes('color')) {
-    return `The kit comes with a paint set of your choice! 🎨 Pick from:\n\n- Pastel Tones\n- Floral Tones\n- Earth Tones\n- Classic Tones\n\nEach set includes 6+ paint tubes. ${KIT.paintTip}\n\nPlus you get waterproof varnish (glossy or matte) to seal your finished piece. ${KIT.varnishTip} 🏺`;
+    return `The kit comes with a paint set of your choice! 🎨 Pick from:\n\n- Pastel Tones\n- Floral Tones\n- Earth Tones\n- Classic Tones\n\nEach set includes 8 paint tubes. ${KIT.paintTip}\n\nPlus you get waterproof varnish (glossy or matte) to seal your finished piece. ${KIT.varnishTip} 🏺`;
   }
 
   // KIT + KILN
@@ -629,11 +629,6 @@ export function reasonAboutQuestion(question: string): string {
     return `Two great ways to save! 💰\n\n📧 Newsletter: ${PROMOTIONS.newsletter} — sign up at the top of any page\n👨‍👩‍👧‍👦 Sibling: ${PROMOTIONS.sibling}`;
   }
 
-  // GIFT
-  if (topics.includes('gift')) {
-    return `Our pottery and kits make beautiful gifts! 🎁\n\n📦 Home Pottery Kit (${KIT.price}): Comes in a branded gift-ready box — no wrapping needed!\n🏺 Handmade Pottery ($45-$75): Ships carefully packaged and gift-ready\n\nFree shipping on all orders. Perfect for birthdays, anniversaries, Valentine's Day, holidays, or housewarming!`;
-  }
-
   // CUSTOM
   if (topics.includes('custom')) {
     return `We'd love to discuss custom work! 🏺 Reach out to ${BUSINESS.email} or call ${BUSINESS.phone} to discuss your ideas. Every piece is handmade and unique — we can create something special just for you.`;
@@ -684,21 +679,6 @@ export function reasonAboutQuestion(question: string): string {
     return `All payments are processed securely through Stripe. 💳 We accept all major credit and debit cards. Shipping address is collected at checkout. No sales tax is charged. Promo codes accepted: SIBLING15 for virtual classes, plus newsletter subscriber discounts. Guest checkout available — no account required! You can also create an account to track your orders.`;
   }
 
-  // ORDER TRACKING / WHERE IS MY ORDER
-  if (topics.includes('tracking')) {
-    return `${ORDERS.tracking} If you have any issues, contact us at ${BUSINESS.email} or ${BUSINESS.phone} and we'll help track it down! 📦`;
-  }
-
-  // CANCEL / MODIFY ORDER
-  if (topics.includes('refund') && !topics.includes('kit')) {
-    return `${ORDERS.cancel}\n\nReturn policy: ${SAFETY.drainage ? 'If pottery arrives damaged, contact us with photos for a free replacement.' : ''} Unused/unopened kits can be returned within 14 days for a full refund.`;
-  }
-
-  // GIFT WRAPPING / GIFT OPTIONS
-  if (topics.includes('gift') && !topics.includes('kit')) {
-    return `${ORDERS.giftWrap}\n\nLooking for a gift idea? The Home Pottery Kit (${KIT.price}) comes in a beautiful branded box, ready to give. It's the perfect gift for couples, families, or creative friends! 🎁`;
-  }
-
   // GIFT CARD
   if (topics.includes('giftcard')) {
     return ORDERS.giftCard;
@@ -707,34 +687,6 @@ export function reasonAboutQuestion(question: string): string {
   // HANDMADE / WHY EACH PIECE IS UNIQUE
   if (topics.includes('handmade') || topics.includes('process')) {
     return `${HANDMADE.uniqueness}\n\n${HANDMADE.process}\n\n${HANDMADE.artist} 🏺`;
-  }
-
-  // PHOTO ACCURACY / WILL IT LOOK LIKE THE PICTURE
-  if (topics.includes('gallery') && topics.includes('products')) {
-    return `${HANDMADE.photoAccuracy} Check our Shop page and Gallery for photos of every available piece. Want to see a specific angle? Email us at ${BUSINESS.email}! 📸`;
-  }
-
-  // BULK / WHOLESALE
-  if (topics.includes('bulk')) {
-    return ORDERS.bulk;
-  }
-
-  // INTERNATIONAL SHIPPING
-  if (topics.includes('international')) {
-    return ORDERS.international;
-  }
-
-  // REVIEWS / TESTIMONIALS
-  if (topics.includes('reviews')) {
-    return ORDERS.reviews;
-  }
-
-  // MICROWAVE / DISHWASHER SAFE
-  if (q.match(/microwave/)) {
-    return `${SAFETY.microwave} ${SAFETY.dishwasher} All our glazes are food-safe and lead-free. 🏺`;
-  }
-  if (q.match(/dishwasher/)) {
-    return `${SAFETY.dishwasher} ${SAFETY.microwave} 🏺`;
   }
 
   // OUTDOOR USE
@@ -750,16 +702,6 @@ export function reasonAboutQuestion(question: string): string {
   // ALLERGY / NON-TOXIC
   if (topics.includes('allergy')) {
     return `${SAFETY.allergy} Our kiln-fired stoneware uses only non-toxic, food-safe materials. Perfect for homes with kids and pets!`;
-  }
-
-  // ECO / SUSTAINABILITY
-  if (topics.includes('eco')) {
-    return ORDERS.sustainability;
-  }
-
-  // PET SAFE
-  if (topics.includes('petsafe')) {
-    return `Yes! Our pottery is completely pet-safe. All glazes are non-toxic, lead-free, and food-safe. Our planters are perfect for pet-friendly homes. Just make sure the plant itself is pet-safe! 🐾`;
   }
 
   // WEDDING / REGISTRY
@@ -812,34 +754,9 @@ export function reasonAboutQuestion(question: string): string {
     return `Our pottery comes in various sizes:\n\n🪴 Hanging Planters: 6" bowl, 12" metal ring frame\n🏺 Vases: 7-8" tall\n🌿 Table Planters: Various sizes, all come with matching saucers\n🌸 Orchid Pots: Compact sizes with saucers\n\nExact dimensions are listed on each product page. Since every piece is handmade, measurements may vary slightly. 🏺`;
   }
 
-  // COLOR / GLAZE
-  if (topics.includes('color')) {
-    return `Our pottery features unique handmade glazes — no two pieces are exactly alike! 🎨\n\nCurrent colors include:\n- Teal & Deep Teal (hanging planters)\n- Mint-Blue Gradient\n- Dark Green (Studio Edition)\n- Navy Blue (table planters)\n- Orange Drip-Glaze (vases)\n- Celadon Crawl-Glaze\n- Amber (orchid pots)\n- Herringbone Pattern\n\nEvery glaze pattern is one of a kind. Browse the Shop or Gallery to see exact colors!`;
-  }
-
-  // ALLERGY / SENSITIVITY
-  if (topics.includes('allergy')) {
-    return `Safety first! All our glazes are lead-free, non-toxic, and food-safe. The Home Pottery Kit uses standard air-dry clay which is non-toxic and safe for children ages 6+. The included paints are also non-toxic. If your child has specific clay sensitivities, we recommend testing a small piece on the hand first. Contact us at ${BUSINESS.email} for specific ingredient questions. 🏺`;
-  }
-
-  // OUTDOOR USE
-  if (topics.includes('outdoor')) {
-    return `Our kiln-fired pottery is durable for outdoor use! 🌿 However, for best longevity:\n\n- Bring pieces inside during freezing temperatures (clay can crack if water freezes inside)\n- Glazed surfaces handle rain and sun well\n- Drainage holes prevent water buildup\n- The silicone plug on hanging planters can be used for indoor display without dripping\n\nFor the Home Pottery Kit: air-dry clay is best for indoor display, as it's not waterproof like kiln-fired pieces.`;
-  }
-
   // INDOOR USE
   if (topics.includes('indoor')) {
     return `All our pottery is perfect for indoor use! 🏠 Planters work beautifully on windowsills, shelves, and tables. Table planters come with matching saucers to protect surfaces. Hanging planters include a silicone plug for drip-free indoor display. The Home Pottery Kit creates pieces designed specifically for indoor display and decoration.`;
-  }
-
-  // CARE / MAINTENANCE
-  if (topics.includes('care')) {
-    return `Pottery care is easy! 🏺\n\n🪴 Kiln-Fired Pottery (shop pieces):\n- Wipe with a damp cloth to clean\n- Safe for gentle hand washing\n- Avoid extreme temperature changes\n- Drainage holes keep plants healthy\n\n📦 Air-Dry Kit Pieces:\n- Dust gently with a soft cloth\n- Keep away from water once painted\n- Display indoors for best results\n- Handle with care — they're decorative pieces, not cookware`;
-  }
-
-  // HANDMADE / UNIQUE
-  if (topics.includes('handmade')) {
-    return `Every single piece is 100% handmade by Jimmy in our Fort Lauderdale studio! 🏺\n\nThe process: raw clay → shaped on the pottery wheel → dried → kiln-fired to 2,200°F → hand-glazed with original formulas → fired again. Each glaze pattern is completely unique — the way heat and chemistry interact creates unrepeatable colors and textures. When a piece sells, it will NEVER be remade. That's what makes each one a true collector's item.`;
   }
 
   // COMPARISON
@@ -847,54 +764,14 @@ export function reasonAboutQuestion(question: string): string {
     return `What makes Jimmy Potters unique:\n\n✅ Every piece is genuinely one-of-a-kind (not mass-produced)\n✅ Wheel-thrown by hand, not molded\n✅ Original glaze formulas you won't find anywhere else\n✅ Kiln-fired to 2,200°F for lasting durability\n✅ Free shipping on every order\n✅ Home Pottery Kit at $100 (competitors charge $60-150)\n✅ After-school programs bring pottery directly to your child's school\n\nWe're not just selling pottery — we're creating experiences and one-of-a-kind art. 🏺`;
   }
 
-  // BULK / WHOLESALE
-  if (topics.includes('bulk')) {
-    return `For bulk orders, wholesale inquiries, or large group purchases, please contact us directly at ${BUSINESS.email} or ${BUSINESS.phone}. We can discuss volume pricing for kits, special event packages, and corporate orders. We'd love to work with you! 🏺`;
-  }
-
   // EDUCATOR
   if (topics.includes('educator')) {
     return `We love working with educators! 🎨\n\n🏫 After-School Programs: We bring pottery directly to your school (K-5th grade)\n💻 Virtual Clay Camp: Great for homeschool groups (ages 7-14, $155)\n📦 Home Pottery Kits: Perfect for classroom projects ($100 each)\n\nOur programs develop fine motor skills, creativity, patience, and self-expression. Contact ${BUSINESS.email} to discuss bringing pottery to your school or educational setting!`;
   }
 
-  // AVAILABILITY
-  if (topics.includes('availability')) {
-    return `Since every pottery piece is handmade and one-of-a-kind, once it sells it's gone forever! 🏺 We add new pieces regularly — follow us on Instagram (${BUSINESS.instagram}) or sign up for our newsletter to be the first to know when new work drops.\n\nThe Home Pottery Kit ($100) is always available and ships within 1-2 business days!\n\nAfter-school program spots fill up fast — check the website for current availability. Poplar Tree ES is currently SOLD OUT.`;
-  }
-
-  // INTERNATIONAL
-  if (topics.includes('international')) {
-    return `Currently we ship within the continental United States only (East Coast states: NY to FL). 📦 We're working on expanding our shipping coverage — sign up for our newsletter to be notified when we add more states and international shipping. For special international requests, contact ${BUSINESS.email} and we'll see what we can do!`;
-  }
-
-  // SUBSCRIPTION
-  if (topics.includes('subscription')) {
-    return `We don't currently offer a subscription box, but it's something we're considering! 📦 In the meantime, sign up for our newsletter to get notified about new pottery drops, seasonal kit editions, and special promotions. New pieces are added regularly — each one completely unique! 🏺`;
-  }
-
-  // REVIEWS
-  if (topics.includes('reviews')) {
-    return `Our customers love their Jimmy Potters pieces! Check out our Instagram (${BUSINESS.instagram}) and Facebook (${BUSINESS.facebook}) for customer photos, reviews, and testimonials. Parents especially love our after-school programs — kids come home excited about what they created! The gallery page shows our work in real homes. 🏺`;
-  }
-
   // PRIVATE CLASS
   if (topics.includes('private')) {
     return `Interested in a private pottery experience? Contact us at ${BUSINESS.email} or ${BUSINESS.phone} to discuss private lessons, small group sessions, or custom event bookings. We can tailor the experience to your needs! 🎨`;
-  }
-
-  // TRACKING
-  if (topics.includes('tracking')) {
-    return `Every order includes full FedEx tracking and insurance! 📦 You'll receive a tracking number via email once your order ships. If you have concerns about a package, contact us at ${BUSINESS.email} with your order details and we'll help track it down. All pottery is double-boxed with cushion wrap for safe delivery.`;
-  }
-
-  // ECO / SUSTAINABILITY
-  if (topics.includes('eco')) {
-    return `We care about sustainability! 🌍\n\n- Our clay is a natural, earth-derived material\n- Lead-free, non-toxic glazes safe for the environment\n- Each piece is made to last a lifetime (not disposable)\n- We use protective but minimal packaging\n- The Home Pottery Kit's air-dry clay is water-based and non-toxic\n\nBy buying handmade, you're supporting sustainable small-batch creation over mass manufacturing.`;
-  }
-
-  // GIFT CARD
-  if (topics.includes('giftcard')) {
-    return `We don't currently offer gift cards, but our pottery and kits make wonderful gifts! 🎁 The Home Pottery Kit ($100) comes in a beautiful branded box — no wrapping needed. For a custom gift recommendation, contact us at ${BUSINESS.email} and we'll help you pick the perfect piece!`;
   }
 
   // ACCESSIBILITY
@@ -910,21 +787,6 @@ export function reasonAboutQuestion(question: string): string {
   // DISPLAY / DECOR
   if (topics.includes('display')) {
     return `Our pottery makes stunning home decor! 🏠\n\n🪴 Hanging Planters: Beautiful on porches, patios, or near windows\n🏺 Vases: Perfect for mantles, dining tables, or bookshelves\n🌿 Table Planters: Great on desks, windowsills, or coffee tables\n📦 Kit Pieces: Display your handmade creations anywhere!\n\nCheck our Gallery page for inspiration — we show pieces styled in real homes. Every piece adds unique character to any space.`;
-  }
-
-  // PET SAFE
-  if (topics.includes('petsafe')) {
-    return `Our kiln-fired pottery uses lead-free, non-toxic glazes and is safe around pets! 🐾 However, we recommend placing pottery where curious pets can't knock it over — ceramic can break if dropped. The planters have drainage holes, so avoid toxic plants if you have plant-nibbling pets. The Home Pottery Kit clay and paints are also non-toxic.`;
-  }
-
-  // WEDDING / REGISTRY
-  if (topics.includes('wedding')) {
-    return `Pottery makes a beautiful wedding or engagement gift! 💒\n\n🏺 One-of-a-kind handmade pieces are meaningful, unique gifts\n📦 The Date Night Edition Kit ($100) is perfect for engaged couples\n🎁 Everything ships gift-ready with free shipping\n\nFor custom wedding favors or large orders, contact us at ${BUSINESS.email}. We'd love to be part of your celebration!`;
-  }
-
-  // CORPORATE / TEAM BUILDING
-  if (topics.includes('corporate')) {
-    return `Pottery is an amazing team building activity! 🏢\n\n📦 Home Pottery Kits ($100 each): Ship directly to team members for virtual team building\n🏫 On-Site Events: We bring pottery to your location\n🎨 Creative Workshops: Customizable for your team's needs\n\nContact ${BUSINESS.email} or ${BUSINESS.phone} to discuss corporate packages, volume pricing, and custom experiences. It's a memorable alternative to the usual team outing!`;
   }
 
   // ── Step 5: If no topic matched, give a helpful & honest response ──

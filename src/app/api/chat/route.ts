@@ -4,6 +4,7 @@ import {
   logInteraction,
   rateInteraction,
   exportLearnings,
+  getLearnedContext,
 } from '@/lib/chat-learning-store';
 
 export const dynamic = 'force-dynamic';
@@ -22,9 +23,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing interactionId or rating' }, { status: 400 });
     }
 
-    // Handle learning export (for admin/debugging)
+    // Handle learning export (for admin/debugging) — requires API key or localhost
     if (body.action === 'export-learnings') {
-      return NextResponse.json(exportLearnings());
+      const adminKey = process.env.CHAT_ADMIN_KEY;
+      const apiKey = req.headers.get('x-api-key');
+      const forwardedFor = req.headers.get('x-forwarded-for') || '';
+      const isLocalhost = forwardedFor === '' || forwardedFor === '127.0.0.1' || forwardedFor === '::1';
+
+      if (adminKey && apiKey === adminKey) {
+        return NextResponse.json(exportLearnings());
+      }
+      if (!adminKey && isLocalhost) {
+        return NextResponse.json(exportLearnings());
+      }
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { messages, sessionId } = body;
@@ -50,9 +62,15 @@ export async function POST(req: NextRequest) {
         `[Previous conversation]\n${contextLines.join('\n')}\n[Current question]\n${lastUserMessage}`;
     }
 
+    // Inject learned context from past successful interactions
+    const learnedContext = getLearnedContext(lastUserMessage);
+    const enrichedQuestion = learnedContext
+      ? questionWithContext + learnedContext
+      : questionWithContext;
+
     // Chain-of-thought reasoning engine — analyzes question topics,
     // matches against full knowledge base, generates intelligent response
-    let reply = reasonAboutQuestion(questionWithContext);
+    let reply = reasonAboutQuestion(enrichedQuestion);
 
     // Count user messages in conversation — after 3+, offer human handoff
     const userMessageCount = messages.filter((m: { role: string }) => m.role === 'user').length;

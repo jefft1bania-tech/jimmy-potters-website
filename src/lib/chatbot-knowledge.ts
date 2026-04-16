@@ -59,7 +59,7 @@ ALL POTTERY DETAILS:
 SHIPPING — VIA FEDEX:
 - All pottery ships via FedEx from Fort Lauderdale, Florida
 - Double-boxed with cushion wrap for safe delivery. Tracking and insurance included.
-- Currently serving East Coast states (NY to FL). More states coming soon.
+- Ships to all 50 US states! International shipping not yet available.
 - THREE SHIPPING TIERS:
   1. FedEx Ground (3-5 business days): $9.99-$16.99 depending on state
   2. FedEx 2Day (2 business days): $18.99-$29.99 depending on state
@@ -70,7 +70,7 @@ SHIPPING — VIA FEDEX:
   NY, CT, NC: Ground $13.99 | 2Day $24.99 | Overnight $44.99
   MA, RI, NH, SC, GA: Ground $14.99 | 2Day $27.99 | Overnight $49.99
   FL: Ground $16.99 | 2Day $29.99 | Overnight $54.99
-- States NOT yet covered: Everything west of the East Coast. Coming soon.`;
+- West Coast & Central US states: rates vary, see checkout for exact pricing.`;
 }
 
 function buildKitKnowledge(): string {
@@ -84,12 +84,14 @@ function buildKitKnowledge(): string {
 - Perfect for: Date nights, family time, creative gifts, kids activities (ages 6+), team building
 - No experience needed — guided video tutorials included
 - WHAT'S INSIDE THE KIT:
-  1. 3 custom Jimmy Potters paint tubes (branded colors)
-  2. Pre-formed clay shapes (rainbow arch, wavy tray, hearts, geometric tiles & more)
-  3. Professional sculpting tools
-  4. Textured stamp mat for unique designs
-  5. Branded box packaging (gift-ready — no wrapping needed)
-  6. Access to exclusive step-by-step video tutorials
+  1. 2KG Jimmy Potters branded air-dry clay
+  2. Paint set of choice (pastel, floral, earth, or classic — 8 tubes)
+  3. Pottery carving/shaping/cutting tools in branded canvas bag
+  4. 2 ultra fine bristle paintbrushes (Contoured + Detail)
+  5. Waterproof varnish (70ml) — gloss or matte
+  6. Pre-formed clay shapes
+  7. Branded gift-ready box
+  8. Access to exclusive step-by-step video tutorials
 - HOW IT WORKS:
   Step 1: Order your kit — ships with free FedEx (3-5 business days)
   Step 2: Watch the guided video tutorial (on any device — phone, tablet, laptop, TV)
@@ -185,7 +187,7 @@ export function getProductByQuestion(question: string): string | null {
 
   // Check kit-related questions first
   if (lower.match(/kit|date night|home pottery|clay kit/)) {
-    return `Home Pottery Kit — Date Night Edition: $100.00. A complete pottery experience for two — includes 3 custom paint tubes, pre-formed clay shapes (rainbow, tray, hearts, tiles), sculpting tools, textured stamp mat, branded box, and exclusive video tutorial access. Air-dry clay — no kiln needed. Perfect for couples, families, and kids ages 6+. Free shipping. Available at www.jimmypotters.com/kit`;
+    return `Home Pottery Kit — Date Night Edition: $100.00. A complete pottery experience for two — includes 2KG branded air-dry clay, paint set of choice (pastel, floral, earth, or classic — 8 tubes), carving/shaping/cutting tools in branded canvas bag, 2 ultra fine bristle paintbrushes, waterproof varnish (70ml), pre-formed clay shapes, branded gift-ready box, and exclusive video tutorial access. No kiln needed. Perfect for couples, families, and kids ages 6+. Free shipping. Available at www.jimmypotters.com/kit`;
   }
 
   for (const p of products) {
