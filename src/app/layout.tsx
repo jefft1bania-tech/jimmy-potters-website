@@ -13,7 +13,7 @@ import { LanguageProvider } from '@/components/LanguageProvider';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Jimmy Potters | Handmade Pottery from Fort Lauderdale',
+    default: 'Jimmy Potters Website Improvement | Handmade Pottery from Fort Lauderdale',
     template: '%s | Jimmy Potters',
   },
   description:

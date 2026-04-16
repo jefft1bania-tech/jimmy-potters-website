@@ -90,8 +90,8 @@ export default function Navbar() {
                   className={`relative px-3 py-1.5 rounded-lg font-body text-sm md:text-base font-semibold transition-all duration-200 ${
                     isDarkNav
                       ? isActive
-                        ? 'text-white bg-black/20 border border-black/20'
-                        : 'text-white hover:text-white hover:bg-black/10'
+                        ? 'text-black bg-black/10 border border-black/20'
+                        : 'text-black hover:text-black hover:bg-black/10'
                       : isActive
                         ? 'text-black bg-stone-200/50 border border-stone-300'
                         : 'text-black hover:text-black hover:bg-stone-100/50'
@@ -122,10 +122,10 @@ export default function Navbar() {
                 className={`px-2 py-1 font-body font-semibold text-xs transition-all duration-200 ${
                   lang === 'en'
                     ? isDarkNav
-                      ? 'bg-black/25 text-white'
+                      ? 'bg-black/15 text-black'
                       : 'bg-stone-200 text-black'
                     : isDarkNav
-                      ? 'text-white/70 hover:text-white hover:bg-black/10'
+                      ? 'text-black/70 hover:text-black hover:bg-black/10'
                       : 'text-black hover:text-black hover:bg-stone-50'
                 }`}
                 aria-label="Switch to English"
@@ -138,10 +138,10 @@ export default function Navbar() {
                 className={`px-2 py-1 font-body font-semibold text-xs transition-all duration-200 ${
                   lang === 'es'
                     ? isDarkNav
-                      ? 'bg-black/25 text-white'
+                      ? 'bg-black/15 text-black'
                       : 'bg-stone-200 text-black'
                     : isDarkNav
-                      ? 'text-white/70 hover:text-white hover:bg-black/10'
+                      ? 'text-black/70 hover:text-black hover:bg-black/10'
                       : 'text-black hover:text-black hover:bg-stone-50'
                 }`}
                 aria-label="Cambiar a Español"
@@ -154,7 +154,7 @@ export default function Navbar() {
             {member ? (
               <Link
                 href="/account"
-                className={`flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${isDarkNav ? 'text-white hover:bg-black/10' : 'text-black hover:text-black hover:bg-stone-100/50'}`}
+                className={`flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${isDarkNav ? 'text-black hover:bg-black/10' : 'text-black hover:text-black hover:bg-stone-100/50'}`}
                 aria-label={`Account — ${member.name}`}
               >
                 <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#C9A96E] to-[#B8923E] flex items-center justify-center text-[9px] font-heading font-black text-white">
@@ -165,7 +165,7 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={() => setShowAuthModal(true)}
-                className={`flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${isDarkNav ? 'text-white hover:bg-black/10' : 'text-black hover:text-black hover:bg-stone-100/50'}`}
+                className={`flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${isDarkNav ? 'text-black hover:bg-black/10' : 'text-black hover:text-black hover:bg-stone-100/50'}`}
                 aria-label={t.nav.signIn}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5" aria-hidden="true">
@@ -178,7 +178,7 @@ export default function Navbar() {
             {/* Cart — shopping cart icon */}
             <Link
               href="/cart"
-              className={`relative flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${isDarkNav ? 'text-white hover:bg-black/10' : 'text-black hover:text-black hover:bg-stone-100/50'}`}
+              className={`relative flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${isDarkNav ? 'text-black hover:bg-black/10' : 'text-black hover:text-black hover:bg-stone-100/50'}`}
               aria-label={itemCount > 0 ? t.nav.cartItems(itemCount) : t.nav.cartEmpty}
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5" aria-hidden="true">
@@ -194,7 +194,7 @@ export default function Navbar() {
 
             {/* Mobile hamburger */}
             <button
-              className={`lg:hidden p-2 rounded-lg transition-colors ${isDarkNav ? 'text-white/70 hover:text-white hover:bg-white/5' : 'text-black hover:text-black hover:bg-stone-100/50'}`}
+              className={`lg:hidden p-2 rounded-lg transition-colors ${isDarkNav ? 'text-black/70 hover:text-black hover:bg-black/5' : 'text-black hover:text-black hover:bg-stone-100/50'}`}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
@@ -225,7 +225,7 @@ export default function Navbar() {
                     aria-current={isActive ? 'page' : undefined}
                     className={`font-body font-medium px-3 py-2.5 rounded-lg transition-colors ${
                       isDarkNav
-                        ? isActive ? 'text-white bg-white/10' : 'text-white/60 hover:text-white hover:bg-white/5'
+                        ? isActive ? 'text-black bg-black/10' : 'text-black/70 hover:text-black hover:bg-black/5'
                         : isActive ? 'text-black bg-stone-200/50' : 'text-black hover:text-black hover:bg-stone-100/50'
                     }`}
                   >

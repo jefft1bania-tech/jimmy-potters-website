@@ -195,12 +195,12 @@ export default function KitPageClient() {
             {/* Price & CTA */}
             <section className="bg-white rounded-2xl shadow-sm overflow-hidden border border-stone-100">
               {/* Kit image strip */}
-              <div className="relative h-72 md:h-96 rounded-xl overflow-hidden">
+              <div className="relative h-72 md:h-96 rounded-xl overflow-hidden bg-[#c8bfe0]">
                 <Image
-                  src="/kit-date-night.jpeg"
+                  src="/kit-7.jpeg"
                   alt="Jimmy Potters Home Pottery Kit contents"
                   fill
-                  className="object-cover object-center rounded-lg"
+                  className="object-contain object-center rounded-lg"
                   sizes="(max-width: 768px) 100vw, 896px"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />

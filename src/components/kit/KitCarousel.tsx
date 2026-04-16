@@ -4,14 +4,13 @@ import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
 
 const kitImages = [
-  { src: '/kit-1.jpeg', alt: 'Home Pottery Kit — Date Night Edition full contents with branded box, paint tubes, clay shapes, and tools' },
+  { src: '/kit-1.jpeg', alt: 'What\'s In My Kit? — Jimmy Potters Pottery Kit for Two branded blue box with pastel paints' },
   { src: '/kit-2.jpeg', alt: '2KG of Jimmy Potters branded air-dry clay — enough for 3-4 small pieces or 1-2 larger ones' },
-  { src: '/kit-3.jpeg', alt: 'The Pottery Kit for Two — branded blue box with pastel paints' },
-  { src: '/kit-5.jpeg', alt: 'Pottery carving, shaping, and cutting tools in branded canvas drawstring bag' },
-  { src: '/kit-6.jpeg', alt: '2 ultra fine bristle paintbrushes — Contoured Brush and Detail Brush' },
-  { src: '/kit-7.jpeg', alt: 'Waterproof glossy or matte varnish — seal your finished piece' },
-  { src: '/kit-8.jpeg', alt: 'Paint set of your choice — pastel, floral, earth, or classic tones' },
-  { src: '/kit-9.jpeg', alt: 'Ready to get making — woman creating pottery at home with the kit' },
+  { src: '/kit-3.jpeg', alt: 'Pottery carving, shaping, and cutting tools in branded canvas drawstring bag' },
+  { src: '/kit-4.jpeg', alt: '2 ultra fine bristle paintbrushes — Contoured Brush and Detail Brush' },
+  { src: '/kit-5.jpeg', alt: 'Waterproof glossy or matte varnish — seal your finished piece with gloss or matte' },
+  { src: '/kit-6.jpeg', alt: 'Paint set of your choice — pastel, floral, earth, or classic tones with 8 color tubes' },
+  { src: '/kit-7.jpeg', alt: 'Ready to get making — woman creating pottery at home with the Jimmy Potters kit' },
 ];
 
 export default function KitCarousel() {
