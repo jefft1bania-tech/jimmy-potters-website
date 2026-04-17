@@ -6,21 +6,27 @@ import { useState } from 'react';
 import { useWholesaleCart } from '@/components/wholesale/WholesaleCartProvider';
 import { formatPrice } from '@/lib/products';
 
+type BuyerType = 'business' | 'individual';
+
 interface WholesaleForm {
+  buyerType: BuyerType;
   companyName: string;
   companyAddress: string;
   contactName: string;
   email: string;
   phone: string;
+  shippingAddress: string;
   notes: string;
 }
 
 const EMPTY_FORM: WholesaleForm = {
+  buyerType: 'business',
   companyName: '',
   companyAddress: '',
   contactName: '',
   email: '',
   phone: '',
+  shippingAddress: '',
   notes: '',
 };
 
@@ -37,13 +43,20 @@ export default function WholesaleCartPage() {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
+  const setBuyerType = (buyerType: BuyerType) => {
+    setForm((prev) => ({ ...prev, buyerType }));
+  };
+
+  const isBusiness = form.buyerType === 'business';
+
   const canSubmit =
     itemCount > 0 &&
-    form.companyName.trim() &&
-    form.companyAddress.trim() &&
     form.contactName.trim() &&
     form.email.trim() &&
     form.phone.trim() &&
+    (isBusiness
+      ? form.companyName.trim() && form.companyAddress.trim()
+      : form.shippingAddress.trim()) &&
     !submitting;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,15 +69,19 @@ export default function WholesaleCartPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          company: {
-            name: form.companyName.trim(),
-            address: form.companyAddress.trim(),
-          },
+          buyerType: form.buyerType,
+          company: isBusiness
+            ? {
+                name: form.companyName.trim(),
+                address: form.companyAddress.trim(),
+              }
+            : null,
           contact: {
             name: form.contactName.trim(),
             email: form.email.trim(),
             phone: form.phone.trim(),
           },
+          shippingAddress: isBusiness ? '' : form.shippingAddress.trim(),
           notes: form.notes.trim(),
           items: items.map((i) => ({
             id: i.id,
@@ -193,17 +210,18 @@ export default function WholesaleCartPage() {
       </div>
       <div className="shop-section relative z-10">
         <p className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-sky-300 mb-3">
-          Wholesale Inquiry
+          Bulk Order Request
         </p>
         <h1 className="font-heading font-black text-3xl md:text-4xl text-white tracking-tight mb-2">
-          Wholesale Cart
+          Bulk Order Cart
           <span className="text-stone-500 font-body font-normal text-lg ml-3">
             ({itemCount} {itemCount === 1 ? 'item' : 'items'})
           </span>
         </h1>
         <p className="text-stone-500 font-body text-sm max-w-2xl mb-8">
-          Submit your bulk order request below. A member of our team will reach out with pricing,
-          lead time, and next steps &mdash; no payment taken at this stage.
+          Submit your bulk order request below &mdash; open to businesses <em>and</em> individual
+          guest buyers. A member of our team will reach out with pricing, lead time, and next
+          steps. No payment taken at this stage.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
@@ -283,38 +301,82 @@ export default function WholesaleCartPage() {
             <form onSubmit={handleSubmit} className="card-faire-detail p-6 md:p-8 space-y-5">
               <div>
                 <h2 className="font-heading font-bold text-lg text-white">
-                  Your Business Details
+                  {isBusiness ? 'Your Business Details' : 'Your Details'}
                 </h2>
                 <p className="text-stone-500 text-xs font-body mt-1">
                   All fields required unless noted.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Field
-                  label="Company Name"
-                  id="companyName"
-                  value={form.companyName}
-                  onChange={handleChange('companyName')}
-                  required
-                />
-                <Field
-                  label="Contact Name"
-                  id="contactName"
-                  value={form.contactName}
-                  onChange={handleChange('contactName')}
-                  required
-                />
+              {/* Buyer type toggle */}
+              <div>
+                <label className="block text-stone-400 text-xs font-heading font-bold uppercase tracking-wider mb-2">
+                  I&apos;m ordering as<span className="text-sky-300 ml-0.5">*</span>
+                </label>
+                <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Buyer type">
+                  <BuyerToggle
+                    active={isBusiness}
+                    label="A Business"
+                    sub="Shop, gallery, retailer"
+                    onClick={() => setBuyerType('business')}
+                  />
+                  <BuyerToggle
+                    active={!isBusiness}
+                    label="An Individual"
+                    sub="Guest / personal bulk buy"
+                    onClick={() => setBuyerType('individual')}
+                  />
+                </div>
               </div>
 
-              <Field
-                label="Company Address"
-                id="companyAddress"
-                value={form.companyAddress}
-                onChange={handleChange('companyAddress')}
-                placeholder="Street, City, State, ZIP"
-                required
-              />
+              {isBusiness && (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Field
+                      label="Company Name"
+                      id="companyName"
+                      value={form.companyName}
+                      onChange={handleChange('companyName')}
+                      required
+                    />
+                    <Field
+                      label="Contact Name"
+                      id="contactName"
+                      value={form.contactName}
+                      onChange={handleChange('contactName')}
+                      required
+                    />
+                  </div>
+                  <Field
+                    label="Company Address"
+                    id="companyAddress"
+                    value={form.companyAddress}
+                    onChange={handleChange('companyAddress')}
+                    placeholder="Street, City, State, ZIP"
+                    required
+                  />
+                </>
+              )}
+
+              {!isBusiness && (
+                <>
+                  <Field
+                    label="Full Name"
+                    id="contactName"
+                    value={form.contactName}
+                    onChange={handleChange('contactName')}
+                    required
+                  />
+                  <Field
+                    label="Shipping Address"
+                    id="shippingAddress"
+                    value={form.shippingAddress}
+                    onChange={handleChange('shippingAddress')}
+                    placeholder="Street, City, State, ZIP"
+                    required
+                  />
+                </>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Field
@@ -367,7 +429,11 @@ export default function WholesaleCartPage() {
                   color: '#7DD3FC',
                 }}
               >
-                {submitting ? 'Sending Request…' : 'Submit Wholesale Request'}
+                {submitting
+                  ? 'Sending Request…'
+                  : isBusiness
+                  ? 'Submit Wholesale Request'
+                  : 'Submit Bulk Order Request'}
               </button>
 
               <p className="text-[11px] text-stone-600 text-center font-body">
@@ -418,6 +484,40 @@ export default function WholesaleCartPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function BuyerToggle({
+  active,
+  label,
+  sub,
+  onClick,
+}: {
+  active: boolean;
+  label: string;
+  sub: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="radio"
+      aria-checked={active}
+      onClick={onClick}
+      className="text-left rounded-xl px-4 py-3 border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50"
+      style={{
+        background: active ? 'rgba(56, 189, 248, 0.12)' : 'rgba(41, 37, 36, 0.6)',
+        borderColor: active ? 'rgba(56, 189, 248, 0.55)' : 'rgb(68, 64, 60)',
+      }}
+    >
+      <div
+        className="font-heading font-bold text-sm"
+        style={{ color: active ? '#7DD3FC' : '#E7E5E4' }}
+      >
+        {label}
+      </div>
+      <div className="text-[11px] font-body text-stone-500 mt-0.5">{sub}</div>
+    </button>
   );
 }
 

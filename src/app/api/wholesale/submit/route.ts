@@ -14,8 +14,10 @@ interface WholesaleItemPayload {
 }
 
 interface WholesalePayload {
-  company: { name: string; address: string };
+  buyerType?: 'business' | 'individual';
+  company: { name: string; address: string } | null;
   contact: { name: string; email: string; phone: string };
+  shippingAddress?: string;
   notes?: string;
   items: WholesaleItemPayload[];
   itemCount: number;
@@ -40,6 +42,9 @@ function formatPrice(cents: number) {
 }
 
 function buildEmail(p: WholesalePayload) {
+  const isBusiness = p.buyerType !== 'individual' && !!p.company;
+  const heading = isBusiness ? 'New Wholesale Request' : 'New Bulk Order Request (Individual)';
+
   const itemsHtml = p.items
     .map(
       (i) => `
@@ -58,17 +63,25 @@ function buildEmail(p: WholesalePayload) {
     )
     .join('');
 
+  const businessBlock = isBusiness && p.company
+    ? `<h3 style="margin-top:24px;color:#1C1917;">Business</h3>
+       <p style="line-height:1.6;">
+         <strong>Company:</strong> ${escapeHtml(p.company.name)}<br/>
+         <strong>Address:</strong> ${escapeHtml(p.company.address)}
+       </p>`
+    : `<h3 style="margin-top:24px;color:#1C1917;">Buyer</h3>
+       <p style="line-height:1.6;">
+         <strong>Type:</strong> Individual (guest)<br/>
+         <strong>Shipping:</strong> ${escapeHtml(p.shippingAddress || '(not provided)')}
+       </p>`;
+
   const html = `
     <div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;color:#222;">
       <h2 style="color:#1C1917;border-bottom:2px solid #C9A96E;padding-bottom:8px;">
-        New Wholesale Request
+        ${heading}
       </h2>
 
-      <h3 style="margin-top:24px;color:#1C1917;">Business</h3>
-      <p style="line-height:1.6;">
-        <strong>Company:</strong> ${escapeHtml(p.company.name)}<br/>
-        <strong>Address:</strong> ${escapeHtml(p.company.address)}
-      </p>
+      ${businessBlock}
 
       <h3 style="margin-top:24px;color:#1C1917;">Contact</h3>
       <p style="line-height:1.6;">
@@ -111,12 +124,14 @@ function buildEmail(p: WholesalePayload) {
     </div>
   `;
 
+  const buyerLines = isBusiness && p.company
+    ? ['BUSINESS', `Company: ${p.company.name}`, `Address: ${p.company.address}`]
+    : ['BUYER', 'Type: Individual (guest)', `Shipping: ${p.shippingAddress || '(not provided)'}`];
+
   const text = [
-    'NEW WHOLESALE REQUEST',
+    isBusiness ? 'NEW WHOLESALE REQUEST' : 'NEW BULK ORDER REQUEST (INDIVIDUAL)',
     '',
-    'BUSINESS',
-    `Company: ${p.company.name}`,
-    `Address: ${p.company.address}`,
+    ...buyerLines,
     '',
     'CONTACT',
     `Name:  ${p.contact.name}`,
@@ -146,8 +161,13 @@ export async function POST(req: NextRequest) {
 
   // Validation
   const errors: string[] = [];
-  if (!payload?.company?.name?.trim()) errors.push('Company name is required');
-  if (!payload?.company?.address?.trim()) errors.push('Company address is required');
+  const isBusinessBuyer = payload?.buyerType !== 'individual';
+  if (isBusinessBuyer) {
+    if (!payload?.company?.name?.trim()) errors.push('Company name is required');
+    if (!payload?.company?.address?.trim()) errors.push('Company address is required');
+  } else if (!payload?.shippingAddress?.trim()) {
+    errors.push('Shipping address is required');
+  }
   if (!payload?.contact?.name?.trim()) errors.push('Contact name is required');
   if (!payload?.contact?.email?.trim() || !isValidEmail(payload.contact.email)) {
     errors.push('Valid email is required');
@@ -161,7 +181,10 @@ export async function POST(req: NextRequest) {
   }
 
   const { html, text } = buildEmail(payload);
-  const subject = `Wholesale Request — ${payload.company.name} (${payload.itemCount} items)`;
+  const buyerLabel = isBusinessBuyer && payload.company
+    ? payload.company.name
+    : `${payload.contact.name} (individual)`;
+  const subject = `${isBusinessBuyer ? 'Wholesale' : 'Bulk Order'} Request — ${buyerLabel} (${payload.itemCount} items)`;
   const to = process.env.WHOLESALE_EMAIL_TO || 'jeff.t1.bania@gmail.com';
   const from = process.env.WHOLESALE_EMAIL_FROM || 'onboarding@resend.dev';
   const apiKey = process.env.RESEND_API_KEY;
