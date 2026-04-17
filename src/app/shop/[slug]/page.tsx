@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getAllProducts, getProductBySlug, formatPrice } from '@/lib/products';
 import ProductGallery from '@/components/shop/ProductGallery';
 import AddToCartButton from '@/components/shop/AddToCartButton';
+import AddToWholesaleCartButton from '@/components/wholesale/AddToWholesaleCartButton';
 import ShippingEstimator from '@/components/shop/ShippingEstimator';
 
 export function generateStaticParams() {
@@ -147,8 +148,9 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               <ShippingEstimator />
 
               {/* CTA */}
-              <div className="mt-8">
+              <div className="mt-8 space-y-3">
                 <AddToCartButton product={product} />
+                <AddToWholesaleCartButton product={product} variant="detail" />
               </div>
             </div>
           </div>

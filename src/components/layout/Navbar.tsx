@@ -4,12 +4,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useCart } from '@/components/cart/CartProvider';
+import { useWholesaleCart } from '@/components/wholesale/WholesaleCartProvider';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useLanguage } from '@/components/LanguageProvider';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { itemCount } = useCart();
+  const { itemCount: wholesaleItemCount } = useWholesaleCart();
   const { member, setShowAuthModal } = useAuth();
   const { lang, t, toggleLang } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
@@ -22,7 +24,7 @@ export default function Navbar() {
     { href: '/about', label: t.nav.about },
   ];
 
-  const isShopRoute = pathname.startsWith('/shop') || pathname.startsWith('/cart') || pathname.startsWith('/kit');
+  const isShopRoute = pathname.startsWith('/shop') || pathname.startsWith('/cart') || pathname.startsWith('/kit') || pathname.startsWith('/wholesale-cart');
   const isDarkNav = isShopRoute || pathname === '/';
 
   useEffect(() => {
@@ -188,6 +190,23 @@ export default function Navbar() {
               {itemCount > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 bg-[#C9A96E] text-[#1a1a1a] text-[9px] font-bold rounded-full flex items-center justify-center leading-none min-w-[16px] min-h-[16px]">
                   {itemCount}
+                </span>
+              )}
+            </Link>
+
+            {/* Wholesale cart — separate icon, separate state */}
+            <Link
+              href="/wholesale-cart"
+              className={`relative flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${isDarkNav ? 'text-black hover:bg-black/10' : 'text-black hover:text-black hover:bg-stone-100/50'}`}
+              aria-label={wholesaleItemCount > 0 ? `Wholesale cart, ${wholesaleItemCount} items` : 'Wholesale cart, empty'}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+              </svg>
+              <span className="text-[10px] md:text-xs font-body font-bold leading-none">Wholesale</span>
+              {wholesaleItemCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 bg-sky-400 text-[#1a1a1a] text-[9px] font-bold rounded-full flex items-center justify-center leading-none min-w-[16px] min-h-[16px]">
+                  {wholesaleItemCount}
                 </span>
               )}
             </Link>

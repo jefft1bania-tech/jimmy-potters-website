@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Product } from '@/types/product';
 import { formatPrice } from '@/lib/products';
 import { useLanguage } from '@/components/LanguageProvider';
+import AddToWholesaleCartButton from '@/components/wholesale/AddToWholesaleCartButton';
 
 interface ProductCardProps {
   product: Product;
@@ -73,6 +74,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.bestUse}
           </p>
         )}
+        <AddToWholesaleCartButton product={product} variant="card" />
       </div>
     </article>
   );

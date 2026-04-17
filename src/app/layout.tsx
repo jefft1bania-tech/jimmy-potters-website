@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { CartProvider } from '@/components/cart/CartProvider';
+import { WholesaleCartProvider } from '@/components/wholesale/WholesaleCartProvider';
 import Navbar from '@/components/layout/Navbar';
 import AnnouncementBar from '@/components/layout/AnnouncementBar';
 import Footer from '@/components/layout/Footer';
@@ -53,15 +54,17 @@ export default function RootLayout({
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>
-              <a href="#main-content" className="skip-link">Skip to main content</a>
-              <AnnouncementBar />
-              <Navbar />
-              <main id="main-content" className="flex-1 pt-16" role="main">{children}</main>
-              <NewsletterBanner />
-              <Footer />
-              <ChatWidget />
-              <WhatsAppButton />
-              <AuthModal />
+              <WholesaleCartProvider>
+                <a href="#main-content" className="skip-link">Skip to main content</a>
+                <AnnouncementBar />
+                <Navbar />
+                <main id="main-content" className="flex-1 pt-16" role="main">{children}</main>
+                <NewsletterBanner />
+                <Footer />
+                <ChatWidget />
+                <WhatsAppButton />
+                <AuthModal />
+              </WholesaleCartProvider>
             </CartProvider>
           </AuthProvider>
         </LanguageProvider>
