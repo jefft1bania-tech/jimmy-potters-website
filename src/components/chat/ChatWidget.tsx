@@ -88,6 +88,7 @@ export default function ChatWidget() {
   const [isListening, setIsListening] = useState(false);
   const [interimTranscript, setInterimTranscript] = useState('');
   const [speechSupported, setSpeechSupported] = useState(false);
+  const [micError, setMicError] = useState<string | null>(null);
   const [typingText, setTypingText] = useState('');
   const [typingIndex, setTypingIndex] = useState(-1);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -95,9 +96,18 @@ export default function ChatWidget() {
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const fullReplyRef = useRef('');
 
-  // Check speech recognition support on mount
+  // Show the mic button whenever the browser EITHER supports Web Speech
+  // API OR supports getUserMedia. iOS Safari exposes webkitSpeechRecognition
+  // but it only works once mic permission has been granted — we pre-request
+  // permission on tap below. If that fails (older iOS, denied permission)
+  // the error is surfaced to the user instead of silently hiding the button.
   useEffect(() => {
-    setSpeechSupported(!!getSpeechRecognition());
+    const hasSpeech = !!getSpeechRecognition();
+    const hasMedia =
+      typeof navigator !== 'undefined' &&
+      !!navigator.mediaDevices &&
+      typeof navigator.mediaDevices.getUserMedia === 'function';
+    setSpeechSupported(hasSpeech || hasMedia);
   }, []);
 
   useEffect(() => {
@@ -208,9 +218,10 @@ export default function ChatWidget() {
     }
   };
 
-  const toggleListening = useCallback(() => {
+  const toggleListening = useCallback(async () => {
+    setMicError(null);
+
     if (isListening) {
-      // Stop listening
       recognitionRef.current?.stop();
       setIsListening(false);
       setInterimTranscript('');
@@ -218,7 +229,38 @@ export default function ChatWidget() {
     }
 
     const SpeechRecognitionClass = getSpeechRecognition();
-    if (!SpeechRecognitionClass) return;
+    if (!SpeechRecognitionClass) {
+      setMicError(
+        "Voice input isn't supported on this browser. Try the mic icon on your keyboard, or type your question."
+      );
+      return;
+    }
+
+    // iOS Safari requires an explicit getUserMedia prompt before
+    // webkitSpeechRecognition.start() will work. Desktop Chrome
+    // handles this automatically, but we pre-request on all platforms
+    // so behavior is consistent and any permission error surfaces to
+    // the user instead of failing silently.
+    if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        // We only needed the permission — release the stream
+        // immediately so the speech API can take over the mic.
+        stream.getTracks().forEach((t) => t.stop());
+      } catch (err) {
+        const msg = err instanceof Error ? err.name : String(err);
+        if (msg === 'NotAllowedError' || msg === 'SecurityError') {
+          setMicError(
+            'Microphone blocked. Tap the 🅰︎🅰 (AA) icon in Safari → Website Settings → Microphone → Allow, then try again.'
+          );
+        } else if (msg === 'NotFoundError') {
+          setMicError('No microphone found on this device.');
+        } else {
+          setMicError('Could not access the microphone. Please type your question.');
+        }
+        return;
+      }
+    }
 
     const recognition = new SpeechRecognitionClass();
     recognition.continuous = false;
@@ -245,10 +287,8 @@ export default function ChatWidget() {
       if (final) {
         setInput(final);
         setInterimTranscript('');
-        // Auto-send after a short delay so user sees their transcribed text
         setTimeout(() => {
           setIsListening(false);
-          // We need to send the final transcript directly
           sendMessage(final);
         }, 400);
       } else {
@@ -257,9 +297,22 @@ export default function ChatWidget() {
     };
 
     recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
       setIsListening(false);
       setInterimTranscript('');
+      const code = event.error;
+      if (code === 'not-allowed' || code === 'service-not-allowed') {
+        setMicError(
+          'Microphone permission denied. Open Safari → AA icon → Website Settings → Microphone → Allow.'
+        );
+      } else if (code === 'no-speech') {
+        setMicError("Didn't catch that — tap the mic and try again.");
+      } else if (code === 'audio-capture') {
+        setMicError('No microphone detected on this device.');
+      } else if (code === 'network') {
+        setMicError('Network issue while transcribing. Try again.');
+      } else {
+        setMicError('Voice input unavailable. Please type your question.');
+      }
     };
 
     recognition.onend = () => {
@@ -268,7 +321,16 @@ export default function ChatWidget() {
     };
 
     recognitionRef.current = recognition;
-    recognition.start();
+    try {
+      recognition.start();
+    } catch (err) {
+      setIsListening(false);
+      setMicError(
+        err instanceof Error
+          ? `Could not start voice input: ${err.message}`
+          : 'Could not start voice input.'
+      );
+    }
   }, [isListening, sendMessage]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -495,10 +557,24 @@ export default function ChatWidget() {
                 </svg>
               </button>
             </div>
-            {speechSupported && !isListening && messages.length <= 2 && (
+            {speechSupported && !isListening && !micError && messages.length <= 2 && (
               <p className="text-[10px] text-gray-400 mt-1.5 text-center font-body">
                 {'\u{1F3A4}'} Tap the mic to ask your question by voice
               </p>
+            )}
+            {micError && (
+              <div className="mt-2 flex items-start gap-2 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-[11px] text-amber-900 font-body leading-relaxed">
+                <span aria-hidden="true">{'\u26A0\uFE0F'}</span>
+                <div className="flex-1">{micError}</div>
+                <button
+                  type="button"
+                  onClick={() => setMicError(null)}
+                  aria-label="Dismiss"
+                  className="text-amber-700 hover:text-amber-900"
+                >
+                  &times;
+                </button>
+              </div>
             )}
           </div>
         </div>
