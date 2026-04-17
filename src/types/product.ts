@@ -1,11 +1,18 @@
 export interface ProductSpecs {
-  height: string;
-  width: string;
+  height?: string;
+  width?: string;
   depth?: string;
   mouth?: string;
   ringDiameter?: string;
-  weight: string;
+  weight?: string;
   note?: string; // e.g. "Estimated — final specs from maker"
+}
+
+export interface ProductSource {
+  platform: string;
+  brandId?: string;
+  productId?: string;
+  originalUrl?: string;
 }
 
 export interface Product {
@@ -20,10 +27,11 @@ export interface Product {
   images: string[];
   category: string;
   tags: string[];
-  status: 'available' | 'sold' | 'reserved';
+  status: 'available' | 'sold' | 'reserved' | 'pending-review';
   stripePriceId: string;
   shippingWeight: string;
   quantity: number;
   quickSpec?: string;
   bestUse?: string;
+  source?: ProductSource;
 }

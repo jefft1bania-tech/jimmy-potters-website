@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default function ShopPage() {
-  const products = getAllProducts();
+  const products = getAllProducts().filter((p) => p.status !== 'pending-review');
 
   return <ShopPageClient products={products} />;
 }
