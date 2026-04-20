@@ -1,0 +1,61 @@
+import { NextResponse, type NextRequest } from 'next/server';
+import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+type Body = {
+  materials_cents?: number;
+  labor_cents?: number;
+  packaging_cents?: number;
+  freight_cents?: number;
+  other_cents?: number;
+  notes?: string;
+};
+
+const COST_KEYS = ['materials_cents', 'labor_cents', 'packaging_cents', 'freight_cents', 'other_cents'] as const;
+
+function bad(status: number, error: string) {
+  return NextResponse.json({ error }, { status });
+}
+
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+  let body: Body;
+  try {
+    body = (await req.json()) as Body;
+  } catch {
+    return bad(400, 'Invalid JSON');
+  }
+
+  const patch: Record<string, number | string | null> = { order_id: params.id };
+  let anyProvided = false;
+  for (const k of COST_KEYS) {
+    const v = body[k];
+    if (v === undefined) continue;
+    if (!Number.isInteger(v) || v < 0) return bad(400, `${k} must be a non-negative integer`);
+    patch[k] = v;
+    anyProvided = true;
+  }
+  if (body.notes !== undefined) patch.notes = body.notes ?? null;
+
+  if (!anyProvided && body.notes === undefined) return bad(400, 'No fields to update');
+
+  const supabase = createSupabaseAdminClient();
+  const admin = supabase as unknown as { from: (t: string) => any };
+
+  const { data: order, error: lookupErr } = await admin
+    .from('orders')
+    .select('id')
+    .eq('id', params.id)
+    .maybeSingle();
+  if (lookupErr) return bad(500, `lookup failed: ${lookupErr.message}`);
+  if (!order) return bad(404, 'Order not found');
+
+  patch.updated_at = new Date().toISOString();
+
+  const { error: upsertErr } = await admin
+    .from('order_cost_overrides')
+    .upsert(patch, { onConflict: 'order_id' });
+  if (upsertErr) return bad(500, `upsert failed: ${upsertErr.message}`);
+
+  return NextResponse.json({ ok: true });
+}
