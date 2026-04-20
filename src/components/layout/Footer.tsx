@@ -22,6 +22,15 @@ export default function Footer() {
                 height={720}
                 className="h-14 w-auto bg-white rounded-full p-1"
               />
+              <span className="text-xl tracking-wide" style={{
+                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                background: 'linear-gradient(135deg, #E8D5A3 0%, #C9A96E 40%, #E8D5A3 70%, #B8923E 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}>JIMMY POTTERS</span>
             </div>
             <p className="text-white/60 text-sm font-body">
               {t.footer.tagline}

@@ -55,7 +55,7 @@ export default function Navbar() {
     >
       <div className="section-container">
         <div className="flex items-center justify-between h-16">
-          {/* Logo — authentic Jimmy Potters Studio & Works mark */}
+          {/* Logo — authentic Jimmy Potters Studio & Works mark + wordmark */}
           <Link href="/" className="flex items-center gap-2 group flex-shrink-0" aria-label="Jimmy Potters — Home">
             <Image
               src="/images/brand/jimmy-potters-logo.png"
@@ -65,6 +65,20 @@ export default function Navbar() {
               priority
               className="h-12 md:h-14 w-auto drop-shadow-sm"
             />
+            <span
+              className="text-xl md:text-2xl transition-all duration-300"
+              style={{
+                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                color: '#FFFFFF',
+                WebkitTextStroke: '1.5px #000000',
+                paintOrder: 'stroke fill',
+                textShadow: '0 2px 4px #000, 0 0 10px rgba(0,0,0,0.5), 1px 1px 0 #000',
+              }}
+            >
+              JIMMY POTTERS
+            </span>
           </Link>
 
           {/* Desktop Nav */}
