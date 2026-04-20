@@ -86,8 +86,8 @@ function buildReport(orders: Order[], period: string, periodType: 'monthly' | 'y
  * @param year — e.g. 2026
  * @param month — 1-12
  */
-export function generateMonthlyReport(year: number, month: number): AccountingReport {
-  const orders = getAllOrders();
+export async function generateMonthlyReport(year: number, month: number): Promise<AccountingReport> {
+  const orders = await getAllOrders();
   const filtered = filterOrdersByMonth(orders, year, month);
   const period = `${year}-${String(month).padStart(2, '0')}`;
   return buildReport(filtered, period, 'monthly');
@@ -97,8 +97,8 @@ export function generateMonthlyReport(year: number, month: number): AccountingRe
  * Generate a yearly accounting report.
  * @param year — e.g. 2026
  */
-export function generateYearlyReport(year: number): AccountingReport {
-  const orders = getAllOrders();
+export async function generateYearlyReport(year: number): Promise<AccountingReport> {
+  const orders = await getAllOrders();
   const filtered = filterOrdersByYear(orders, year);
   return buildReport(filtered, String(year), 'yearly');
 }

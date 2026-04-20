@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
     if (isNaN(month) || month < 1 || month > 12) {
       return NextResponse.json({ error: 'Invalid month (1-12)' }, { status: 400 });
     }
-    const report = generateMonthlyReport(year, month);
+    const report = await generateMonthlyReport(year, month);
     return NextResponse.json({
       ...report,
       formatted: {
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
   }
 
   if (type === 'yearly') {
-    const report = generateYearlyReport(year);
+    const report = await generateYearlyReport(year);
     return NextResponse.json({
       ...report,
       formatted: {
