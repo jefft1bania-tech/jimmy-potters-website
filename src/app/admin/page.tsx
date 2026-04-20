@@ -8,6 +8,7 @@ import {
   type OverheadExpense,
 } from '@/lib/pnl';
 import { getAllProducts } from '@/lib/products';
+import { getWholesaleApplicationCounts } from '@/lib/wholesale-applications-data';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Admin — Jimmy Potters', robots: 'noindex, nofollow' };
@@ -50,7 +51,7 @@ async function loadDashboardData() {
   const fromIso = `${from}T00:00:00.000Z`;
   const toIso = new Date(new Date(`${to}T00:00:00.000Z`).getTime() + 24 * 60 * 60 * 1000 - 1).toISOString();
 
-  const [ordersRes, templatesRes, overridesRes, overheadRes, pendingRes, shipmentsRes] = await Promise.all([
+  const [ordersRes, templatesRes, overridesRes, overheadRes, pendingRes, shipmentsRes, wholesaleCounts] = await Promise.all([
     supabase
       .from('orders')
       .select('id, created_at, status, subtotal_cents, sales_tax_cents, total_cents, internal_shipping_cost_cents, stripe_fee_cents, buyer_state, payment_method, order_items(product_id, quantity, unit_price_cents)')
@@ -61,6 +62,7 @@ async function loadDashboardData() {
     supabase.from('overhead_expenses').select('amount_cents, incurred_on, category').gte('incurred_on', from).lte('incurred_on', to),
     supabase.from('orders').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
     supabase.from('shipments').select('order_id, required_ship_by, shipment_status, flag'),
+    getWholesaleApplicationCounts().catch(() => ({ pending: 0, needs_info: 0, approved: 0, rejected: 0, active: 0, total: 0 })),
   ]);
 
   const rawOrders = (ordersRes.data ?? []) as OrderRow[];
@@ -109,6 +111,7 @@ async function loadDashboardData() {
     uncoveredSkus: uncovered,
     bulkAttentionCount: bulkAttention,
     hasEstimates: pnl.has_estimates,
+    wholesaleCounts,
   };
 }
 
@@ -149,7 +152,7 @@ function KpiCard({ label, value, sublabel, href, tone = 'default' }: KpiCardProp
 
 export default async function AdminIndexPage() {
   const data = await loadDashboardData();
-  const { pnl, period, pendingPaymentsCount, productCount, uncoveredSkus, bulkAttentionCount, hasEstimates } = data;
+  const { pnl, period, pendingPaymentsCount, productCount, uncoveredSkus, bulkAttentionCount, hasEstimates, wholesaleCounts } = data;
 
   const mtdRevenue = fmtCents(pnl.gross_revenue);
   const mtdNetProfit = fmtCents(pnl.net_profit);
@@ -160,6 +163,7 @@ export default async function AdminIndexPage() {
 
   const pendingTone: KpiCardProps['tone'] = pendingPaymentsCount > 0 ? 'warn' : 'default';
   const bulkTone: KpiCardProps['tone'] = bulkAttentionCount === 0 ? 'default' : bulkAttentionCount >= 3 ? 'danger' : 'warn';
+  const wholesaleTone: KpiCardProps['tone'] = wholesaleCounts.active === 0 ? 'default' : wholesaleCounts.active >= 3 ? 'danger' : 'warn';
 
   return (
     <main className="min-h-screen bg-stone-950 text-stone-200">
@@ -204,6 +208,20 @@ export default async function AdminIndexPage() {
             sublabel={bulkAttentionCount > 0 ? 'Critical / urgent or overdue' : 'None flagged'}
             tone={bulkTone}
             href="/admin/shipments"
+          />
+        </section>
+
+        <section className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <KpiCard
+            label="Wholesale Applications"
+            value={String(wholesaleCounts.active)}
+            sublabel={
+              wholesaleCounts.active > 0
+                ? `${wholesaleCounts.pending} pending · ${wholesaleCounts.needs_info} needs info`
+                : `${wholesaleCounts.total} total · queue is clear`
+            }
+            tone={wholesaleTone}
+            href="/admin/wholesale"
           />
         </section>
 
@@ -263,6 +281,10 @@ export default async function AdminIndexPage() {
           <Link href="/admin/products/labor-times" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
             <p className="font-heading font-bold text-white text-sm">Labor Times</p>
             <p className="text-stone-500 text-xs font-body mt-1">Minutes per unit by role · Feeds order forecast</p>
+          </Link>
+          <Link href="/admin/wholesale" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
+            <p className="font-heading font-bold text-white text-sm">Wholesale</p>
+            <p className="text-stone-500 text-xs font-body mt-1">Application queue · Approve · Request info</p>
           </Link>
         </section>
       </div>

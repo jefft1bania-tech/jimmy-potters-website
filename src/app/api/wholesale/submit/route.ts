@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { insertWholesaleApplication } from '@/lib/wholesale-applications-data';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 interface WholesaleItemPayload {
   id: string;
@@ -180,6 +182,36 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: errors.join('; ') }, { status: 400 });
   }
 
+  // Persist the application first — the DB is the source of truth, email
+  // is just a courtesy notification. If the insert fails we bail without
+  // sending email so Jeff doesn't see an inquiry he can't find in /admin.
+  let applicationId: string;
+  try {
+    const application = await insertWholesaleApplication({
+      buyerType: isBusinessBuyer ? 'business' : 'individual',
+      company: isBusinessBuyer && payload.company
+        ? { name: payload.company.name.trim(), address: payload.company.address.trim() }
+        : null,
+      contact: {
+        name: payload.contact.name.trim(),
+        email: payload.contact.email.trim(),
+        phone: payload.contact.phone.trim(),
+      },
+      shippingAddress: !isBusinessBuyer ? (payload.shippingAddress?.trim() ?? null) : null,
+      cartItems: payload.items,
+      cartItemCount: payload.itemCount,
+      cartRetailTotalCents: payload.total,
+      notes: payload.notes?.trim() || null,
+    });
+    applicationId = application.id;
+  } catch (err) {
+    console.error('[wholesale/submit] DB insert failed:', err);
+    return NextResponse.json(
+      { error: 'Could not record your application. Please try again in a moment.' },
+      { status: 500 },
+    );
+  }
+
   const { html, text } = buildEmail(payload);
   const buyerLabel = isBusinessBuyer && payload.company
     ? payload.company.name
@@ -189,12 +221,12 @@ export async function POST(req: NextRequest) {
   const from = process.env.WHOLESALE_EMAIL_FROM || 'onboarding@resend.dev';
   const apiKey = process.env.RESEND_API_KEY;
 
-  // Dev/preview fallback: log the inquiry when Resend isn't configured so the
-  // flow remains testable without a key. Production deployments must set it.
+  // Email is best-effort now that the DB has the record. If Resend isn't
+  // configured or delivery fails we still return success — the application
+  // is already in /admin/wholesale for review.
   if (!apiKey) {
-    console.warn('[wholesale/submit] RESEND_API_KEY not set — logging inquiry instead of sending.');
-    console.log('[wholesale/submit] Inquiry:', { subject, to, from, text });
-    return NextResponse.json({ ok: true, delivered: false, logged: true });
+    console.warn('[wholesale/submit] RESEND_API_KEY not set — application saved, email skipped.');
+    return NextResponse.json({ ok: true, applicationId, delivered: false });
   }
 
   try {
@@ -209,19 +241,13 @@ export async function POST(req: NextRequest) {
     });
 
     if (result.error) {
-      console.error('[wholesale/submit] Resend error:', result.error);
-      return NextResponse.json(
-        { error: 'Could not deliver email. Please try again or contact us directly.' },
-        { status: 502 }
-      );
+      console.error('[wholesale/submit] Resend error (non-fatal):', result.error);
+      return NextResponse.json({ ok: true, applicationId, delivered: false });
     }
 
-    return NextResponse.json({ ok: true, delivered: true, id: result.data?.id });
+    return NextResponse.json({ ok: true, applicationId, delivered: true, id: result.data?.id });
   } catch (err) {
-    console.error('[wholesale/submit] Exception:', err);
-    return NextResponse.json(
-      { error: 'Server error while sending your request. Please try again.' },
-      { status: 500 }
-    );
+    console.error('[wholesale/submit] Email exception (non-fatal):', err);
+    return NextResponse.json({ ok: true, applicationId, delivered: false });
   }
 }
