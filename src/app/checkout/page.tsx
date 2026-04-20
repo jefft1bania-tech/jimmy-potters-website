@@ -327,7 +327,7 @@ export default function CheckoutPage() {
                   Step 4: Payment
                 </h2>
                 <StripeProvider clientSecret={clientSecret}>
-                  <CheckoutForm orderId={orderId!} />
+                  <CheckoutForm orderId={orderId!} total={displayTotal} />
                 </StripeProvider>
               </div>
             )}
