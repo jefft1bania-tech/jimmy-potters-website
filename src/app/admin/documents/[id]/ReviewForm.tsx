@@ -92,8 +92,53 @@ export default function ReviewForm({ doc }: Props) {
 
   const readOnly = doc.status === 'confirmed' || doc.status === 'rejected';
 
+  function onParse() {
+    startTransition(async () => {
+      setErr(null);
+      setOk(null);
+      const res = await fetch(`/api/admin/documents/${doc.id}/parse`, { method: 'POST' });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({ error: 'Parse failed' }));
+        setErr(j.error ?? 'Parse failed');
+        return;
+      }
+      const j = await res.json().catch(() => ({}));
+      const conf = j.document?.ai_confidence;
+      setOk(`Parsed${conf != null ? ` (confidence ${(conf * 100).toFixed(0)}%)` : ''}. Review fields and confirm.`);
+      router.refresh();
+    });
+  }
+
   return (
     <div className="space-y-4">
+      {!readOnly && (
+        <div className="card-faire-detail p-4 border border-blue-500/20">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div>
+              <p className="text-[11px] font-heading font-bold uppercase tracking-[0.15em] text-blue-300 mb-1">
+                Claude Auto-Parse
+              </p>
+              <p className="text-stone-400 text-xs">
+                Extracts vendor, totals, issued date, and line items. You review before confirming.
+                {doc.ai_confidence != null && (
+                  <span className="ml-2 text-stone-500">
+                    Last confidence: <span className="font-mono">{(doc.ai_confidence * 100).toFixed(0)}%</span>
+                  </span>
+                )}
+              </p>
+            </div>
+            <button
+              type="button"
+              disabled={pending}
+              onClick={onParse}
+              className="btn-faire !w-auto disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {pending ? 'Parsing…' : doc.status === 'parsed' ? 'Re-parse' : 'Parse with AI'}
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="card-faire-detail p-5">
         <h2 className="text-[11px] font-heading font-bold uppercase tracking-[0.15em] text-stone-500 mb-3">
           Extracted fields
