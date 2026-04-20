@@ -7,30 +7,64 @@ export interface MemberData {
   id: string;
   email: string;
   name: string;
-  role: 'customer' | 'admin';
+  role: 'customer' | 'admin' | 'wholesale';
   preferences: {
     newsletter: boolean;
   };
 }
 
+export type AuthResult = { error?: string };
+
 interface AuthContextType {
   member: MemberData | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<{ error?: string }>;
-  signup: (email: string, name: string, password: string) => Promise<{ error?: string }>;
+  login: (email: string, password: string) => Promise<AuthResult>;
+  signup: (email: string, name: string, password: string) => Promise<AuthResult>;
   logout: () => Promise<void>;
-  updatePreferences: (prefs: MemberData['preferences']) => Promise<{ error?: string }>;
-  showAuthModal: boolean;
-  setShowAuthModal: (show: boolean) => void;
+  updatePreferences: (prefs: MemberData['preferences']) => Promise<AuthResult>;
+  requestPasswordReset: (email: string) => Promise<AuthResult>;
+  updatePassword: (newPassword: string) => Promise<AuthResult>;
+  resendConfirmation: (email: string) => Promise<AuthResult>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+function friendlyError(message: string): string {
+  const m = message.toLowerCase();
+  if (m.includes('user already registered') || m.includes('already exists')) {
+    return 'An account with that email already exists. Try signing in instead.';
+  }
+  if (m.includes('invalid login credentials')) {
+    return 'Wrong email or password.';
+  }
+  if (m.includes('email not confirmed') || m.includes('confirm your email')) {
+    return 'Check your inbox to confirm your email first.';
+  }
+  if (m.includes('password should be at least')) {
+    return 'Password must be at least 6 characters.';
+  }
+  if (m.includes('rate limit') || m.includes('over_email_send_rate_limit')) {
+    return 'Too many requests. Wait a minute and try again.';
+  }
+  if (m.includes('invalid email')) {
+    return 'That email address looks invalid.';
+  }
+  if (m.includes('token') && (m.includes('expired') || m.includes('invalid'))) {
+    return 'This link expired or was already used. Request a new one.';
+  }
+  // Fallback — surface Supabase's phrase rather than swallowing it.
+  return message;
+}
+
+function siteOrigin(): string {
+  if (typeof window !== 'undefined' && window.location?.origin) return window.location.origin;
+  return process.env.NEXT_PUBLIC_URL || '';
+}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [member, setMember] = useState<MemberData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const loadProfile = useCallback(async (userId: string): Promise<MemberData | null> => {
     const { data, error } = await supabase
@@ -43,7 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       id: string;
       email: string;
       name: string | null;
-      role: 'customer' | 'admin';
+      role: 'customer' | 'admin' | 'wholesale';
       newsletter_opt_in: boolean;
     };
     return {
@@ -83,22 +117,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, [supabase, loadProfile]);
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string): Promise<AuthResult> => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) return { error: error.message };
-    setShowAuthModal(false);
+    if (error) return { error: friendlyError(error.message) };
     return {};
   }, [supabase]);
 
-  const signup = useCallback(async (email: string, name: string, password: string) => {
-    if (password.length < 6) return { error: 'Password must be at least 6 characters' };
+  const signup = useCallback(async (email: string, name: string, password: string): Promise<AuthResult> => {
+    if (password.length < 6) return { error: 'Password must be at least 6 characters.' };
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { name } },
+      options: {
+        data: { name },
+        emailRedirectTo: `${siteOrigin()}/auth/callback`,
+      },
     });
-    if (error) return { error: error.message };
-    setShowAuthModal(false);
+    if (error) return { error: friendlyError(error.message) };
     return {};
   }, [supabase]);
 
@@ -107,7 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setMember(null);
   }, [supabase]);
 
-  const updatePreferences = useCallback(async (prefs: MemberData['preferences']) => {
+  const updatePreferences = useCallback(async (prefs: MemberData['preferences']): Promise<AuthResult> => {
     if (!member) return { error: 'Not signed in' };
     const { error } = await (supabase.from('profiles') as unknown as {
       update: (v: Record<string, unknown>) => { eq: (c: string, v: string) => Promise<{ error: { message: string } | null }> };
@@ -119,9 +154,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return {};
   }, [supabase, member]);
 
+  const requestPasswordReset = useCallback(async (email: string): Promise<AuthResult> => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${siteOrigin()}/reset-password`,
+    });
+    if (error) return { error: friendlyError(error.message) };
+    return {};
+  }, [supabase]);
+
+  const updatePassword = useCallback(async (newPassword: string): Promise<AuthResult> => {
+    if (newPassword.length < 6) return { error: 'Password must be at least 6 characters.' };
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) return { error: friendlyError(error.message) };
+    return {};
+  }, [supabase]);
+
+  const resendConfirmation = useCallback(async (email: string): Promise<AuthResult> => {
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+      options: { emailRedirectTo: `${siteOrigin()}/auth/callback` },
+    });
+    if (error) return { error: friendlyError(error.message) };
+    return {};
+  }, [supabase]);
+
   return (
     <AuthContext.Provider
-      value={{ member, loading, login, signup, logout, updatePreferences, showAuthModal, setShowAuthModal }}
+      value={{
+        member,
+        loading,
+        login,
+        signup,
+        logout,
+        updatePreferences,
+        requestPasswordReset,
+        updatePassword,
+        resendConfirmation,
+      }}
     >
       {children}
     </AuthContext.Provider>

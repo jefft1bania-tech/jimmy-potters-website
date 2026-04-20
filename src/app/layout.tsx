@@ -9,7 +9,6 @@ import NewsletterBanner from '@/components/layout/NewsletterBanner';
 import ChatWidget from '@/components/chat/ChatWidget';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
 import { AuthProvider } from '@/components/auth/AuthProvider';
-import AuthModal from '@/components/auth/AuthModal';
 import { LanguageProvider } from '@/components/LanguageProvider';
 
 export const metadata: Metadata = {
@@ -63,7 +62,6 @@ export default function RootLayout({
                 <Footer />
                 <ChatWidget />
                 <WhatsAppButton />
-                <AuthModal />
               </WholesaleCartProvider>
             </CartProvider>
           </AuthProvider>

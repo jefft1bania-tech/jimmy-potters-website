@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 export default function AccountPage() {
-  const { member, loading, logout, updatePreferences, setShowAuthModal } = useAuth();
+  const { member, loading, logout, updatePreferences } = useAuth();
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -31,12 +31,9 @@ export default function AccountPage() {
             Create a free account to receive newsletters, get notified about
             new pottery drops, and stay up to date.
           </p>
-          <button
-            onClick={() => setShowAuthModal(true)}
-            className="btn-vibrant mt-6 inline-block"
-          >
+          <Link href="/login?redirect=/account" className="btn-vibrant mt-6 inline-block">
             Sign Up / Log In
-          </button>
+          </Link>
         </div>
       </div>
     );

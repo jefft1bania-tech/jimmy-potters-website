@@ -13,7 +13,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const { itemCount } = useCart();
   const { itemCount: wholesaleItemCount } = useWholesaleCart();
-  const { member, setShowAuthModal } = useAuth();
+  const { member } = useAuth();
   const { lang, t, toggleLang } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -167,8 +167,8 @@ export default function Navbar() {
                 <span className="text-[9px] font-body font-bold leading-none">{member.name.split(' ')[0]}</span>
               </Link>
             ) : (
-              <button
-                onClick={() => setShowAuthModal(true)}
+              <Link
+                href="/login"
                 className={`flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${isDarkNav ? 'text-black hover:bg-black/10' : 'text-black hover:text-black hover:bg-stone-100/50'}`}
                 aria-label={t.nav.signIn}
               >
@@ -176,7 +176,7 @@ export default function Navbar() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                 </svg>
                 <span className="text-[10px] md:text-xs font-body font-bold leading-none">Login</span>
-              </button>
+              </Link>
             )}
 
             {/* Cart — shopping cart icon */}
@@ -268,16 +268,17 @@ export default function Navbar() {
                     {t.nav.myAccount}
                   </Link>
                 ) : (
-                  <button
-                    onClick={() => { setShowAuthModal(true); setMobileOpen(false); }}
+                  <Link
+                    href="/login"
                     role="menuitem"
+                    onClick={() => setMobileOpen(false)}
                     className="w-full flex items-center gap-3 font-body font-medium px-3 py-2.5 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-colors text-left"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                     </svg>
                     {t.nav.signIn}
-                  </button>
+                  </Link>
                 )}
               </div>
             </div>
