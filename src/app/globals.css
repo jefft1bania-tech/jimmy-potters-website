@@ -587,3 +587,29 @@ h1, h2, h3, h4, h5, h6 {
 .skip-link:focus {
   top: 0;
 }
+
+/* ═══════════════════════════════════════════════════
+   BUYER TICKER (admin/pnl/drilldown) — horizontal marquee
+   !important overrides the prefers-reduced-motion global
+   kill-switch: this animation IS the feature.
+   ═══════════════════════════════════════════════════ */
+@keyframes drilldown-ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-track {
+  animation-name: drilldown-ticker-scroll !important;
+  animation-timing-function: linear !important;
+  animation-iteration-count: infinite !important;
+  animation-duration: 130s !important;
+  will-change: transform;
+}
+.ticker-track-wholesale {
+  animation-duration: 130s !important;   /* ~2.2 min loop */
+}
+.ticker-track-retail {
+  animation-duration: 170s !important;   /* ~2.8 min loop */
+}
+.ticker-wrap:hover .ticker-track {
+  animation-play-state: paused !important;
+}

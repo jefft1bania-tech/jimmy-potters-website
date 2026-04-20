@@ -30,7 +30,12 @@ export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const isAdminRoute = path.startsWith('/admin') || path.startsWith('/api/admin');
 
-  if (isAdminRoute) {
+  // Dev-only: allow the drill-down prototype without auth so Jeff can preview mock data.
+  // Production (NODE_ENV=production on Vercel) still enforces admin auth — no prod impact.
+  const isPrototypePreview =
+    process.env.NODE_ENV === 'development' && path === '/admin/pnl/drilldown';
+
+  if (isAdminRoute && !isPrototypePreview) {
     if (!user) {
       // Unauthed → send to login with redirect-back.
       const loginUrl = new URL('/login', request.url);
