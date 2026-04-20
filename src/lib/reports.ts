@@ -11,8 +11,10 @@ export interface TaxByState {
 }
 
 export interface AccountingReport {
-  period: string;              // "2026-04" or "2026"
-  periodType: 'monthly' | 'yearly';
+  period: string;              // "2026-04" or "2026" or "2026-01-01..2026-03-31"
+  periodType: 'monthly' | 'yearly' | 'range';
+  rangeStart?: string;         // ISO date, present when periodType === 'range'
+  rangeEnd?: string;           // ISO date, present when periodType === 'range'
   orderCount: number;
   grossRevenue: number;        // total charged to customers (cents)
   productRevenue: number;      // subtotals only — no tax (cents)
@@ -38,7 +40,19 @@ function filterOrdersByYear(orders: Order[], year: number): Order[] {
   });
 }
 
-function buildReport(orders: Order[], period: string, periodType: 'monthly' | 'yearly'): AccountingReport {
+function filterOrdersByRange(orders: Order[], startISO: string, endISO: string): Order[] {
+  // Inclusive on both ends; end date is pushed to 23:59:59.999 UTC so
+  // callers can pass YYYY-MM-DD for both start and end.
+  const startTs = new Date(startISO).getTime();
+  const endTs = new Date(endISO).getTime() + 24 * 60 * 60 * 1000 - 1;
+  return orders.filter((o) => {
+    if (o.status !== 'paid' && o.status !== 'shipped' && o.status !== 'delivered') return false;
+    const ts = new Date(o.createdAt).getTime();
+    return ts >= startTs && ts <= endTs;
+  });
+}
+
+function buildReport(orders: Order[], period: string, periodType: 'monthly' | 'yearly' | 'range'): AccountingReport {
   const taxMap = new Map<string, TaxByState>();
 
   let grossRevenue = 0;
@@ -101,6 +115,28 @@ export async function generateYearlyReport(year: number): Promise<AccountingRepo
   const orders = await getAllOrders();
   const filtered = filterOrdersByYear(orders, year);
   return buildReport(filtered, String(year), 'yearly');
+}
+
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Generate an accounting report for an arbitrary inclusive date range.
+ * @param startISO — YYYY-MM-DD (inclusive)
+ * @param endISO   — YYYY-MM-DD (inclusive; end-of-day is used)
+ */
+export async function generateRangeReport(startISO: string, endISO: string): Promise<AccountingReport> {
+  if (!ISO_DATE.test(startISO) || !ISO_DATE.test(endISO)) {
+    throw new Error('start/end must be ISO dates (YYYY-MM-DD)');
+  }
+  if (startISO > endISO) {
+    throw new Error('start must be <= end');
+  }
+  const orders = await getAllOrders();
+  const filtered = filterOrdersByRange(orders, startISO, endISO);
+  const report = buildReport(filtered, `${startISO}..${endISO}`, 'range');
+  report.rangeStart = startISO;
+  report.rangeEnd = endISO;
+  return report;
 }
 
 /**
