@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useCart } from '@/components/cart/CartProvider';
@@ -54,29 +55,16 @@ export default function Navbar() {
     >
       <div className="section-container">
         <div className="flex items-center justify-between h-16">
-          {/* Logo — bold black-outlined brand */}
+          {/* Logo — authentic Jimmy Potters Studio & Works mark */}
           <Link href="/" className="flex items-center gap-2 group flex-shrink-0" aria-label="Jimmy Potters — Home">
-            <span
-              className="text-3xl md:text-4xl"
-              aria-hidden="true"
-              style={{
-                filter: 'drop-shadow(0 0 3px #000) drop-shadow(0 1px 2px #000)',
-              }}
-            >🏺</span>
-            <span
-              className="text-xl md:text-2xl transition-all duration-300"
-              style={{
-                fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                color: '#FFFFFF',
-                WebkitTextStroke: '1.5px #000000',
-                paintOrder: 'stroke fill',
-                textShadow: '0 2px 4px #000, 0 0 10px rgba(0,0,0,0.5), 1px 1px 0 #000',
-              }}
-            >
-              JIMMY POTTERS
-            </span>
+            <Image
+              src="/images/brand/jimmy-potters-logo.png"
+              alt="Jimmy Potters Studio & Works"
+              width={690}
+              height={720}
+              priority
+              className="h-12 md:h-14 w-auto drop-shadow-sm"
+            />
           </Link>
 
           {/* Desktop Nav */}
