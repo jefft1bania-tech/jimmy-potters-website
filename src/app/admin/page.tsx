@@ -256,6 +256,14 @@ export default async function AdminIndexPage() {
             <p className="font-heading font-bold text-white text-sm">Insights</p>
             <p className="text-stone-500 text-xs font-body mt-1">Typed &amp; voice · Weekly digest</p>
           </Link>
+          <Link href="/admin/products/costs" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
+            <p className="font-heading font-bold text-white text-sm">Cost Templates</p>
+            <p className="text-stone-500 text-xs font-body mt-1">Per-SKU materials · labor · packaging · freight</p>
+          </Link>
+          <Link href="/admin/products/labor-times" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
+            <p className="font-heading font-bold text-white text-sm">Labor Times</p>
+            <p className="text-stone-500 text-xs font-body mt-1">Minutes per unit by role · Feeds order forecast</p>
+          </Link>
         </section>
       </div>
     </main>

@@ -50,6 +50,7 @@ export default async function ProductCostsPage() {
             <Link href="/admin" className="text-xs text-stone-400 hover:text-stone-200 underline">
               ← Dashboard
             </Link>
+            <Link href="/admin/products/labor-times" className="btn-faire !w-auto">Labor Times</Link>
             <Link href="/admin/expenses" className="btn-faire !w-auto">Overhead Expenses</Link>
           </nav>
         </header>
