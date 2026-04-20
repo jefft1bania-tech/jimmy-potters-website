@@ -1,15 +1,15 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 
-interface MemberData {
+export interface MemberData {
   id: string;
   email: string;
   name: string;
+  role: 'customer' | 'admin';
   preferences: {
     newsletter: boolean;
-    newProducts: boolean;
-    classSchedule: boolean;
   };
 }
 
@@ -27,73 +27,97 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [member, setMember] = useState<MemberData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // Check session on mount
+  const loadProfile = useCallback(async (userId: string): Promise<MemberData | null> => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('id, email, name, role, newsletter_opt_in')
+      .eq('id', userId)
+      .single();
+    if (error || !data) return null;
+    const row = data as unknown as {
+      id: string;
+      email: string;
+      name: string | null;
+      role: 'customer' | 'admin';
+      newsletter_opt_in: boolean;
+    };
+    return {
+      id: row.id,
+      email: row.email,
+      name: row.name ?? '',
+      role: row.role,
+      preferences: { newsletter: row.newsletter_opt_in },
+    };
+  }, [supabase]);
+
   useEffect(() => {
-    fetch('/api/auth/me')
-      .then((r) => r.json())
-      .then((data) => setMember(data.member || null))
-      .catch(() => setMember(null))
-      .finally(() => setLoading(false));
-  }, []);
+    let mounted = true;
+
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!mounted) return;
+      if (user) {
+        const profile = await loadProfile(user.id);
+        if (mounted) setMember(profile);
+      }
+      if (mounted) setLoading(false);
+    });
+
+    const { data: sub } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!mounted) return;
+      if (session?.user) {
+        const profile = await loadProfile(session.user.id);
+        if (mounted) setMember(profile);
+      } else {
+        setMember(null);
+      }
+    });
+
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [supabase, loadProfile]);
 
   const login = useCallback(async (email: string, password: string) => {
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
-      if (!res.ok) return { error: data.error };
-      setMember(data.member);
-      setShowAuthModal(false);
-      return {};
-    } catch {
-      return { error: 'Login failed. Please try again.' };
-    }
-  }, []);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return { error: error.message };
+    setShowAuthModal(false);
+    return {};
+  }, [supabase]);
 
   const signup = useCallback(async (email: string, name: string, password: string) => {
-    try {
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, password }),
-      });
-      const data = await res.json();
-      if (!res.ok) return { error: data.error };
-      setMember(data.member);
-      setShowAuthModal(false);
-      return {};
-    } catch {
-      return { error: 'Signup failed. Please try again.' };
-    }
-  }, []);
+    if (password.length < 6) return { error: 'Password must be at least 6 characters' };
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { name } },
+    });
+    if (error) return { error: error.message };
+    setShowAuthModal(false);
+    return {};
+  }, [supabase]);
 
   const logout = useCallback(async () => {
-    await fetch('/api/auth/me', { method: 'DELETE' });
+    await supabase.auth.signOut();
     setMember(null);
-  }, []);
+  }, [supabase]);
 
   const updatePreferences = useCallback(async (prefs: MemberData['preferences']) => {
-    try {
-      const res = await fetch('/api/auth/preferences', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ preferences: prefs }),
-      });
-      const data = await res.json();
-      if (!res.ok) return { error: data.error };
-      setMember(data.member);
-      return {};
-    } catch {
-      return { error: 'Failed to update preferences.' };
-    }
-  }, []);
+    if (!member) return { error: 'Not signed in' };
+    const { error } = await (supabase.from('profiles') as unknown as {
+      update: (v: Record<string, unknown>) => { eq: (c: string, v: string) => Promise<{ error: { message: string } | null }> };
+    })
+      .update({ newsletter_opt_in: prefs.newsletter })
+      .eq('id', member.id);
+    if (error) return { error: error.message };
+    setMember({ ...member, preferences: prefs });
+    return {};
+  }, [supabase, member]);
 
   return (
     <AuthContext.Provider

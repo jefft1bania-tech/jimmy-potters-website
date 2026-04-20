@@ -56,14 +56,8 @@ export default function AccountPage() {
     {
       key: 'newsletter' as const,
       label: 'Newsletter',
-      description: 'Monthly updates with pottery tips, behind-the-scenes, and community stories',
+      description: 'Monthly updates with pottery tips, behind-the-scenes, and new product drops',
       icon: '📧',
-    },
-    {
-      key: 'newProducts' as const,
-      label: 'New Product Drops',
-      description: 'Be the first to know when new one-of-a-kind pottery is listed',
-      icon: '🏺',
     },
   ];
 

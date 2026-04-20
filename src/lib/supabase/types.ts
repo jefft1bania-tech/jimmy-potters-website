@@ -1,10 +1,17 @@
 // Supabase generated types placeholder.
 // Regenerate with: `npx supabase gen types typescript --project-id <ref> > src/lib/supabase/types.ts`
-// Until then, use a loose type so the rest of the build compiles.
+// Until then, use a permissive type so queries compile without fighting generics.
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type Database = {
   public: {
-    Tables: Record<string, { Row: Record<string, unknown>; Insert: Record<string, unknown>; Update: Record<string, unknown> }>;
+    Tables: {
+      [key: string]: {
+        Row: Record<string, any>;
+        Insert: Record<string, any>;
+        Update: Record<string, any>;
+      };
+    };
     Views: Record<string, never>;
     Functions: Record<string, never>;
     Enums: Record<string, never>;
