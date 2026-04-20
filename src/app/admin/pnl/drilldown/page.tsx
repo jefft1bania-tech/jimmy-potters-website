@@ -13,17 +13,19 @@
 // field once DRAFT-0003_customer_segmentation.sql is applied.
 
 import Link from 'next/link';
-import type { DrilldownOrder, DailyWorkload } from '@/lib/pnl-drilldown';
+import type { DrilldownOrder, DailyWorkload, ProductSalesRow } from '@/lib/pnl-drilldown';
 import {
   loadDrilldownDashboard,
   computeWorkerRequirements,
   computeDailyWorkload,
+  computeProductSales,
   BLENDED_LABOR_RATE_PER_HOUR_CENTS,
   PACK_MINUTES_PER_POT,
   THROW_MINUTES_PER_POT,
   GLAZE_MINUTES_PER_POT,
   FIRE_MINUTES_PER_POT,
 } from '@/lib/pnl-drilldown';
+import { getAllProducts } from '@/lib/products';
 import { computeScaleInsights } from '@/lib/pnl-insights';
 import DrilldownController from './DrilldownClient';
 import ScaleInsights from './ScaleInsights';
@@ -75,6 +77,9 @@ export default async function PnlDrilldownPage() {
 
   // ---- Daily Workload (last 14 days) ----
   const dailyWorkload = computeDailyWorkload(orders, 14);
+
+  // ---- Product Sales Summary (which SKUs move the most units) ----
+  const productSales = computeProductSales(orders, getAllProducts());
 
   return (
     <main className="min-h-screen bg-stone-950 text-stone-200">
@@ -205,6 +210,9 @@ export default async function PnlDrilldownPage() {
         {/* Daily Workload — day-by-day order volume + packers needed */}
         <DailyWorkloadChart daily={dailyWorkload} />
 
+        {/* Product Sales Summary — which SKUs move the most */}
+        <ProductSummaryTable rows={productSales} />
+
         {/* Tier 1 drill-down tables (click a row -> Tier 2 drawer) */}
         <section className="mb-8">
           <DrilldownController
@@ -330,6 +338,150 @@ function BuyerTicker({
     <section className="mb-6 space-y-2">
       {renderLane(wholesaleItems, 'emerald', 'Wholesale')}
       {renderLane(retailItems,    'sky',     'Retail')}
+    </section>
+  );
+}
+
+function ProductSummaryTable({ rows }: { rows: ProductSalesRow[] }) {
+  const totalUnits = rows.reduce((s, r) => s + r.units_sold, 0);
+  const totalRevenue = rows.reduce((s, r) => s + r.revenue_cents, 0);
+  const topSeller = rows[0];
+  const maxUnits = Math.max(...rows.map((r) => r.units_sold), 1);
+
+  return (
+    <section className="card-faire-detail p-5 mb-8">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+        <div>
+          <p className="text-[10px] font-heading font-bold uppercase tracking-[0.15em] text-stone-500">
+            Product Sales Summary · Best Sellers
+          </p>
+          <p className="text-stone-400 text-xs font-body mt-1">
+            Total units sold per SKU across all orders. Top-seller is row 1. Make more of what moves.
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2 text-[10px] font-heading font-bold uppercase tracking-wider">
+          <span className="inline-flex items-center gap-1 rounded-full border border-stone-700 bg-stone-900/60 text-stone-300 px-2 py-0.5 font-mono tabular-nums">
+            {rows.length} SKUs · {totalUnits} pots sold
+          </span>
+          {topSeller && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 px-2 py-0.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Top: {topSeller.units_sold} pots
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs">
+          <thead className="bg-stone-900/60 text-stone-400 text-[10px] uppercase tracking-wider">
+            <tr>
+              <th className="text-center px-2 py-2 w-8">#</th>
+              <th className="text-left px-2 py-2 w-14">Photo</th>
+              <th className="text-left px-3 py-2">Product</th>
+              <th className="text-right px-3 py-2">Retail price</th>
+              <th className="text-right px-3 py-2">Units sold</th>
+              <th className="text-left px-3 py-2 w-40">Volume</th>
+              <th className="text-right px-3 py-2">Revenue</th>
+              <th className="text-right px-3 py-2">Orders</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.length === 0 && (
+              <tr>
+                <td colSpan={8} className="px-4 py-6 text-stone-500 text-center text-sm">
+                  No product sales yet.
+                </td>
+              </tr>
+            )}
+            {rows.map((r, idx) => {
+              const barPct = (r.units_sold / maxUnits) * 100;
+              const wholesalePct = (r.wholesale_units / maxUnits) * 100;
+              const rankTone =
+                idx === 0 ? 'text-amber-300 font-bold' :
+                idx === 1 ? 'text-stone-200 font-bold' :
+                idx === 2 ? 'text-stone-400 font-bold' :
+                            'text-stone-500';
+              return (
+                <tr key={r.product_id} className="border-t border-stone-800 hover:bg-stone-900/40 transition-colors">
+                  <td className={`px-2 py-2.5 text-center font-mono tabular-nums ${rankTone}`}>
+                    {idx + 1}
+                  </td>
+                  <td className="px-2 py-2">
+                    {r.image_path ? (
+                      <div className="relative w-11 h-11 rounded overflow-hidden bg-stone-800 border border-stone-700">
+                        {/* Use plain img to avoid Next/Image remotePatterns config for local paths */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={r.image_path}
+                          alt={r.product_name}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-11 h-11 rounded bg-stone-800 border border-stone-700 flex items-center justify-center text-stone-600 text-[9px]">
+                        no img
+                      </div>
+                    )}
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <div className="text-stone-200 font-medium leading-tight">{r.product_name}</div>
+                    <div className="text-stone-600 text-[10px] mt-0.5 font-mono">{r.product_id}</div>
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-mono text-stone-300">
+                    {USD.format(r.retail_price_cents / 100)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right">
+                    <span className="font-heading font-black text-base text-white font-mono tabular-nums">
+                      {r.units_sold}
+                    </span>
+                    <span className="text-stone-500 text-[10px] uppercase tracking-wider ml-1">
+                      {r.units_sold === 1 ? 'pot' : 'pots'}
+                    </span>
+                  </td>
+                  <td className="px-3 py-2">
+                    <div className="relative h-3 rounded-sm bg-stone-900 overflow-hidden" title={`${r.retail_units} retail · ${r.wholesale_units} wholesale`}>
+                      <div className="absolute inset-y-0 left-0 bg-sky-500/60" style={{ width: `${barPct}%` }} />
+                      {r.wholesale_units > 0 && (
+                        <div className="absolute inset-y-0 left-0 bg-emerald-400/70" style={{ width: `${wholesalePct}%` }} />
+                      )}
+                    </div>
+                    <div className="text-[9px] text-stone-600 mt-1 flex gap-2">
+                      <span className="text-emerald-400">W {r.wholesale_units}</span>
+                      <span className="text-sky-400">R {r.retail_units}</span>
+                    </div>
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-mono text-stone-200">
+                    {USD.format(r.revenue_cents / 100)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-mono text-stone-400">
+                    {r.order_count}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+          <tfoot className="bg-stone-900/40 border-t-2 border-stone-800">
+            <tr>
+              <td colSpan={4} className="px-3 py-2.5 text-stone-500 text-[10px] uppercase tracking-wider">
+                Totals across {rows.length} SKUs
+              </td>
+              <td className="px-3 py-2.5 text-right font-mono font-bold text-white">{totalUnits}</td>
+              <td className="px-3 py-2.5"></td>
+              <td className="px-3 py-2.5 text-right font-mono font-bold text-white">
+                {USD.format(totalRevenue / 100)}
+              </td>
+              <td className="px-3 py-2.5"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <p className="text-[10px] text-stone-600 mt-3">
+        Bar legend: <span className="text-emerald-400">emerald</span> = wholesale share,{' '}
+        <span className="text-sky-400">sky</span> = retail share. Ranked by units sold desc.
+        Row #1 is your top-seller — double production on it when inventory dips.
+      </p>
     </section>
   );
 }

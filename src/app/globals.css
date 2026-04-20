@@ -606,9 +606,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .ticker-track-wholesale {
   animation-duration: 130s !important;   /* ~2.2 min loop */
+  animation-delay: -65s !important;      /* Mid-cycle start -> items visibly flow right-to-left from page load */
 }
 .ticker-track-retail {
   animation-duration: 170s !important;   /* ~2.8 min loop */
+  animation-delay: -85s !important;
 }
 .ticker-wrap:hover .ticker-track {
   animation-play-state: paused !important;

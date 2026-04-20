@@ -599,6 +599,63 @@ export type DailyWorkload = {
   buyerTags: string[];       // short buyer names for the day ("Plant Nook · 50", etc.)
 };
 
+// ============================================================================
+// PRODUCT SALES SUMMARY — which SKUs move the most units, at what price,
+// generating what revenue. Fuels the "what to make more of" decision.
+// ============================================================================
+
+export type ProductSalesRow = {
+  product_id: string;
+  product_name: string;
+  image_path: string | null;    // first image from products.json or null
+  retail_price_cents: number;   // catalog price
+  units_sold: number;
+  order_count: number;
+  revenue_cents: number;
+  wholesale_units: number;
+  retail_units: number;
+};
+
+export function computeProductSales(
+  orders: DrilldownOrder[],
+  productCatalog: Array<{ id: string; name: string; price: number; images?: string[] }>,
+): ProductSalesRow[] {
+  const catalogById = new Map(productCatalog.map((p) => [p.id, p]));
+  const agg = new Map<string, ProductSalesRow>();
+
+  for (const o of orders) {
+    for (const li of o.line_items) {
+      const existing = agg.get(li.product_id);
+      const catalog = catalogById.get(li.product_id);
+      const image = catalog?.images?.[0] ?? null;
+      const retailPrice = catalog?.price ?? li.unit_price_cents;
+
+      if (existing) {
+        existing.units_sold += li.quantity;
+        existing.order_count += 1;
+        existing.revenue_cents += li.unit_price_cents * li.quantity;
+        if (o.segment === 'wholesale') existing.wholesale_units += li.quantity;
+        else existing.retail_units += li.quantity;
+      } else {
+        agg.set(li.product_id, {
+          product_id: li.product_id,
+          product_name: li.product_name,
+          image_path: image,
+          retail_price_cents: retailPrice,
+          units_sold: li.quantity,
+          order_count: 1,
+          revenue_cents: li.unit_price_cents * li.quantity,
+          wholesale_units: o.segment === 'wholesale' ? li.quantity : 0,
+          retail_units: o.segment === 'retail' ? li.quantity : 0,
+        });
+      }
+    }
+  }
+
+  // Sort by units sold desc so top sellers rise to the top.
+  return Array.from(agg.values()).sort((a, b) => b.units_sold - a.units_sold);
+}
+
 export function computeDailyWorkload(
   orders: DrilldownOrder[],
   days: number = 14,
