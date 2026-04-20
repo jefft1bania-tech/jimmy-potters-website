@@ -9,9 +9,10 @@ type Props = {
   from: string;
   to: string;
   presets: Preset[];
+  basePath?: string;
 };
 
-export default function DateRangeBar({ from, to, presets }: Props) {
+export default function DateRangeBar({ from, to, presets, basePath = '/admin/pnl' }: Props) {
   const router = useRouter();
   const sp = useSearchParams();
   const [start, setStart] = useState(from);
@@ -21,7 +22,7 @@ export default function DateRangeBar({ from, to, presets }: Props) {
     const params = new URLSearchParams(sp?.toString());
     params.set('from', nextFrom);
     params.set('to', nextTo);
-    router.push(`/admin/pnl?${params.toString()}`);
+    router.push(`${basePath}?${params.toString()}`);
   }
 
   const activeKey = presets.find((p) => p.from === from && p.to === to)?.key;
