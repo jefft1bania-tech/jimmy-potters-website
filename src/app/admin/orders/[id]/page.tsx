@@ -14,6 +14,7 @@ import {
 } from '@/lib/labor/forecast';
 import MarkPaidButton from './MarkPaidButton';
 import CostOverrideForm from './CostOverrideForm';
+import BulkToggleCard from './BulkToggleCard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Order Detail — Admin — Jimmy Potters', robots: 'noindex, nofollow' };
@@ -114,7 +115,12 @@ async function loadOrder(id: string) {
     shipment: (shipmentRes.data as ShipmentRow | null) ?? null,
     payments: (paymentsRes.data ?? []) as PaymentRow[],
     override: (overrideRes.data as OrderCostOverride | null) ?? null,
-    bulk: (bulkRes.data as { customer_type: string; tier_discount_pct: number | null } | null) ?? null,
+    bulk: (bulkRes.data as {
+      customer_type: string;
+      tier_discount_pct: number | null;
+      volume_unit_cost_cents: number | null;
+      notes: string | null;
+    } | null) ?? null,
     templates: (templatesRes.data ?? []) as ProductCostTemplate[],
     roles: (rolesRes.data ?? []) as LaborRole[],
     laborTimes: (laborTimesRes.data ?? []) as ProductLaborTime[],
@@ -233,6 +239,8 @@ export default async function AdminOrderDetailPage({ params }: { params: { id: s
           </div>
           <Link href="/admin/orders" className="text-stone-400 text-xs font-body underline-offset-4 hover:underline">← Orders</Link>
         </header>
+
+        <BulkToggleCard orderId={order.id} isBulk={order.is_bulk} bulk={bulk} />
 
         {/* Panel 1 — Overview */}
         <section className="card-faire-detail p-6 border border-stone-700/40 mb-6">
