@@ -3,6 +3,16 @@ import { getStripe } from '@/lib/stripe';
 
 export const dynamic = 'force-dynamic';
 
+function resolveOrigin(req: NextRequest): string {
+  if (process.env.NEXT_PUBLIC_URL) return process.env.NEXT_PUBLIC_URL;
+  const host = req.headers.get('host');
+  if (host) {
+    const proto = req.headers.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https');
+    return `${proto}://${host}`;
+  }
+  return new URL(req.url).origin;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { items } = await req.json();
@@ -11,6 +21,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No items provided' }, { status: 400 });
     }
 
+    const origin = resolveOrigin(req);
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -28,8 +39,8 @@ export async function POST(req: NextRequest) {
             ],
           }
         : {}),
-      success_url: `${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/success?session_id={CHECKOUT_SESSION_ID}&type=product`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/cart`,
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}&type=product`,
+      cancel_url: `${origin}/cart`,
       metadata: {
         order_type: 'product',
         product_ids: items.map((i: { id: string }) => i.id).join(','),
