@@ -9,11 +9,13 @@ import { EAST_COAST_STATES } from '@/lib/shipping';
 import { calculateSalesTax, getTaxDisplayRate, formatTaxAmount } from '@/lib/tax';
 import CheckoutForm from './CheckoutForm';
 import StripeProvider from '@/components/checkout/StripeProvider';
+import { useAuth } from '@/components/auth/AuthProvider';
 
 type Flow = 'guest' | 'register' | null;
 
 export default function CheckoutPage() {
   const { items, total, itemCount } = useCart();
+  const { signup } = useAuth();
   const [flow, setFlow] = useState<Flow>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
@@ -27,7 +29,6 @@ export default function CheckoutPage() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [newsletter, setNewsletter] = useState(true);
 
   // Shipping address
   const [shipName, setShipName] = useState('');
@@ -71,6 +72,15 @@ export default function CheckoutPage() {
 
     setCreating(true);
     try {
+      if (flow === 'register') {
+        const { error: signupError } = await signup(email, name, password);
+        if (signupError) {
+          setError(signupError);
+          setCreating(false);
+          return;
+        }
+      }
+
       const res = await fetch('/api/checkout/payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -78,8 +88,6 @@ export default function CheckoutPage() {
           flow,
           email,
           name,
-          password: flow === 'register' ? password : undefined,
-          newsletter: flow === 'register' ? newsletter : undefined,
           items: items.map((item) => ({
             productId: item.id,
             name: item.name,
@@ -215,31 +223,21 @@ export default function CheckoutPage() {
                       </div>
 
                       {flow === 'register' && (
-                        <>
-                          <div>
-                            <label className="block text-stone-400 text-xs font-body mb-1">Password * (min 6 characters)</label>
-                            <input
-                              type="password"
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)}
-                              placeholder="Create a password"
-                              minLength={6}
-                              className="w-full px-3 py-2.5 rounded-lg bg-stone-800 border border-stone-700 text-stone-200 text-sm font-body focus:outline-none focus:ring-2 focus:ring-[#C9A96E]/50 focus:border-[#C9A96E]"
-                              required
-                            />
-                          </div>
-                          <label className="flex items-center gap-2.5 cursor-pointer p-3 rounded-lg bg-stone-800/50 border border-stone-700/40">
-                            <input
-                              type="checkbox"
-                              checked={newsletter}
-                              onChange={(e) => setNewsletter(e.target.checked)}
-                              className="accent-[#C9A96E] w-4 h-4"
-                            />
-                            <span className="text-stone-400 text-xs font-body">
-                              Sign me up for the newsletter — new pottery drops, studio updates, and 10% off my next order
-                            </span>
-                          </label>
-                        </>
+                        <div>
+                          <label className="block text-stone-400 text-xs font-body mb-1">Password * (min 6 characters)</label>
+                          <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Create a password"
+                            minLength={6}
+                            className="w-full px-3 py-2.5 rounded-lg bg-stone-800 border border-stone-700 text-stone-200 text-sm font-body focus:outline-none focus:ring-2 focus:ring-[#C9A96E]/50 focus:border-[#C9A96E]"
+                            required
+                          />
+                          <p className="text-stone-500 text-[10px] font-body mt-2">
+                            You can toggle newsletter preferences from your account page after signup.
+                          </p>
+                        </div>
                       )}
                     </div>
                   </div>
