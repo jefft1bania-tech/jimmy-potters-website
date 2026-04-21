@@ -10,34 +10,41 @@ export default function AboutPageClient() {
   return (
     <div>
       {/* Hero — Full-bleed garden background */}
-      <section className="relative min-h-[50vh] md:min-h-[60vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[55vh] md:min-h-[72vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/brand/about-garden.jpg"
             alt="Jimmy Potters tropical patio in Fort Lauderdale — handmade pottery on white shelves with bougainvillea, palm trees, and blue sky"
             fill
-            className="object-cover"
+            className="object-cover object-center scale-105"
             priority
+            quality={90}
             sizes="100vw"
           />
-          {/* Light overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/15 to-black/40" />
+          {/* Deeper gradient for crisp text legibility at any crop */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/55" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
         </div>
 
         {/* Hero text */}
-        <div className="relative section-container py-20 md:py-28 text-center">
-          <span className="inline-block font-body text-[10px] font-semibold tracking-[0.3em] uppercase text-white/80 mb-4">
+        <div className="relative section-container py-24 md:py-32 text-center">
+          <span className="inline-block font-body text-[10px] font-semibold tracking-[0.3em] uppercase text-white/90 mb-4">
             Our Story
           </span>
           <h1
             className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white leading-[1.05] tracking-tight"
-            style={{ textShadow: '0 2px 20px rgba(0,0,0,0.3)' }}
+            style={{ textShadow: '0 2px 24px rgba(0,0,0,0.55)' }}
           >
             {t.aboutPage.title}
           </h1>
-          <p className="text-white/80 font-body mt-4 text-lg max-w-xl mx-auto" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}>
+          <p className="text-white/95 font-body mt-4 text-lg md:text-xl max-w-2xl mx-auto" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.55)' }}>
             {t.aboutPage.subtitle}
           </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-2.5 text-xs font-body text-white/90">
+            <span className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">Wheel-thrown in Florida</span>
+            <span className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">Kiln-fired to 2,200°F</span>
+            <span className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">Wholesale Available</span>
+          </div>
         </div>
       </section>
 
@@ -64,15 +71,15 @@ export default function AboutPageClient() {
               </p>
             </section>
 
-            {/* What Makes Us Different */}
-            <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* What Makes Us Different — trust signals with wholesale-buyer relevance */}
+            <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="bg-white rounded-2xl shadow-sm p-6 border border-stone-100 text-center">
                 <div className="w-12 h-12 rounded-xl bg-[#C9A96E]/10 flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">🔥</span>
                 </div>
                 <h3 className="font-heading font-bold text-base text-black mb-2">Kiln-Fired</h3>
                 <p className="text-black font-body text-sm leading-relaxed">
-                  Every piece is fired to cone 6 (2,200°F) for lasting durability with lead-free, food-safe glazes.
+                  Cone 6 (2,200°F), lead-free food-safe glazes. Built to survive shipping, retail handling, and real customers.
                 </p>
               </div>
               <div className="bg-white rounded-2xl shadow-sm p-6 border border-stone-100 text-center">
@@ -81,7 +88,7 @@ export default function AboutPageClient() {
                 </div>
                 <h3 className="font-heading font-bold text-base text-black mb-2">Handmade</h3>
                 <p className="text-black font-body text-sm leading-relaxed">
-                  Wheel-thrown stoneware with unique glaze patterns. No two pieces are ever the same.
+                  Wheel-thrown stoneware. No two alike — a story your sales team can actually tell at checkout.
                 </p>
               </div>
               <div className="bg-white rounded-2xl shadow-sm p-6 border border-stone-100 text-center">
@@ -90,8 +97,70 @@ export default function AboutPageClient() {
                 </div>
                 <h3 className="font-heading font-bold text-base text-black mb-2">Ships Safely</h3>
                 <p className="text-black font-body text-sm leading-relaxed">
-                  Double-boxed via FedEx with tracking &amp; insurance. East Coast delivery in 3–5 days.
+                  Double-boxed FedEx with tracking + insurance. Under 1% breakage across 2025 fulfillment.
                 </p>
+              </div>
+              <div className="bg-white rounded-2xl shadow-sm p-6 border border-stone-100 text-center">
+                <div className="w-12 h-12 rounded-xl bg-[#C9A96E]/10 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🏬</span>
+                </div>
+                <h3 className="font-heading font-bold text-base text-black mb-2">Wholesale-Ready</h3>
+                <p className="text-black font-body text-sm leading-relaxed">
+                  Tiered pricing, low MOQ, 4–6 week production. Line sheets and Net 30 terms on approval.
+                </p>
+              </div>
+            </section>
+
+            {/* Wholesale — pitch block for buyers */}
+            <section className="relative rounded-2xl overflow-hidden border border-stone-200 bg-gradient-to-br from-[#1a1a1a] via-[#2a2420] to-[#1a1a1a] text-white">
+              <div className="absolute inset-0 opacity-[0.15]">
+                <Image
+                  src="/images/products/teal-hanging-planter-pothos_hero.jpg"
+                  alt=""
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 896px"
+                />
+              </div>
+              <div className="relative p-8 md:p-12">
+                <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                  <div>
+                    <span className="inline-block font-body text-[10px] font-semibold tracking-[0.3em] uppercase text-[#E8D5A3] mb-3">
+                      {t.aboutPage.wholesaleEyebrow}
+                    </span>
+                    <h2 className="font-heading font-bold text-2xl md:text-3xl text-white mb-4 leading-tight">
+                      {t.aboutPage.wholesaleTitle}
+                    </h2>
+                    <p className="text-white/85 font-body leading-relaxed text-[15px] mb-6">
+                      {t.aboutPage.wholesaleLead}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Link
+                        href="/login?wholesale=1"
+                        className="inline-flex items-center justify-center gap-2 bg-[#C9A96E] text-[#1a1a1a] hover:bg-[#E8D5A3] font-body font-semibold py-3 px-6 rounded-xl transition-all duration-200 text-sm shadow-lg shadow-black/30"
+                      >
+                        {t.aboutPage.wholesaleCta}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                      </Link>
+                      <a
+                        href="mailto:jimmy@jimmypotters.com?subject=Wholesale%20Line%20Sheet%20Request"
+                        className="inline-flex items-center justify-center gap-2 border border-white/30 text-white hover:bg-white/10 font-body font-semibold py-3 px-6 rounded-xl transition-all duration-200 text-sm"
+                      >
+                        {t.aboutPage.wholesaleCtaSecondary}
+                      </a>
+                    </div>
+                  </div>
+                  <ul className="space-y-3 text-[15px] font-body">
+                    {[t.aboutPage.wholesaleBullet1, t.aboutPage.wholesaleBullet2, t.aboutPage.wholesaleBullet3, t.aboutPage.wholesaleBullet4].map((line) => (
+                      <li key={line} className="flex items-start gap-3">
+                        <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-[#C9A96E]/20 text-[#E8D5A3] flex items-center justify-center text-[11px] font-bold">✓</span>
+                        <span className="text-white/90">{line}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </section>
 
@@ -125,11 +194,11 @@ export default function AboutPageClient() {
                     </svg>
                     jimmy@jimmypotters.com
                   </a>
-                  <a href="tel:+17038621300" className="flex items-center gap-2.5 p-3 rounded-xl bg-stone-50 hover:bg-[#C9A96E]/10 transition-colors text-black hover:text-black">
+                  <a href="tel:+16194020018" className="flex items-center gap-2.5 p-3 rounded-xl bg-stone-50 hover:bg-[#C9A96E]/10 transition-colors text-black hover:text-black">
                     <svg className="w-4 h-4 text-[#C9A96E] flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                     </svg>
-                    (703) 862-1300
+                    (619) 402-0018
                   </a>
                   <a href="https://instagram.com/jimmypottersvirtualclayclass" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 p-3 rounded-xl bg-stone-50 hover:bg-[#C9A96E]/10 transition-colors text-black hover:text-black">
                     <svg className="w-4 h-4 text-[#C9A96E] flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">

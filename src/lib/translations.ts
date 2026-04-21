@@ -90,6 +90,15 @@ const translations = {
       contactTitle: 'Get In Touch',
       contactSubtitle: "Curious about a piece, a custom order, or a collaboration? We'd love to hear from you.",
       shopBtn: 'Shop Pottery',
+      wholesaleEyebrow: 'For Retailers & Plant Shops',
+      wholesaleTitle: 'Stock Jimmy Potters in Your Store',
+      wholesaleLead: 'We partner with independent plant shops, design studios, hotels, and boutiques across the US. Tiered wholesale pricing, dedicated production runs, and signature pieces your customers won\'t find on Amazon.',
+      wholesaleBullet1: 'Tiered pricing — up to 50% off retail',
+      wholesaleBullet2: 'Low MOQ — start with 12 pieces',
+      wholesaleBullet3: '4–6 week production lead time',
+      wholesaleBullet4: 'Net 30 terms for approved accounts',
+      wholesaleCta: 'Apply for Wholesale',
+      wholesaleCtaSecondary: 'Request Line Sheet',
     },
 
     // Newsletter
@@ -244,6 +253,15 @@ const translations = {
       contactTitle: 'Contáctanos',
       contactSubtitle: '¿Curiosidad sobre una pieza, un pedido personalizado o una colaboración? Nos encantaría saber de ti.',
       shopBtn: 'Ver Cerámica',
+      wholesaleEyebrow: 'Para Tiendas y Viveros',
+      wholesaleTitle: 'Vende Jimmy Potters en Tu Tienda',
+      wholesaleLead: 'Colaboramos con viveros independientes, estudios de diseño, hoteles y boutiques en todo EE.UU. Precios escalonados al por mayor, producción dedicada y piezas exclusivas que tus clientes no encontrarán en Amazon.',
+      wholesaleBullet1: 'Precios escalonados — hasta 50% de descuento',
+      wholesaleBullet2: 'Pedido mínimo bajo — desde 12 piezas',
+      wholesaleBullet3: 'Producción en 4–6 semanas',
+      wholesaleBullet4: 'Términos Net 30 para cuentas aprobadas',
+      wholesaleCta: 'Solicitar Cuenta Mayorista',
+      wholesaleCtaSecondary: 'Pedir Hoja de Productos',
     },
 
     newsletter: {
