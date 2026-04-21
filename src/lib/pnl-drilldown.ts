@@ -109,6 +109,38 @@ export const PARALLEL_PACK_THRESHOLD_UNITS = 10;
 export const MATERIALS_COST_PER_POT_CENTS = 350;       // clay + glaze + firing allocation
 export const SHIPSURANCE_PER_UNIT_CENTS = 45;          // $0.45
 
+// ---------------------------------------------------------------------------
+// Fixed overhead (monthly). Runs whether or not a single pot ships.
+// Source of truth; edit these in-place when a bill changes.
+// Purpose: transparency for employees — shows what the owner commits before
+// any revenue comes in.
+// ---------------------------------------------------------------------------
+
+export type FixedCost = {
+  category: string;
+  monthly_cents: number;
+  note?: string;
+};
+
+export const FIXED_COSTS_MONTHLY: FixedCost[] = [
+  { category: 'Warehouse Monthly Rental',         monthly_cents: 150000, note: 'Studio + storage lease' },
+  { category: 'Warehouse Monthly Electricity',    monthly_cents:  25000, note: 'Kiln draws most of this' },
+  { category: 'General Liability Insurance',      monthly_cents:  10000, note: 'Policy minimum — required' },
+];
+
+export function fixedCostsMonthlyTotalCents(): number {
+  return FIXED_COSTS_MONTHLY.reduce((s, c) => s + c.monthly_cents, 0);
+}
+
+export function fixedCostsDailyBurnCents(daysInMonth = 30): number {
+  return Math.round(fixedCostsMonthlyTotalCents() / daysInMonth);
+}
+
+export function fixedCostsPerUnitCents(unitsThisMonth: number): number {
+  if (unitsThisMonth <= 0) return 0;
+  return Math.round(fixedCostsMonthlyTotalCents() / unitsThisMonth);
+}
+
 // Packaging BOM at 500-qty bulk rate — $2.14/unit per protocol
 export function bomForPot(): BomLine[] {
   return [

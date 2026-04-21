@@ -70,6 +70,14 @@ export default async function PnlReportPage({
             <Link href="/admin" className="text-xs text-stone-400 hover:text-stone-200 underline">
               ← Dashboard
             </Link>
+            <a
+              href={`/admin/pnl/statement?year=${new Date().getUTCFullYear()}`}
+              target="_blank"
+              rel="noopener"
+              className="inline-flex items-center gap-2 rounded-md border border-emerald-500/40 bg-emerald-500/10 text-emerald-200 hover:bg-emerald-500/15 hover:border-emerald-400 transition-colors px-3 py-1.5 text-xs font-heading font-bold uppercase tracking-wider"
+            >
+              CPA Statement ↗
+            </a>
             <PrintButton />
             <Link href={`/admin/pnl/pdf${exportQs}`} className="btn-faire !w-auto" prefetch={false}>
               PDF

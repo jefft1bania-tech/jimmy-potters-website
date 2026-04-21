@@ -168,17 +168,28 @@ export default async function AdminIndexPage() {
   return (
     <main className="min-h-screen bg-stone-950 text-stone-200">
       <div className="max-w-6xl mx-auto p-6 md:p-10">
-        <header className="mb-8">
-          <p className="text-[11px] font-heading font-bold uppercase tracking-[0.3em] text-gold-shimmer mb-2">Admin</p>
-          <h1 className="text-3xl md:text-4xl font-heading font-black text-white tracking-tight">Jimmy Potters Dashboard</h1>
-          <p className="text-stone-400 text-sm font-body mt-2">
-            Month-to-date: <span className="text-stone-300">{period.from}</span> → <span className="text-stone-300">{period.to}</span>
-            {hasEstimates && (
-              <span className="ml-2 inline-block rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] font-heading font-bold uppercase tracking-wider px-2 py-0.5">
-                Includes COGS estimates
-              </span>
-            )}
-          </p>
+        <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-[11px] font-heading font-bold uppercase tracking-[0.3em] text-gold-shimmer mb-2">Admin</p>
+            <h1 className="text-3xl md:text-4xl font-heading font-black text-white tracking-tight">Jimmy Potters Dashboard</h1>
+            <p className="text-stone-400 text-sm font-body mt-2">
+              Month-to-date: <span className="text-stone-300">{period.from}</span> → <span className="text-stone-300">{period.to}</span>
+              {hasEstimates && (
+                <span className="ml-2 inline-block rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] font-heading font-bold uppercase tracking-wider px-2 py-0.5">
+                  Includes COGS estimates
+                </span>
+              )}
+            </p>
+          </div>
+          <a
+            href={`/admin/pnl/statement?year=${new Date().getUTCFullYear()}`}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-2 rounded-md border border-emerald-500/40 bg-emerald-500/10 text-emerald-200 hover:bg-emerald-500/15 hover:border-emerald-400 transition-colors px-4 py-2.5 text-sm font-heading font-bold uppercase tracking-wider"
+          >
+            <span>CPA Statement</span>
+            <span className="text-[10px] opacity-70">Monthly · Quarterly · Annual · Schedule C ↗</span>
+          </a>
         </header>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

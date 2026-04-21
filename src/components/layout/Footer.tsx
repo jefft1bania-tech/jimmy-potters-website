@@ -146,8 +146,21 @@ export default function Footer() {
               <p className="font-semibold text-white/45 uppercase tracking-wider text-[10px] mb-1">Legal</p>
               <p>All pottery is handmade stoneware, kiln-fired to cone 6 (2,200&deg;F).</p>
               <p>Lead-free, food-safe glazes. Dimensions are approximate &mdash; each piece is unique.</p>
-              <p>Shipping via FedEx with tracking &amp; insurance included.</p>
+              <p>Shipping via USPS Priority &middot; fully insured through Shipsurance.</p>
             </div>
+          </div>
+        </div>
+
+        {/* Policy links */}
+        <div className="border-t border-white/10 mt-6 pt-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-body text-white/50">
+            <Link href="/shipping" className="hover:text-white transition-colors">Shipping Policy</Link>
+            <span className="text-white/20">&middot;</span>
+            <Link href="/returns" className="hover:text-white transition-colors">Returns &amp; Refunds</Link>
+            <span className="text-white/20">&middot;</span>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <span className="text-white/20">&middot;</span>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
           </div>
         </div>
 

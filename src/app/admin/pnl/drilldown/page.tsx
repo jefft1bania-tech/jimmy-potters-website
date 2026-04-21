@@ -24,6 +24,10 @@ import {
   THROW_MINUTES_PER_POT,
   GLAZE_MINUTES_PER_POT,
   FIRE_MINUTES_PER_POT,
+  FIXED_COSTS_MONTHLY,
+  fixedCostsMonthlyTotalCents,
+  fixedCostsDailyBurnCents,
+  fixedCostsPerUnitCents,
 } from '@/lib/pnl-drilldown';
 import { getAllProducts } from '@/lib/products';
 import { computeScaleInsights } from '@/lib/pnl-insights';
@@ -47,10 +51,6 @@ export default async function PnlDrilldownPage() {
 
   const wholesaleOrders = orders.filter((o) => o.segment === 'wholesale');
   const retailOrders    = orders.filter((o) => o.segment === 'retail');
-
-  const marginTone =
-    totals.margin_pct < 0.15 ? 'text-red-300' :
-    totals.margin_pct < 0.3 ? 'text-amber-300' : 'text-emerald-300';
 
   // ---- Daily Worker Requirements rollup ----
   // Roll up per-phase minutes across every order in the queue, then convert to
@@ -110,17 +110,14 @@ export default async function PnlDrilldownPage() {
           </nav>
         </header>
 
-        {/* Dual-lane buyer ticker — scrolls order-by-order so the queue feels alive */}
-        <BuyerTicker wholesale={wholesaleOrders} retail={retailOrders} />
-
         {/* Tier 1: KPI strip */}
         <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-          <Kpi label="Orders"      value={String(totals.order_count)} />
-          <Kpi label="Units"       value={String(totals.units)} />
-          <Kpi label="Revenue"     value={fmt(totals.revenue_cents)} />
-          <Kpi label="To make & ship" value={fmt(totals.cogs_cents)} />
-          <Kpi label="You keep"       value={fmt(totals.net_margin_cents)} tone={marginTone} />
-          <Kpi label="Your take"      value={pct(totals.margin_pct)} tone={marginTone} />
+          <Kpi label="Orders"      value={String(totals.order_count)} tone="text-sky-400" />
+          <Kpi label="Units"       value={String(totals.units)} tone="text-sky-400" />
+          <Kpi label="Revenue"     value={fmt(totals.revenue_cents)} tone="text-sky-400" />
+          <Kpi label="To make & ship" value={fmt(totals.cogs_cents)} tone="text-sky-400" />
+          <Kpi label="You keep"       value={fmt(totals.net_margin_cents)} tone="text-sky-400" />
+          <Kpi label="Your take"      value={pct(totals.margin_pct)} tone="text-sky-400" />
         </section>
 
         {/* Segment comparison bar */}
@@ -149,6 +146,12 @@ export default async function PnlDrilldownPage() {
             />
           </div>
         </section>
+
+        {/* Fixed monthly overhead — transparency for the team */}
+        <FixedCostsCard unitsThisMonth={totals.units} />
+
+        {/* Dual-lane buyer ticker — scrolls order-by-order so the queue feels alive */}
+        <BuyerTicker wholesale={wholesaleOrders} retail={retailOrders} />
 
         {/* Daily Worker Requirements — throughput across today's queue */}
         <section className="mb-8 card-faire-detail p-5">
@@ -274,6 +277,102 @@ export default async function PnlDrilldownPage() {
 
 // ---------------- helpers ----------------
 
+function FixedCostsCard({ unitsThisMonth }: { unitsThisMonth: number }) {
+  const monthlyTotal = fixedCostsMonthlyTotalCents();
+  const dailyBurn    = fixedCostsDailyBurnCents();
+  const perUnit      = fixedCostsPerUnitCents(unitsThisMonth);
+  const breakEvenUnits = Math.ceil(monthlyTotal / 4000); // at ~$40 avg contribution / pot
+
+  return (
+    <section className="mb-8 card-faire-detail p-5 border-l-4 border-amber-500/60">
+      <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
+        <div>
+          <p className="text-[10px] font-heading font-bold uppercase tracking-[0.15em] text-amber-300">
+            Fixed Monthly Overhead
+          </p>
+          <p className="text-stone-400 text-xs font-body mt-1">
+            The bills that run whether or not a single pot ships — paid by the owner before anyone earns a dollar.
+          </p>
+        </div>
+        <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-200 text-[10px] font-heading font-bold uppercase tracking-wider px-2 py-0.5">
+          Transparency view
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+        <div className="border border-amber-500/30 rounded-md p-3 bg-amber-500/5">
+          <p className="text-[9px] uppercase tracking-wider text-amber-300/80">Monthly total</p>
+          <p className="font-heading font-black text-2xl text-white mt-1 font-mono tabular-nums">
+            {fmt(monthlyTotal)}
+          </p>
+          <p className="text-[10px] text-stone-500 mt-1">committed every month</p>
+        </div>
+        <div className="border border-stone-800 rounded-md p-3 bg-stone-900/40">
+          <p className="text-[9px] uppercase tracking-wider text-stone-500">Daily burn</p>
+          <p className="font-heading font-black text-2xl text-white mt-1 font-mono tabular-nums">
+            {fmt(dailyBurn)}
+          </p>
+          <p className="text-[10px] text-stone-500 mt-1">~30-day amortization</p>
+        </div>
+        <div className="border border-stone-800 rounded-md p-3 bg-stone-900/40">
+          <p className="text-[9px] uppercase tracking-wider text-stone-500">Overhead per pot shipped</p>
+          <p className="font-heading font-black text-2xl text-white mt-1 font-mono tabular-nums">
+            {unitsThisMonth > 0 ? fmt(perUnit) : '—'}
+          </p>
+          <p className="text-[10px] text-stone-500 mt-1">
+            {unitsThisMonth > 0 ? `${unitsThisMonth} units this period` : 'no units yet this period'}
+          </p>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-[10px] uppercase tracking-[0.15em] text-stone-500 border-b border-stone-800">
+              <th className="text-left  font-heading font-bold px-3 py-2">Category</th>
+              <th className="text-left  font-heading font-bold px-3 py-2">Notes</th>
+              <th className="text-right font-heading font-bold px-3 py-2">Monthly</th>
+              <th className="text-right font-heading font-bold px-3 py-2">% of total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {FIXED_COSTS_MONTHLY.map((c) => {
+              const share = monthlyTotal > 0 ? c.monthly_cents / monthlyTotal : 0;
+              return (
+                <tr key={c.category} className="border-b border-stone-900 hover:bg-stone-900/40">
+                  <td className="px-3 py-2 text-stone-200 font-medium">{c.category}</td>
+                  <td className="px-3 py-2 text-stone-500 text-[12px]">{c.note ?? ''}</td>
+                  <td className="px-3 py-2 text-right font-mono tabular-nums text-white">{fmt(c.monthly_cents)}</td>
+                  <td className="px-3 py-2 text-right font-mono tabular-nums text-stone-400">{pct(share)}</td>
+                </tr>
+              );
+            })}
+            <tr className="border-t-2 border-amber-500/40 bg-amber-500/5">
+              <td className="px-3 py-2 font-heading font-bold text-amber-200 uppercase tracking-wider text-[11px]">
+                Total fixed overhead
+              </td>
+              <td className="px-3 py-2" />
+              <td className="px-3 py-2 text-right font-mono tabular-nums font-bold text-white">{fmt(monthlyTotal)}</td>
+              <td className="px-3 py-2 text-right font-mono tabular-nums text-stone-500">100.0%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p className="text-[11px] text-stone-400 leading-relaxed mt-4">
+        <span className="text-amber-200 font-bold">Reality check:</span>{' '}
+        before Jimmy sells a single pot this month, he has already committed{' '}
+        <span className="text-white font-bold font-mono tabular-nums">{fmt(monthlyTotal)}</span>{' '}
+        in fixed costs — that&apos;s about{' '}
+        <span className="text-white font-bold font-mono tabular-nums">{fmt(dailyBurn)}</span>{' '}
+        every single day the doors are open. At a blended ~$40 contribution per pot, the shop has to ship roughly{' '}
+        <span className="text-white font-bold font-mono tabular-nums">{breakEvenUnits}</span>{' '}
+        pots each month just to cover rent, power, and insurance — before payroll, materials, or profit.
+      </p>
+    </section>
+  );
+}
+
 function BuyerTicker({
   wholesale,
   retail,
@@ -299,18 +398,19 @@ function BuyerTicker({
   ) => {
     if (items.length === 0) return null;
     const border = tone === 'emerald' ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-sky-500/30 bg-sky-500/5';
-    const chip   = tone === 'emerald' ? 'bg-emerald-500/20 text-emerald-200' : 'bg-sky-500/20 text-sky-200';
+    const chip   = tone === 'emerald' ? 'bg-emerald-950 text-emerald-200' : 'bg-sky-950 text-sky-200';
     const dot    = tone === 'emerald' ? 'bg-emerald-400' : 'bg-sky-400';
     const speedClass = tone === 'emerald' ? 'ticker-track-wholesale' : 'ticker-track-retail';
     // Duplicate the items so translateX(-50%) hand-off is seamless.
     const doubled = [...items, ...items];
     return (
       <div className={`ticker-wrap relative overflow-hidden rounded-md border ${border}`}>
-        <div className={`absolute left-0 top-0 bottom-0 z-10 flex items-center px-3 ${chip} border-r border-white/10`}>
+        <div className={`absolute left-0 top-0 bottom-0 z-20 flex items-center px-3 ${chip} border-r border-white/10 shadow-[4px_0_8px_rgba(0,0,0,0.5)]`}>
           <span className="text-[10px] font-heading font-bold uppercase tracking-[0.2em] whitespace-nowrap">
             {label} · {items.length}
           </span>
         </div>
+        <div className="absolute left-[8rem] top-0 bottom-0 z-10 w-10 pointer-events-none bg-gradient-to-r from-stone-950 to-transparent" />
         <div className="absolute right-0 top-0 bottom-0 z-10 w-12 pointer-events-none bg-gradient-to-l from-stone-950 to-transparent" />
         <div
           className={`flex whitespace-nowrap py-2.5 ticker-track ${speedClass} pl-40`}

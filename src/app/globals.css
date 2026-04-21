@@ -594,23 +594,23 @@ h1, h2, h3, h4, h5, h6 {
    kill-switch: this animation IS the feature.
    ═══════════════════════════════════════════════════ */
 @keyframes drilldown-ticker-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
 }
 .ticker-track {
   animation-name: drilldown-ticker-scroll !important;
   animation-timing-function: linear !important;
   animation-iteration-count: infinite !important;
-  animation-duration: 130s !important;
+  animation-duration: 65s !important;
   will-change: transform;
 }
 .ticker-track-wholesale {
-  animation-duration: 130s !important;   /* ~2.2 min loop */
-  animation-delay: -65s !important;      /* Mid-cycle start -> items visibly flow right-to-left from page load */
+  animation-duration: 65s !important;    /* ~1.1 min loop — 2x faster than prior 130s */
+  animation-delay: -32s !important;      /* Mid-cycle start so items flow left-to-right from page load */
 }
 .ticker-track-retail {
-  animation-duration: 170s !important;   /* ~2.8 min loop */
-  animation-delay: -85s !important;
+  animation-duration: 85s !important;    /* ~1.4 min loop — 2x faster than prior 170s */
+  animation-delay: -42s !important;
 }
 .ticker-wrap:hover .ticker-track {
   animation-play-state: paused !important;
