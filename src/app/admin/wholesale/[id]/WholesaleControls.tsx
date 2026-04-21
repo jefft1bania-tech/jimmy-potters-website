@@ -6,6 +6,7 @@ import type {
   WholesaleApplication,
   WholesaleApplicationStatus,
 } from '@/lib/wholesale-applications-data';
+import type { WholesaleAccount } from '@/lib/wholesale-accounts-data';
 
 const ACTIONS: Array<{
   status: WholesaleApplicationStatus;
@@ -25,17 +26,30 @@ const toneClass: Record<'good' | 'warn' | 'danger' | 'neutral', string> = {
   neutral: 'border-stone-700 bg-stone-900 text-stone-300 hover:bg-stone-800',
 };
 
-export default function WholesaleControls({ application }: { application: WholesaleApplication }) {
+function accountPillClass(status: WholesaleAccount['status']): string {
+  if (status === 'active') return 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300';
+  if (status === 'suspended') return 'bg-red-500/10 border border-red-500/30 text-red-300';
+  return 'bg-amber-500/10 border border-amber-500/30 text-amber-300';
+}
+
+type Props = {
+  application: WholesaleApplication;
+  account: WholesaleAccount | null;
+};
+
+export default function WholesaleControls({ application, account }: Props) {
   const router = useRouter();
   const [adminNotes, setAdminNotes] = useState(application.admin_notes ?? '');
-  const [submitting, setSubmitting] = useState<WholesaleApplicationStatus | 'notes' | null>(null);
+  const [submitting, setSubmitting] = useState<WholesaleApplicationStatus | 'notes' | 'invite' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [flash, setFlash] = useState<string | null>(null);
+  const [recoveryLink, setRecoveryLink] = useState<string | null>(null);
 
   const submit = async (body: Record<string, unknown>, key: WholesaleApplicationStatus | 'notes') => {
     setSubmitting(key);
     setError(null);
     setFlash(null);
+    setRecoveryLink(null);
     try {
       const res = await fetch(`/api/admin/wholesale/${application.id}`, {
         method: 'PATCH',
@@ -55,6 +69,50 @@ export default function WholesaleControls({ application }: { application: Wholes
     }
   };
 
+  const sendInvite = async () => {
+    setSubmitting('invite');
+    setError(null);
+    setFlash(null);
+    setRecoveryLink(null);
+    try {
+      const res = await fetch(`/api/admin/wholesale/${application.id}/invite`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.error || `Invite failed (${res.status})`);
+      }
+      if (data.existingAuthUser && data.recoveryLink) {
+        setRecoveryLink(data.recoveryLink);
+        setFlash('User already has an account — password-reset link ready to share below.');
+      } else if (data.resent) {
+        setFlash('Invite email resent.');
+      } else {
+        setFlash('Invite sent and application marked approved.');
+      }
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Invite failed.');
+    } finally {
+      setSubmitting(null);
+    }
+  };
+
+  const inviteDisabled =
+    submitting !== null ||
+    application.status === 'rejected' ||
+    account?.status === 'active' ||
+    account?.status === 'suspended';
+
+  const inviteLabel = account
+    ? account.status === 'active'
+      ? 'Account active'
+      : account.status === 'suspended'
+        ? 'Account suspended'
+        : 'Resend invite'
+    : 'Approve & send invite';
+
   return (
     <section className="space-y-4">
       <article className="card-faire-detail p-5">
@@ -62,9 +120,9 @@ export default function WholesaleControls({ application }: { application: Wholes
           Decision
         </h2>
         <p className="text-stone-400 text-xs font-body mb-4 leading-relaxed">
-          Approving doesn't create the wholesale account yet — Stage 4 (invite
-          email + password-set flow) ships in the next pass. For now, approve to
-          mark the applicant ready for manual onboarding and log the decision.
+          Use the invite action below to both approve and send the activation
+          email. The status buttons below are for reversible triage (reopen,
+          request info, reject) and do not trigger emails.
         </p>
         <div className="grid grid-cols-2 gap-2">
           {ACTIONS.map((a) => {
@@ -83,6 +141,60 @@ export default function WholesaleControls({ application }: { application: Wholes
             );
           })}
         </div>
+      </article>
+
+      <article className="card-faire-detail p-5">
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <h2 className="text-[11px] font-heading font-bold uppercase tracking-[0.15em] text-stone-500">
+            Wholesale account
+          </h2>
+          {account && (
+            <span className={`text-[10px] font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded ${accountPillClass(account.status)}`}>
+              {account.status}
+            </span>
+          )}
+        </div>
+        {account ? (
+          <dl className="text-xs text-stone-400 space-y-1 mb-4 font-body">
+            <div>
+              <span className="text-stone-500">Invited:</span>{' '}
+              <span className="font-mono text-stone-300">{new Date(account.invited_at).toISOString().slice(0, 16).replace('T', ' ')}</span>
+            </div>
+            {account.last_invite_sent_at !== account.invited_at && (
+              <div>
+                <span className="text-stone-500">Last resent:</span>{' '}
+                <span className="font-mono text-stone-300">{new Date(account.last_invite_sent_at).toISOString().slice(0, 16).replace('T', ' ')}</span>
+              </div>
+            )}
+            {account.activated_at && (
+              <div>
+                <span className="text-stone-500">Activated:</span>{' '}
+                <span className="font-mono text-emerald-300">{new Date(account.activated_at).toISOString().slice(0, 16).replace('T', ' ')}</span>
+              </div>
+            )}
+          </dl>
+        ) : (
+          <p className="text-stone-500 text-xs font-body mb-4 leading-relaxed">
+            No invite sent yet. Clicking below approves the application and
+            emails {application.contact_email} a one-click activation link.
+          </p>
+        )}
+        <button
+          type="button"
+          disabled={inviteDisabled}
+          onClick={sendInvite}
+          className="text-xs font-heading font-bold uppercase tracking-wider px-4 py-3 rounded-lg border border-emerald-500/50 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 w-full transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          {submitting === 'invite' ? 'Sending…' : inviteLabel}
+        </button>
+        {recoveryLink && (
+          <div className="mt-3 p-3 rounded-lg border border-amber-500/40 bg-amber-500/5">
+            <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-amber-300 mb-1">
+              Password-reset link (share manually)
+            </p>
+            <code className="block text-[10px] text-amber-200 break-all font-mono">{recoveryLink}</code>
+          </div>
+        )}
       </article>
 
       <article className="card-faire-detail p-5">

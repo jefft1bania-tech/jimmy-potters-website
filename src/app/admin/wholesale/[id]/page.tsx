@@ -4,6 +4,7 @@ import {
   getWholesaleApplication,
   type WholesaleApplicationStatus,
 } from '@/lib/wholesale-applications-data';
+import { getWholesaleAccountForApplication } from '@/lib/wholesale-accounts-data';
 import WholesaleControls from './WholesaleControls';
 
 export const dynamic = 'force-dynamic';
@@ -26,6 +27,8 @@ export default async function WholesaleApplicationDetail({
 }) {
   const application = await getWholesaleApplication(params.id);
   if (!application) notFound();
+
+  const account = await getWholesaleAccountForApplication(params.id);
 
   const isBusiness = application.buyer_type === 'business';
   const buyerLabel = isBusiness
@@ -166,7 +169,7 @@ export default async function WholesaleApplicationDetail({
             </article>
           </section>
 
-          <WholesaleControls application={application} />
+          <WholesaleControls application={application} account={account} />
         </div>
       </div>
     </main>
