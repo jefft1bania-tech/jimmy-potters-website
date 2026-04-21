@@ -22,6 +22,7 @@ export default function Navbar() {
     { href: '/', label: 'Home' },
     { href: '/shop', label: t.nav.shop },
     { href: '/kit', label: t.nav.kit },
+    { href: '/wholesale', label: 'Wholesale' },
     { href: '/about', label: t.nav.about },
   ];
 

@@ -136,7 +136,7 @@ export default function AboutPageClient() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <Link
-                        href="/login?wholesale=1"
+                        href="/wholesale"
                         className="inline-flex items-center justify-center gap-2 bg-[#C9A96E] text-[#1a1a1a] hover:bg-[#E8D5A3] font-body font-semibold py-3 px-6 rounded-xl transition-all duration-200 text-sm shadow-lg shadow-black/30"
                       >
                         {t.aboutPage.wholesaleCta}

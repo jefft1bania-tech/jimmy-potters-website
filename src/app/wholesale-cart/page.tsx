@@ -178,19 +178,44 @@ export default function WholesaleCartPage() {
           <div className="shop-particle" />
         </div>
         <div className="shop-section relative z-10">
-          <div className="card-faire-detail p-16 text-center max-w-lg mx-auto">
+          <div className="card-faire-detail p-12 md:p-16 text-center max-w-lg mx-auto">
             <p className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-sky-300 mb-3">
               Wholesale
             </p>
             <h1 className="font-heading font-black text-2xl text-white">
               Your wholesale cart is empty
             </h1>
-            <p className="text-stone-500 font-body mt-2 text-sm">
-              Add items from the shop using the &ldquo;+ Wholesale Cart&rdquo; button on any product.
+            <p className="text-stone-400 font-body mt-3 text-sm leading-relaxed">
+              New to Jimmy Potters wholesale? Apply for an account in two minutes — tiered pricing,
+              low MOQ, and Net 30 on approval.
             </p>
-            <Link href="/shop" className="btn-faire inline-block mt-6 !w-auto">
-              Browse the Shop
+            <Link
+              href="/wholesale"
+              className="inline-flex items-center justify-center gap-2 mt-6 px-6 py-3 rounded-xl font-heading font-black text-sm uppercase tracking-wider transition-colors"
+              style={{
+                background: 'rgba(56, 189, 248, 0.15)',
+                borderWidth: 1,
+                borderStyle: 'solid',
+                borderColor: 'rgba(56, 189, 248, 0.45)',
+                color: '#7DD3FC',
+              }}
+            >
+              Apply for a Wholesale Account
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
             </Link>
+            <div className="mt-6 pt-6 border-t border-stone-800">
+              <p className="text-stone-500 text-xs font-body mb-3">
+                Already approved? Build your next order by adding items from the catalog.
+              </p>
+              <Link
+                href="/shop"
+                className="text-sky-300 hover:text-sky-200 text-xs font-heading font-bold uppercase tracking-wider transition-colors"
+              >
+                Browse the Shop →
+              </Link>
+            </div>
           </div>
         </div>
       </div>
