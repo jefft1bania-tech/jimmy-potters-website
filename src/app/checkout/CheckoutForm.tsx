@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 import { useCart } from '@/components/cart/CartProvider';
 import { useRouter } from 'next/navigation';
@@ -16,13 +17,19 @@ export default function CheckoutForm({ orderId, total }: { orderId: string; tota
   const router = useRouter();
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const amountFixed = total.toFixed(2);
   const memo = `Jimmy Potters order ${orderId}`;
   const venmoHref = `https://venmo.com/${VENMO_USERNAME}?txn=pay&amount=${amountFixed}&note=${encodeURIComponent(memo)}`;
   const paypalHref = `https://paypal.me/${PAYPAL_ME_USERNAME}/${amountFixed}`;
 
-  const handleExternalPayment = (provider: 'venmo' | 'paypal') => {
+  const handleExternalPayment = (provider: 'venmo' | 'paypal') => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!termsAccepted) {
+      e.preventDefault();
+      setError('Please agree to the Terms, Returns Policy, and Privacy Policy before paying.');
+      return;
+    }
     clearCart();
     // mark order as awaiting-confirmation; success page shows the pending-payment notice
     router.push(`/success?order_id=${orderId}&type=product&pay=${provider}`);
@@ -31,6 +38,10 @@ export default function CheckoutForm({ orderId, total }: { orderId: string; tota
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!stripe || !elements) return;
+    if (!termsAccepted) {
+      setError('Please agree to the Terms, Returns Policy, and Privacy Policy before paying.');
+      return;
+    }
 
     setProcessing(true);
     setError('');
@@ -60,6 +71,35 @@ export default function CheckoutForm({ orderId, total }: { orderId: string; tota
         }}
       />
 
+      {/* Legal acceptance — gates Stripe, Venmo, and PayPal */}
+      <label className="flex items-start gap-3 p-3 rounded-lg bg-stone-100/60 border border-stone-300/60 cursor-pointer select-none">
+        <input
+          type="checkbox"
+          checked={termsAccepted}
+          onChange={(e) => {
+            setTermsAccepted(e.target.checked);
+            if (e.target.checked) setError('');
+          }}
+          className="mt-0.5 h-4 w-4 rounded border-stone-400 text-stone-900 focus:ring-stone-700"
+          aria-describedby="terms-accept-desc"
+        />
+        <span id="terms-accept-desc" className="text-[12px] leading-relaxed font-body text-stone-700">
+          I have read and agree to the{' '}
+          <Link href="/terms" target="_blank" rel="noopener noreferrer" className="text-stone-900 underline hover:text-stone-700">
+            Terms of Service
+          </Link>,{' '}
+          <Link href="/returns" target="_blank" rel="noopener noreferrer" className="text-stone-900 underline hover:text-stone-700">
+            Returns &amp; Refunds Policy
+          </Link>,{' '}
+          <Link href="/shipping" target="_blank" rel="noopener noreferrer" className="text-stone-900 underline hover:text-stone-700">
+            Shipping Policy
+          </Link>, and{' '}
+          <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="text-stone-900 underline hover:text-stone-700">
+            Privacy Policy
+          </Link>.
+        </span>
+      </label>
+
       {error && (
         <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-body">
           {error}
@@ -68,8 +108,8 @@ export default function CheckoutForm({ orderId, total }: { orderId: string; tota
 
       <button
         type="submit"
-        disabled={!stripe || processing}
-        className="btn-faire w-full"
+        disabled={!stripe || processing || !termsAccepted}
+        className="btn-faire w-full disabled:opacity-60 disabled:cursor-not-allowed"
         aria-busy={processing}
       >
         {processing ? (
@@ -105,7 +145,7 @@ export default function CheckoutForm({ orderId, total }: { orderId: string; tota
             href={venmoHref}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => handleExternalPayment('venmo')}
+            onClick={handleExternalPayment('venmo')}
             className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#3D95CE] hover:bg-[#3382b8] text-white font-heading font-bold text-sm transition-colors"
             aria-label={`Pay $${amountFixed} with Venmo`}
           >
@@ -120,7 +160,7 @@ export default function CheckoutForm({ orderId, total }: { orderId: string; tota
             href={paypalHref}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => handleExternalPayment('paypal')}
+            onClick={handleExternalPayment('paypal')}
             className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#FFC439] hover:bg-[#eeb32e] text-[#253B80] font-heading font-bold text-sm transition-colors"
             aria-label={`Pay $${amountFixed} with PayPal`}
           >
