@@ -10,6 +10,7 @@ import ChatWidget from '@/components/chat/ChatWidget';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
 import { AuthProvider } from '@/components/auth/AuthProvider';
 import { LanguageProvider } from '@/components/LanguageProvider';
+import Analytics from '@/components/analytics/Analytics';
 
 export const metadata: Metadata = {
   title: {
@@ -62,6 +63,7 @@ export default function RootLayout({
                 <Footer />
                 <ChatWidget />
                 <WhatsAppButton />
+                <Analytics />
               </WholesaleCartProvider>
             </CartProvider>
           </AuthProvider>

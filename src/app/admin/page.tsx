@@ -297,6 +297,10 @@ export default async function AdminIndexPage() {
             <p className="font-heading font-bold text-white text-sm">Wholesale</p>
             <p className="text-stone-500 text-xs font-body mt-1">Application queue · Approve · Request info</p>
           </Link>
+          <Link href="/admin/analytics" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
+            <p className="font-heading font-bold text-white text-sm">Analytics</p>
+            <p className="text-stone-500 text-xs font-body mt-1">Visitors · Sources · Funnel · Wholesale conv</p>
+          </Link>
         </section>
       </div>
     </main>

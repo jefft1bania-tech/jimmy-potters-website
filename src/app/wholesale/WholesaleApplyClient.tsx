@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
+import { track } from '@/lib/analytics/client';
 
 type Form = {
   companyName: string;
@@ -99,6 +100,13 @@ export default function WholesaleApplyClient() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || `Request failed (${res.status})`);
+
+      // Analytics: the #1 brand/functionality KPI.
+      track('wholesale_apply_submit', {
+        volume_band: form.expectedVolume || 'unspecified',
+        has_website: !!form.companyWebsite.trim(),
+        application_id: data.applicationId,
+      });
 
       setSuccess({ email: form.email.trim(), applicationId: data.applicationId });
       setForm(EMPTY);

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 import { useCart } from '@/components/cart/CartProvider';
 import { useRouter } from 'next/navigation';
+import { track } from '@/lib/analytics/client';
 
 // Jeff will update these handles via env vars when the accounts are ready.
 const VENMO_USERNAME = process.env.NEXT_PUBLIC_VENMO_USERNAME || 'Jimmy-Potters';
@@ -30,6 +31,7 @@ export default function CheckoutForm({ orderId, total }: { orderId: string; tota
       setError('Please agree to the Terms, Returns Policy, and Privacy Policy before paying.');
       return;
     }
+    track('checkout_complete', { order_id: orderId, total_usd: total, provider });
     clearCart();
     // mark order as awaiting-confirmation; success page shows the pending-payment notice
     router.push(`/success?order_id=${orderId}&type=product&pay=${provider}`);
@@ -46,6 +48,8 @@ export default function CheckoutForm({ orderId, total }: { orderId: string; tota
     setProcessing(true);
     setError('');
 
+    track('checkout_start', { order_id: orderId, total_usd: total, provider: 'stripe' });
+
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -58,6 +62,7 @@ export default function CheckoutForm({ orderId, total }: { orderId: string; tota
       setError(result.error.message || 'Payment failed. Please try again.');
       setProcessing(false);
     } else if (result.paymentIntent?.status === 'succeeded') {
+      track('checkout_complete', { order_id: orderId, total_usd: total, provider: 'stripe' });
       clearCart();
       router.push(`/success?order_id=${orderId}&type=product`);
     }

@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Product } from '@/types/product';
+import { track } from '@/lib/analytics/client';
 
 export interface CartItem {
   id: string;
@@ -60,6 +61,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items, loaded]);
 
   const addItem = useCallback((product: Product) => {
+    track('add_to_cart', {
+      product_id: product.id,
+      slug: product.slug,
+      price_usd: product.price,
+    });
     setItems((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) {
