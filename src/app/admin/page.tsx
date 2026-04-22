@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserProfile } from '@/lib/supabase/server';
 import {
   aggregatePnl,
   type PnlOrder,
@@ -44,6 +45,17 @@ type ShipmentRow = {
   flag: string | null;
 };
 
+// Cheap count helper — always returns a number, never throws, no-ops on missing table.
+async function safeCount(promise: Promise<{ count: number | null; error: unknown }>): Promise<number> {
+  try {
+    const { count, error } = await promise;
+    if (error) return 0;
+    return count ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
 async function loadDashboardData() {
   const supabase = createSupabaseAdminClient();
   const { from, to } = monthBounds();
@@ -51,7 +63,20 @@ async function loadDashboardData() {
   const fromIso = `${from}T00:00:00.000Z`;
   const toIso = new Date(new Date(`${to}T00:00:00.000Z`).getTime() + 24 * 60 * 60 * 1000 - 1).toISOString();
 
-  const [ordersRes, templatesRes, overridesRes, overheadRes, pendingRes, shipmentsRes, wholesaleCounts] = await Promise.all([
+  const [
+    ordersRes,
+    templatesRes,
+    overridesRes,
+    overheadRes,
+    pendingRes,
+    shipmentsRes,
+    wholesaleCounts,
+    openDisputesCount,
+    pendingDocsCount,
+    pendingProductsCount,
+    todaysOrdersCount,
+    workersActiveCount,
+  ] = await Promise.all([
     supabase
       .from('orders')
       .select('id, created_at, status, subtotal_cents, sales_tax_cents, total_cents, internal_shipping_cost_cents, stripe_fee_cents, buyer_state, payment_method, order_items(product_id, quantity, unit_price_cents)')
@@ -63,6 +88,12 @@ async function loadDashboardData() {
     supabase.from('orders').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
     supabase.from('shipments').select('order_id, required_ship_by, shipment_status, flag'),
     getWholesaleApplicationCounts().catch(() => ({ pending: 0, needs_info: 0, approved: 0, rejected: 0, active: 0, total: 0 })),
+    safeCount(supabase.from('customer_disputes').select('id', { count: 'exact', head: true }).in('status', ['new', 'investigating', 'awaiting_customer']) as unknown as Promise<{ count: number | null; error: unknown }>),
+    safeCount(supabase.from('financial_documents').select('id', { count: 'exact', head: true }).eq('status', 'pending') as unknown as Promise<{ count: number | null; error: unknown }>),
+    // Pending products (scraped-but-not-approved) — uses whatever table pending-products reads from. Best-effort; 0 on miss.
+    safeCount(supabase.from('pending_products').select('id', { count: 'exact', head: true }).eq('status', 'pending') as unknown as Promise<{ count: number | null; error: unknown }>),
+    safeCount(supabase.from('orders').select('id', { count: 'exact', head: true }).gte('created_at', fromIso).lte('created_at', toIso) as unknown as Promise<{ count: number | null; error: unknown }>),
+    safeCount(supabase.from('workers').select('id', { count: 'exact', head: true }).eq('status', 'active') as unknown as Promise<{ count: number | null; error: unknown }>),
   ]);
 
   const rawOrders = (ordersRes.data ?? []) as OrderRow[];
@@ -112,6 +143,11 @@ async function loadDashboardData() {
     bulkAttentionCount: bulkAttention,
     hasEstimates: pnl.has_estimates,
     wholesaleCounts,
+    openDisputesCount,
+    pendingDocsCount,
+    pendingProductsCount,
+    todaysOrdersCount,
+    workersActiveCount,
   };
 }
 
@@ -150,30 +186,93 @@ function KpiCard({ label, value, sublabel, href, tone = 'default' }: KpiCardProp
   return href ? <Link href={href} className="block h-full">{card}</Link> : card;
 }
 
+type ToolTileProps = {
+  href: string;
+  title: string;
+  description: string;
+  badge?: string | number;
+  badgeTone?: 'default' | 'warn' | 'danger' | 'good';
+  external?: boolean;
+};
+
+function ToolTile({ href, title, description, badge, badgeTone = 'default', external }: ToolTileProps) {
+  const badgeClass = {
+    default: 'bg-stone-800 text-stone-300 border-stone-600/40',
+    warn:    'bg-amber-500/15 text-amber-300 border-amber-500/40',
+    danger:  'bg-red-500/15 text-red-300 border-red-500/40',
+    good:    'bg-emerald-500/15 text-emerald-300 border-emerald-500/40',
+  }[badgeTone];
+
+  const inner = (
+    <div className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors h-full flex flex-col justify-between">
+      <div>
+        <div className="flex items-start justify-between gap-3">
+          <p className="font-heading font-bold text-white text-sm">{title}{external && <span className="ml-1 text-stone-500 text-[10px]">↗</span>}</p>
+          {badge !== undefined && badge !== null && String(badge) !== '0' && (
+            <span className={`text-[10px] font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${badgeClass}`}>
+              {badge}
+            </span>
+          )}
+        </div>
+        <p className="text-stone-500 text-xs font-body mt-1">{description}</p>
+      </div>
+    </div>
+  );
+
+  return external ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" className="block h-full">{inner}</a>
+  ) : (
+    <Link href={href} className="block h-full">{inner}</Link>
+  );
+}
+
+function SectionHeader({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="text-[11px] font-heading font-bold uppercase tracking-[0.3em] text-stone-500 mt-10 mb-3">{children}</h2>
+  );
+}
+
 export default async function AdminIndexPage() {
-  const data = await loadDashboardData();
-  const { pnl, period, pendingPaymentsCount, productCount, uncoveredSkus, bulkAttentionCount, hasEstimates, wholesaleCounts } = data;
+  const [profile, data] = await Promise.all([
+    getCurrentUserProfile().catch(() => null),
+    loadDashboardData(),
+  ]);
+  const {
+    pnl, period, pendingPaymentsCount, productCount, uncoveredSkus,
+    bulkAttentionCount, hasEstimates, wholesaleCounts,
+    openDisputesCount, pendingDocsCount, pendingProductsCount,
+    todaysOrdersCount, workersActiveCount,
+  } = data;
 
   const mtdRevenue = fmtCents(pnl.gross_revenue);
   const mtdNetProfit = fmtCents(pnl.net_profit);
   const netProfitTone: KpiCardProps['tone'] = pnl.net_profit < 0 ? 'danger' : pnl.net_profit === 0 ? 'default' : 'good';
 
   const uncoveredCount = uncoveredSkus.length;
-  const coverageTone: KpiCardProps['tone'] = uncoveredCount === 0 ? 'good' : uncoveredCount <= 2 ? 'warn' : 'danger';
 
   const pendingTone: KpiCardProps['tone'] = pendingPaymentsCount > 0 ? 'warn' : 'default';
   const bulkTone: KpiCardProps['tone'] = bulkAttentionCount === 0 ? 'default' : bulkAttentionCount >= 3 ? 'danger' : 'warn';
   const wholesaleTone: KpiCardProps['tone'] = wholesaleCounts.active === 0 ? 'default' : wholesaleCounts.active >= 3 ? 'danger' : 'warn';
 
+  const year = new Date().getUTCFullYear();
+
   return (
     <main className="min-h-screen bg-stone-950 text-stone-200">
       <div className="max-w-6xl mx-auto p-6 md:p-10">
+        {/* -------- Welcome header -------- */}
         <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-[11px] font-heading font-bold uppercase tracking-[0.3em] text-gold-shimmer mb-2">Admin</p>
+            <p className="text-[11px] font-heading font-bold uppercase tracking-[0.3em] text-gold-shimmer mb-2">Admin Hub</p>
             <h1 className="text-3xl md:text-4xl font-heading font-black text-white tracking-tight">Jimmy Potters Dashboard</h1>
             <p className="text-stone-400 text-sm font-body mt-2">
-              Month-to-date: <span className="text-stone-300">{period.from}</span> → <span className="text-stone-300">{period.to}</span>
+              {profile ? (
+                <>Signed in as <span className="text-stone-200">{profile.email}</span> · <span className="text-emerald-300 font-heading font-bold uppercase text-[11px] tracking-wider">{profile.role}</span></>
+              ) : (
+                <>Signed in</>
+              )}
+            </p>
+            <p className="text-stone-500 text-xs font-body mt-1">
+              Month-to-date: <span className="text-stone-400">{period.from}</span> → <span className="text-stone-400">{period.to}</span>
               {hasEstimates && (
                 <span className="ml-2 inline-block rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] font-heading font-bold uppercase tracking-wider px-2 py-0.5">
                   Includes COGS estimates
@@ -182,7 +281,7 @@ export default async function AdminIndexPage() {
             </p>
           </div>
           <a
-            href={`/admin/pnl/statement?year=${new Date().getUTCFullYear()}`}
+            href={`/admin/pnl/statement?year=${year}`}
             target="_blank"
             rel="noopener"
             className="inline-flex items-center gap-2 rounded-md border border-emerald-500/40 bg-emerald-500/10 text-emerald-200 hover:bg-emerald-500/15 hover:border-emerald-400 transition-colors px-4 py-2.5 text-sm font-heading font-bold uppercase tracking-wider"
@@ -192,6 +291,7 @@ export default async function AdminIndexPage() {
           </a>
         </header>
 
+        {/* -------- Top-line KPIs -------- */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <KpiCard
             label="MTD Revenue"
@@ -211,7 +311,7 @@ export default async function AdminIndexPage() {
             value={String(pendingPaymentsCount)}
             sublabel={pendingPaymentsCount > 0 ? 'Venmo / PayPal awaiting confirmation' : 'All caught up'}
             tone={pendingTone}
-            href="/admin/orders"
+            href="/admin/orders?status=pending"
           />
           <KpiCard
             label="Bulk Orders Needing Attention"
@@ -234,73 +334,99 @@ export default async function AdminIndexPage() {
             tone={wholesaleTone}
             href="/admin/wholesale"
           />
+          <KpiCard
+            label="Open Disputes"
+            value={String(openDisputesCount)}
+            sublabel={openDisputesCount > 0 ? 'New · investigating · awaiting customer' : 'No open cases'}
+            tone={openDisputesCount === 0 ? 'default' : openDisputesCount >= 2 ? 'danger' : 'warn'}
+            href="/admin/disputes"
+          />
+          <KpiCard
+            label="Documents Awaiting Review"
+            value={String(pendingDocsCount)}
+            sublabel={pendingDocsCount > 0 ? 'Parse → confirm → link' : 'Inbox clear'}
+            tone={pendingDocsCount === 0 ? 'default' : 'warn'}
+            href="/admin/documents"
+          />
+          <KpiCard
+            label="Cost Coverage"
+            value={`${productCount - uncoveredCount}/${productCount}`}
+            sublabel={uncoveredCount === 0 ? 'All SKUs covered' : `${uncoveredCount} SKU${uncoveredCount === 1 ? '' : 's'} still using $0 COGS`}
+            tone={uncoveredCount === 0 ? 'good' : uncoveredCount <= 2 ? 'warn' : 'danger'}
+            href="/admin/products/costs"
+          />
         </section>
 
-        <section className="mt-6">
-          <div className={`card-faire-detail p-6 border ${uncoveredCount === 0 ? 'border-emerald-500/40' : uncoveredCount <= 2 ? 'border-amber-500/40' : 'border-red-500/40'}`}>
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-[11px] font-heading font-bold uppercase tracking-[0.15em] text-stone-500">Cost Coverage</p>
-                <p className={`font-heading font-black text-2xl mt-2 ${uncoveredCount === 0 ? 'text-emerald-300' : uncoveredCount <= 2 ? 'text-amber-300' : 'text-red-300'}`}>
-                  {productCount - uncoveredCount} / {productCount} SKUs covered
-                </p>
-                <p className="text-stone-500 text-xs font-body mt-2">
-                  {uncoveredCount === 0
-                    ? 'Every product has a cost template. P&L math is template-complete.'
-                    : `${uncoveredCount} product${uncoveredCount === 1 ? '' : 's'} still using $0 COGS — P&L will overstate margin until filled.`}
-                </p>
-                {uncoveredCount > 0 && (
-                  <p className="text-stone-400 text-xs font-body mt-3">
-                    Missing: <span className="text-stone-300 break-all">{uncoveredSkus.slice(0, 5).join(', ')}{uncoveredSkus.length > 5 ? `, +${uncoveredSkus.length - 5} more` : ''}</span>
-                  </p>
-                )}
-              </div>
-              <Link href="/admin/products/costs" className="btn-faire !w-auto flex-shrink-0">Fill Costs</Link>
-            </div>
-          </div>
+        {/* -------- Quick actions -------- */}
+        <section className="mt-6 flex flex-wrap gap-2">
+          <Link href="/admin/orders" className="inline-flex items-center gap-2 rounded-md border border-stone-600/60 bg-stone-900 hover:border-[#C9A96E]/60 text-stone-200 px-3 py-1.5 text-xs font-heading font-bold uppercase tracking-wider">
+            Today&rsquo;s Revenue ({todaysOrdersCount} orders MTD)
+          </Link>
+          <Link href="/admin/wholesale?status=pending" className="inline-flex items-center gap-2 rounded-md border border-stone-600/60 bg-stone-900 hover:border-[#C9A96E]/60 text-stone-200 px-3 py-1.5 text-xs font-heading font-bold uppercase tracking-wider">
+            Pending Wholesale Apps
+          </Link>
+          <Link href="/admin/orders?status=pending" className="inline-flex items-center gap-2 rounded-md border border-stone-600/60 bg-stone-900 hover:border-[#C9A96E]/60 text-stone-200 px-3 py-1.5 text-xs font-heading font-bold uppercase tracking-wider">
+            Unpaid Orders
+          </Link>
+          <Link href="/admin/shipments" className="inline-flex items-center gap-2 rounded-md border border-stone-600/60 bg-stone-900 hover:border-[#C9A96E]/60 text-stone-200 px-3 py-1.5 text-xs font-heading font-bold uppercase tracking-wider">
+            Ship Calendar
+          </Link>
+          <Link href="/admin/insights" className="inline-flex items-center gap-2 rounded-md border border-stone-600/60 bg-stone-900 hover:border-[#C9A96E]/60 text-stone-200 px-3 py-1.5 text-xs font-heading font-bold uppercase tracking-wider">
+            Ask Insights
+          </Link>
         </section>
 
-        <section className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Link href="/admin/orders" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
-            <p className="font-heading font-bold text-white text-sm">Orders</p>
-            <p className="text-stone-500 text-xs font-body mt-1">Filterable table · Mark-Paid · Labor forecast</p>
-          </Link>
-          <Link href="/admin/pnl" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
-            <p className="font-heading font-bold text-white text-sm">P&amp;L Report</p>
-            <p className="text-stone-500 text-xs font-body mt-1">Date range · Sales tax by state · Print</p>
-          </Link>
-          <Link href="/admin/margins" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
-            <p className="font-heading font-bold text-white text-sm">Margins</p>
-            <p className="text-stone-500 text-xs font-body mt-1">Retail vs bulk · Per-SKU contribution</p>
-          </Link>
-          <Link href="/admin/expenses" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
-            <p className="font-heading font-bold text-white text-sm">Expenses</p>
-            <p className="text-stone-500 text-xs font-body mt-1">Overhead · Recurring · Documents</p>
-          </Link>
-          <Link href="/admin/shipments" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
-            <p className="font-heading font-bold text-white text-sm">Shipments</p>
-            <p className="text-stone-500 text-xs font-body mt-1">List · Calendar · Ship-by warnings</p>
-          </Link>
-          <Link href="/admin/insights" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
-            <p className="font-heading font-bold text-white text-sm">Insights</p>
-            <p className="text-stone-500 text-xs font-body mt-1">Typed &amp; voice · Weekly digest</p>
-          </Link>
-          <Link href="/admin/products/costs" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
-            <p className="font-heading font-bold text-white text-sm">Cost Templates</p>
-            <p className="text-stone-500 text-xs font-body mt-1">Per-SKU materials · labor · packaging · freight</p>
-          </Link>
-          <Link href="/admin/products/labor-times" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
-            <p className="font-heading font-bold text-white text-sm">Labor Times</p>
-            <p className="text-stone-500 text-xs font-body mt-1">Minutes per unit by role · Feeds order forecast</p>
-          </Link>
-          <Link href="/admin/wholesale" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
-            <p className="font-heading font-bold text-white text-sm">Wholesale</p>
-            <p className="text-stone-500 text-xs font-body mt-1">Application queue · Approve · Request info</p>
-          </Link>
-          <Link href="/admin/analytics" className="card-faire-detail p-5 hover:border-[#C9A96E]/60 transition-colors">
-            <p className="font-heading font-bold text-white text-sm">Analytics</p>
-            <p className="text-stone-500 text-xs font-body mt-1">Visitors · Sources · Funnel · Wholesale conv</p>
-          </Link>
+        {/* -------- Operations -------- */}
+        <SectionHeader>Operations</SectionHeader>
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ToolTile href="/admin/orders"    title="Orders"    description="Filterable table · Mark-paid · Refund · Labor forecast" badge={pendingPaymentsCount} badgeTone={pendingPaymentsCount > 0 ? 'warn' : 'default'} />
+          <ToolTile href="/admin/shipments" title="Shipments" description="Ship-by calendar · Flags · Tracking · Carriers" badge={bulkAttentionCount} badgeTone={bulkTone} />
+          <ToolTile href="/admin/disputes"  title="Disputes"  description="Customer service queue · Refund · Replacement" badge={openDisputesCount} badgeTone={openDisputesCount > 0 ? 'warn' : 'default'} />
+          <ToolTile href="/admin/documents" title="Documents" description="Receipts / bills · AI-parse · Link to expense" badge={pendingDocsCount} badgeTone={pendingDocsCount > 0 ? 'warn' : 'default'} />
+        </section>
+
+        {/* -------- Finance -------- */}
+        <SectionHeader>Finance</SectionHeader>
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ToolTile href="/admin/pnl"                                   title="P&L Report"          description="Date range · Sales tax by state · Print" />
+          <ToolTile href={`/admin/pnl/statement?year=${year}`}          title="CPA Statement"       description="Monthly · Quarterly · Annual · Schedule C" />
+          <ToolTile href="/admin/pnl/drilldown"                         title="P&L Drilldown"       description="3-tier interactive · Revenue × Cost stack" />
+          <ToolTile href="/admin/margins"                               title="Margins"             description="Retail vs bulk · Per-SKU contribution" />
+          <ToolTile href="/admin/expenses"                              title="Expenses"            description="Overhead · Recurring · Document-linked" />
+          <ToolTile href="/admin/products/costs"                        title="Cost Templates"      description="Per-SKU materials · labor · packaging · freight" badge={uncoveredCount > 0 ? `${uncoveredCount} missing` : undefined} badgeTone={uncoveredCount > 0 ? 'warn' : 'default'} />
+        </section>
+
+        {/* -------- Growth -------- */}
+        <SectionHeader>Growth</SectionHeader>
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ToolTile href="/admin/analytics"           title="Analytics"    description="Visitors · Sources · Funnel · Wholesale conv" />
+          <ToolTile href="/admin/wholesale"           title="Wholesale"    description="Application queue · Approve · Invite" badge={wholesaleCounts.active} badgeTone={wholesaleTone} />
+          <ToolTile href="/admin/insights"            title="Insights"     description="Typed &amp; voice Q&amp;A · Weekly digest" />
+          <ToolTile href="/admin/pending-products"    title="Pending Products" description="Scraped inventory awaiting approval" badge={pendingProductsCount} badgeTone={pendingProductsCount > 0 ? 'warn' : 'default'} />
+        </section>
+
+        {/* -------- Catalog -------- */}
+        <SectionHeader>Catalog</SectionHeader>
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ToolTile href="/admin/products/costs"       title="Product Costs"  description={`${productCount} SKUs · Edit COGS templates`} />
+          <ToolTile href="/admin/products/labor-times" title="Labor Times"    description="Minutes per unit by role · Feeds forecast" />
+          <ToolTile href="/shop"                       title="Live Shop"       description={`${productCount} products · Stripe checkout`} external />
+        </section>
+
+        {/* -------- Team -------- */}
+        <SectionHeader>Team</SectionHeader>
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ToolTile href="/admin/labor/roles" title="Labor Roles" description="Role keys · Hourly · Contract · Piece rate" />
+          <ToolTile href="/admin/labor/hire"  title="Hire Scenarios" description="W2 · 1099 · Temp · Piece · AI recommend" badge={workersActiveCount || undefined} badgeTone="default" />
+        </section>
+
+        {/* -------- External dashboards -------- */}
+        <SectionHeader>External Dashboards</SectionHeader>
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ToolTile href="https://dashboard.stripe.com/"                                                title="Stripe"    description="Payments · Webhooks · Payouts" external />
+          <ToolTile href="https://supabase.com/dashboard/project/iyvktystdlbqcnzkkooq"                  title="Supabase"  description="DB · Auth · Storage · SQL editor" external />
+          <ToolTile href="https://vercel.com/jeffbanias-projects/website"                               title="Vercel"    description="Deploys · Logs · Env vars · Domains" external />
+          <ToolTile href="https://venmo.com/Jimmy-Potters"                                              title="Venmo"     description="Alt-payment ledger" external />
         </section>
       </div>
     </main>
