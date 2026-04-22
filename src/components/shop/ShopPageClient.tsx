@@ -7,6 +7,7 @@ import { Product } from '@/types/product';
 import { formatPrice } from '@/lib/products';
 import { useLanguage } from '@/components/LanguageProvider';
 import { useCart } from '@/components/cart/CartProvider';
+import { salesEnabled } from '@/lib/sales-mode';
 
 const ITEMS_PER_PAGE = 9;
 
@@ -221,7 +222,26 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
                       )}
 
                       {/* Add to Cart button — below text verbiage */}
-                      {!isSold && (
+                      {!isSold && !salesEnabled && (
+                        <button
+                          disabled
+                          title={t.preview.tooltip}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }}
+                          className="w-full mt-3 py-2.5 rounded-xl font-heading font-bold text-sm text-center border opacity-60 cursor-not-allowed"
+                          style={{
+                            background: 'rgba(201, 169, 110, 0.12)',
+                            color: '#E8D5A3',
+                            borderColor: 'rgba(201, 169, 110, 0.3)',
+                          }}
+                          aria-label={t.preview.buttonLabel}
+                        >
+                          {t.preview.buttonLabel}
+                        </button>
+                      )}
+                      {!isSold && salesEnabled && (
                         <button
                           onClick={(e) => {
                             e.preventDefault();

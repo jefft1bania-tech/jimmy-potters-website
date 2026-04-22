@@ -11,6 +11,7 @@ import WhatsAppButton from '@/components/layout/WhatsAppButton';
 import { AuthProvider } from '@/components/auth/AuthProvider';
 import { LanguageProvider } from '@/components/LanguageProvider';
 import Analytics from '@/components/analytics/Analytics';
+import TestRunBanner from '@/components/site/TestRunBanner';
 
 export const metadata: Metadata = {
   title: {
@@ -56,6 +57,7 @@ export default function RootLayout({
             <CartProvider>
               <WholesaleCartProvider>
                 <a href="#main-content" className="skip-link">Skip to main content</a>
+                <TestRunBanner />
                 <AnnouncementBar />
                 <Navbar />
                 <main id="main-content" className="flex-1 pt-16" role="main">{children}</main>

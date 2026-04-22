@@ -170,6 +170,19 @@ const translations = {
       checkout: 'Checkout',
       remove: 'Remove',
     },
+
+    // Preview mode (NEXT_PUBLIC_SALES_ENABLED=false)
+    previewBanner: {
+      text: '🚧 Preview mode — online store is being finalized. Checkout opens soon. Explore freely!',
+    },
+    preview: {
+      buttonLabel: 'Checkout opens soon',
+      tooltip: 'Checkout opens soon',
+      checkoutTitle: 'Checkout opens soon',
+      checkoutSubtitle: 'Our online store is being finalized. Browsing and wholesale applications are open — card payments will unlock shortly. Thank you for your patience.',
+      backToShop: 'Back to Shop',
+      applyWholesale: 'Apply for Wholesale',
+    },
   },
 
   es: {
@@ -327,6 +340,19 @@ const translations = {
       total: 'Total',
       checkout: 'Pagar',
       remove: 'Eliminar',
+    },
+
+    // Preview mode (NEXT_PUBLIC_SALES_ENABLED=false)
+    previewBanner: {
+      text: '🚧 Modo de vista previa — la tienda en línea se está finalizando. El pago estará disponible pronto. ¡Explora libremente!',
+    },
+    preview: {
+      buttonLabel: 'El pago estará disponible pronto',
+      tooltip: 'El pago estará disponible pronto',
+      checkoutTitle: 'El pago estará disponible pronto',
+      checkoutSubtitle: 'Nuestra tienda en línea se está finalizando. La navegación y las solicitudes mayoristas están abiertas — los pagos con tarjeta se habilitarán en breve. Gracias por tu paciencia.',
+      backToShop: 'Volver a la Tienda',
+      applyWholesale: 'Solicitar Cuenta Mayorista',
     },
   },
 } as const;

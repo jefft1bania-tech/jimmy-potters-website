@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/components/cart/CartProvider';
+import { useLanguage } from '@/components/LanguageProvider';
+import { salesEnabled } from '@/lib/sales-mode';
 import { formatPrice } from '@/lib/products';
 import { useState } from 'react';
 import { EAST_COAST_STATES } from '@/lib/shipping';
@@ -10,6 +12,7 @@ import { calculateSalesTax, getTaxDisplayRate, formatTaxAmount } from '@/lib/tax
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, total, itemCount } = useCart();
+  const { t } = useLanguage();
   const [selectedState, setSelectedState] = useState('');
 
   const salesTax = selectedState ? calculateSalesTax(total, selectedState) : 0;
@@ -195,16 +198,35 @@ export default function CartPage() {
               <span className="price-faire text-lg">{formatPrice(orderTotal)}</span>
             </div>
 
-            <Link
-              href="/checkout"
-              className="btn-faire mt-2 block text-center"
-            >
-              Proceed to Checkout
-            </Link>
+            {salesEnabled ? (
+              <>
+                <Link
+                  href="/checkout"
+                  className="btn-faire mt-2 block text-center"
+                >
+                  Proceed to Checkout
+                </Link>
 
-            <p className="text-[11px] text-stone-600 text-center mt-3 font-body">
-              Secure checkout powered by Stripe. Shipped via FedEx with tracking & insurance.
-            </p>
+                <p className="text-[11px] text-stone-600 text-center mt-3 font-body">
+                  Secure checkout powered by Stripe. Shipped via FedEx with tracking & insurance.
+                </p>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  disabled
+                  title={t.preview.tooltip}
+                  className="btn-faire mt-2 block text-center w-full opacity-60 cursor-not-allowed"
+                  aria-label={t.preview.buttonLabel}
+                >
+                  {t.preview.buttonLabel}
+                </button>
+                <p className="text-[11px] text-stone-600 text-center mt-3 font-body">
+                  {t.preview.checkoutSubtitle}
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>

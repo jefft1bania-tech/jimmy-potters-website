@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe';
+import { salesEnabled } from '@/lib/sales-mode';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,6 +15,12 @@ function resolveOrigin(req: NextRequest): string {
 }
 
 export async function POST(req: NextRequest) {
+  if (!salesEnabled) {
+    return NextResponse.json(
+      { error: 'Sales disabled during preview mode' },
+      { status: 403 }
+    );
+  }
   try {
     const { items } = await req.json();
 

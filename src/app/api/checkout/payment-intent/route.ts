@@ -4,6 +4,7 @@ import { createOrder, type OrderItem, type ShippingAddress } from '@/lib/orders'
 import { calculateSalesTax } from '@/lib/tax';
 import { getInternalShippingCost } from '@/lib/shipping';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { salesEnabled } from '@/lib/sales-mode';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,6 +20,12 @@ interface CheckoutPayload {
 }
 
 export async function POST(req: NextRequest) {
+  if (!salesEnabled) {
+    return NextResponse.json(
+      { error: 'Sales disabled during preview mode' },
+      { status: 403 }
+    );
+  }
   try {
     const body: CheckoutPayload = await req.json();
     const { email, name, items, shipping, subtotal } = body;

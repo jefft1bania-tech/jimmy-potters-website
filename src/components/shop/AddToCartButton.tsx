@@ -1,6 +1,8 @@
 'use client';
 
 import { useCart } from '@/components/cart/CartProvider';
+import { useLanguage } from '@/components/LanguageProvider';
+import { salesEnabled } from '@/lib/sales-mode';
 import { Product } from '@/types/product';
 
 interface AddToCartButtonProps {
@@ -9,9 +11,28 @@ interface AddToCartButtonProps {
 
 export default function AddToCartButton({ product }: AddToCartButtonProps) {
   const { addItem, isInCart, getItemQuantity, updateQuantity } = useCart();
+  const { t } = useLanguage();
   const inCart = isInCart(product.id);
   const qty = getItemQuantity(product.id);
   const isSold = product.status === 'sold';
+
+  // Preview mode: site is browse-only until Jeff flips NEXT_PUBLIC_SALES_ENABLED=true.
+  if (!salesEnabled) {
+    return (
+      <button
+        disabled
+        title={t.preview.tooltip}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+        className="btn-faire opacity-60 cursor-not-allowed"
+        aria-label={t.preview.buttonLabel}
+      >
+        {t.preview.buttonLabel}
+      </button>
+    );
+  }
 
   if (isSold) {
     return (
