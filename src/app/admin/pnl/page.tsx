@@ -78,6 +78,12 @@ export default async function PnlReportPage({
             >
               CPA Statement ↗
             </a>
+            <Link
+              href="/admin/pnl/proforma"
+              className="inline-flex items-center gap-2 rounded-md border border-[#C9A96E]/40 bg-[#C9A96E]/10 text-[#C9A96E] hover:bg-[#C9A96E]/15 hover:border-[#C9A96E] transition-colors px-3 py-1.5 text-xs font-heading font-bold uppercase tracking-wider"
+            >
+              Wholesale Proforma
+            </Link>
             <PrintButton />
             <Link href={`/admin/pnl/pdf${exportQs}`} className="btn-faire !w-auto" prefetch={false}>
               PDF
