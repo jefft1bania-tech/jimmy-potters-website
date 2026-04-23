@@ -167,7 +167,7 @@ export default function TermsOfService() {
       <section>
         <h2 className="font-heading text-2xl font-bold text-stone-900 mb-3">15. Contact</h2>
         <p>
-          Jimmy Potters Studio &amp; Workshop LLC &middot; Fort Lauderdale, Florida &middot;{' '}
+          Jimmy Potters Studio &amp; Workshop LLC &middot; 700 NW 57th Ct, Suite 1, Fort Lauderdale, Florida 33309 &middot;{' '}
           <a href="mailto:jimmy@jimmypotters.com" className="text-stone-900 underline">jimmy@jimmypotters.com</a>{' '}
           &middot; <a href="tel:+17038621300" className="text-stone-900 underline">(703) 862-1300</a>.
         </p>

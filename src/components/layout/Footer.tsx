@@ -38,7 +38,9 @@ export default function Footer() {
               {t.footer.tagline2}
             </p>
             <p className="text-white/40 text-xs font-body mt-2">
-              Fort Lauderdale, Florida
+              700 NW 57th Ct, Suite 1
+              <br />
+              Fort Lauderdale, Florida 33309
             </p>
           </div>
 
