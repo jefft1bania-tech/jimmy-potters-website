@@ -215,7 +215,7 @@ export default function WholesaleApplyClient() {
           <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-6 md:p-10">
             <div className="flex items-start justify-between gap-4 mb-6">
               <div>
-                <h2 className="font-heading font-bold text-2xl text-black">Apply & Create Account</h2>
+                <h2 className="font-heading font-bold text-2xl text-black">Create Your Wholesale Account</h2>
                 <p className="text-stone-600 text-sm font-body mt-1">
                   One form creates your wholesale login and submits your application at the same time.
                 </p>
@@ -374,7 +374,7 @@ export default function WholesaleApplyClient() {
                 disabled={!canSubmit && !alreadySignedIn}
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#C9A96E] text-[#1a1a1a] hover:bg-[#E8D5A3] disabled:opacity-50 disabled:cursor-not-allowed font-body font-semibold py-4 px-6 rounded-xl transition-all text-sm shadow-sm"
               >
-                {submitting ? 'Submitting…' : alreadySignedIn ? 'Submit Application' : 'Create Account & Apply'}
+                {submitting ? 'Submitting…' : alreadySignedIn ? 'Submit Application' : 'Create Account'}
                 {!submitting && (
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -399,7 +399,7 @@ export default function WholesaleApplyClient() {
 
           {/* Reassurance below form */}
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
-            <Reassurance icon="⚡" title="2 minutes" body="Apply in one form — no PDF, no back-and-forth" />
+            <Reassurance icon="⚡" title="2 minutes" body="Create in one form — no PDF, no back-and-forth" />
             <Reassurance icon="🤝" title="Personal review" body="Jimmy reads every application himself" />
             <Reassurance icon="🔒" title="Your data" body="Used only for account + shipping. No sharing." />
           </div>

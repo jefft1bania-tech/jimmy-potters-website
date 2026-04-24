@@ -186,7 +186,7 @@ export default function WholesaleCartPage() {
               Your wholesale cart is empty
             </h1>
             <p className="text-stone-400 font-body mt-3 text-sm leading-relaxed">
-              New to Jimmy Potters wholesale? Apply for an account in two minutes — tiered pricing,
+              New to Jimmy Potters wholesale? Create an account in two minutes — tiered pricing,
               low MOQ, and Net 30 on approval.
             </p>
             <Link
@@ -200,7 +200,7 @@ export default function WholesaleCartPage() {
                 color: '#7DD3FC',
               }}
             >
-              Apply for a Wholesale Account
+              Create a Wholesale Account
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
               </svg>
