@@ -6,10 +6,11 @@ Next.js 14 + TypeScript + Tailwind + Supabase + Stripe storefront. Deployed to V
 
 | Phrase | Means | URL |
 |---|---|---|
-| **JP Vercel** | The Vercel dashboard for this project (deployments, analytics, env vars, settings) | https://vercel.com/jeffbanias-projects/website |
-| **JP live** | The live customer-facing site | https://www.jimmypotters.com |
+| **JP Vercel** (dashboard) | Vercel dashboard for this project — deployments, analytics, env vars | https://vercel.com/jeffbanias-projects/website |
+| **JP Vercel site** / **JP storefront** | The live Next.js e-commerce app (this codebase) — currently only on Vercel domains | https://website-three-omega-62.vercel.app |
+| **JP Squarespace** | Jeff's OLD studio/after-school classes site on Squarespace — completely separate, not in this repo | https://www.jimmypotters.com |
 
-When Jeff says "open JP Vercel" → open the Vercel dashboard. When he says "open JP live" or "the normal Jimmy Potters website" → open the live storefront. Do not open both unless he says "Jimmy Potters website" (ambiguous — ask, or open both).
+**Critical DNS fact (verified 2026-04-25):** `www.jimmypotters.com` and the apex `jimmypotters.com` both serve the **Squarespace** Studio & Workshop site (after-school classes, summer camp). This Next.js storefront is **only** reachable via the `*.vercel.app` URLs — the apex/www DNS has never been pointed at Vercel. Login, /admin, /account, /shop all live at `website-three-omega-62.vercel.app`, NOT at `www.jimmypotters.com`. To go live on the real domain, the DNS records would need to be moved to Vercel (and Squarespace's Studio & Workshop site decommissioned or moved to a subdomain).
 
 ## Vercel project
 
