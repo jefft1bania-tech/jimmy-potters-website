@@ -125,6 +125,29 @@ export default function AccountPage() {
           </div>
         </div>
 
+        {/* My Orders */}
+        <Link
+          href="/account/orders"
+          className="card-vibrant p-6 md:p-8 mb-6 block hover:shadow-lg transition-shadow group"
+        >
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-vibrant-teal/15 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                📦
+              </div>
+              <div>
+                <h2 className="font-heading font-bold text-lg text-brand-text">My Orders</h2>
+                <p className="text-xs text-black font-body mt-0.5">
+                  View past purchases, status, and tracking
+                </p>
+              </div>
+            </div>
+            <span className="text-stone-400 group-hover:text-brand-text group-hover:translate-x-1 transition-all">
+              →
+            </span>
+          </div>
+        </Link>
+
         {/* Quick Links */}
         <div className="card-vibrant p-6 md:p-8 mb-6">
           <h2 className="font-heading font-bold text-lg text-brand-text mb-4">Quick Links</h2>
