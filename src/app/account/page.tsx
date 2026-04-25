@@ -125,6 +125,45 @@ export default function AccountPage() {
           </div>
         </div>
 
+        {/* Admin shortcuts — only visible when signed in as admin */}
+        {member.role === 'admin' && (
+          <div className="card-vibrant p-6 md:p-8 mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-heading font-bold text-lg text-brand-text flex items-center gap-2">
+                <span className="text-xl">🛠️</span> Admin Dashboard
+              </h2>
+              <Link
+                href="/admin"
+                className="text-xs font-heading font-bold text-vibrant-purple hover:underline"
+              >
+                Open full dashboard →
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {[
+                { href: '/admin/orders',     icon: '🧾', label: 'Orders' },
+                { href: '/admin/wholesale',  icon: '🏪', label: 'Wholesale' },
+                { href: '/admin/insights',   icon: '🔍', label: 'Insights' },
+                { href: '/admin/pnl',        icon: '💰', label: 'P&L' },
+                { href: '/admin/products',   icon: '🏺', label: 'Products' },
+                { href: '/admin/shipments',  icon: '📦', label: 'Shipments' },
+                { href: '/admin/analytics',  icon: '📈', label: 'Analytics' },
+                { href: '/admin/expenses',   icon: '💳', label: 'Expenses' },
+                { href: '/admin/disputes',   icon: '⚠️', label: 'Disputes' },
+              ].map((tile) => (
+                <Link
+                  key={tile.href}
+                  href={tile.href}
+                  className="flex items-center gap-2 p-3 rounded-xl bg-gray-50 hover:bg-vibrant-lavender/30 transition-colors group"
+                >
+                  <span className="text-lg group-hover:scale-110 transition-transform">{tile.icon}</span>
+                  <span className="font-heading font-bold text-xs text-brand-text">{tile.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* My Orders */}
         <Link
           href="/account/orders"
