@@ -1,6 +1,7 @@
-// One-shot: create a Stripe Product + $75 Price for every entry in data/products.json,
-// then write the new price IDs back into the JSON. Idempotency: products are matched by
-// metadata.product_id == JSON id; if one exists we reuse it and just add a new $75 price.
+// One-shot: create a Stripe Product + Price for every entry in data/products.json
+// using each product's own `price` field (in cents), then write the new price IDs
+// back into the JSON. Idempotency: products are matched by metadata.product_id ==
+// JSON id; if one exists we reuse it and add a fresh price at the current price.
 
 import fs from 'fs';
 import path from 'path';
@@ -30,9 +31,12 @@ const stripe = new Stripe(key);
 const products = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
 console.log(`Loaded ${products.length} products from JSON.`);
 
-const PRICE_CENTS = 7500;
-
 for (const p of products) {
+  const PRICE_CENTS = p.price;
+  if (!Number.isInteger(PRICE_CENTS) || PRICE_CENTS < 1) {
+    console.log(`[skip] ${p.id} has invalid price ${PRICE_CENTS}`);
+    continue;
+  }
   // 1. Find or create Stripe Product matched by metadata.product_id
   let stripeProduct;
   const existing = await stripe.products.search({
@@ -58,7 +62,7 @@ for (const p of products) {
     product: stripeProduct.id,
     currency: 'usd',
     unit_amount: PRICE_CENTS,
-    metadata: { product_id: p.id, sync_run: '2026-04-25-go-live-75' },
+    metadata: { product_id: p.id, sync_run: `2026-04-25-${PRICE_CENTS}c` },
   });
   console.log(`  price: ${price.id} ($${PRICE_CENTS / 100})`);
 
