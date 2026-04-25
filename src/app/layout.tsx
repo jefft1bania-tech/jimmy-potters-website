@@ -13,6 +13,8 @@ import { LanguageProvider } from '@/components/LanguageProvider';
 import Analytics from '@/components/analytics/Analytics';
 import TestRunBanner from '@/components/site/TestRunBanner';
 
+const SITE_URL = process.env.NEXT_PUBLIC_URL || 'https://website-three-omega-62.vercel.app';
+
 export const metadata: Metadata = {
   title: {
     default: 'Jimmy Potters | Handmade Pottery from Fort Lauderdale',
@@ -23,12 +25,15 @@ export const metadata: Metadata = {
   keywords: ['handmade pottery', 'Fort Lauderdale', 'planters', 'vases', 'pottery classes', 'kiln-fired', 'wheel-thrown', 'Jimmy Potters'],
   authors: [{ name: 'Jimmy Potters' }],
   creator: 'Jimmy Potters',
-  metadataBase: new URL('https://website-gamma-hazel-53.vercel.app'),
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: SITE_URL,
+  },
   openGraph: {
     title: 'Jimmy Potters | Handmade Pottery',
     description:
       'One-of-a-kind handmade pottery from Fort Lauderdale, Florida. Planters, vases, and more.',
-    url: 'https://website-gamma-hazel-53.vercel.app',
+    url: SITE_URL,
     siteName: 'Jimmy Potters',
     type: 'website',
     locale: 'en_US',
@@ -44,6 +49,22 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Jimmy Potters',
+  url: SITE_URL,
+  logo: `${SITE_URL}/images/jimmy-potters-logo.png`,
+  description:
+    'One-of-a-kind handmade pottery from Fort Lauderdale, Florida. Planters, vases, and more — each piece wheel-thrown, glazed, and kiln-fired by hand.',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Fort Lauderdale',
+    addressRegion: 'FL',
+    addressCountry: 'US',
+  },
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -52,6 +73,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>

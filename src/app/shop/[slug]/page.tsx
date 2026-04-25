@@ -24,8 +24,33 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   if (!product) notFound();
   const totalProducts = getAllProducts().length;
 
+  const siteUrl = process.env.NEXT_PUBLIC_URL || 'https://website-three-omega-62.vercel.app';
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: product.images.map((img) => img.startsWith('http') ? img : `${siteUrl}${img}`),
+    sku: product.id,
+    brand: { '@type': 'Brand', name: 'Jimmy Potters' },
+    offers: {
+      '@type': 'Offer',
+      url: `${siteUrl}/shop/${product.slug}`,
+      priceCurrency: 'USD',
+      price: (product.price / 100).toFixed(2),
+      availability: product.status === 'sold'
+        ? 'https://schema.org/SoldOut'
+        : 'https://schema.org/InStock',
+      itemCondition: 'https://schema.org/NewCondition',
+    },
+  };
+
   return (
     <div className="shop-bg min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       {/* Ambient particles */}
       <div className="shop-particles" aria-hidden="true">
         <div className="shop-particle" />
