@@ -1,16 +1,26 @@
-# Jimmy Potters Website
+# Jimmy Potters Storefront (Vercel-hosted)
 
 Next.js 14 + TypeScript + Tailwind + Supabase + Stripe storefront. Deployed to Vercel.
 
-## Naming convention (Jeff shorthand)
+## Scope rule (Jeff, 2026-04-25)
+
+**This codebase IS the only "Jimmy Potters" we work on.** When Jeff says "Jimmy Potters",
+"JP", "the JP site", "the storefront", or "the website" he always means **this** Next.js
+app, deployed at https://website-three-omega-62.vercel.app.
 
 | Phrase | Means | URL |
 |---|---|---|
-| **JP Vercel** (dashboard) | Vercel dashboard for this project — deployments, analytics, env vars | https://vercel.com/jeffbanias-projects/website |
-| **JP Vercel site** / **JP storefront** | The live Next.js e-commerce app (this codebase) — currently only on Vercel domains | https://website-three-omega-62.vercel.app |
-| **JP Squarespace** | Jeff's OLD studio/after-school classes site on Squarespace — completely separate, not in this repo | https://www.jimmypotters.com |
+| **JP / JP storefront / the JP site** | This repo's Vercel deployment | https://website-three-omega-62.vercel.app |
+| **JP Vercel** (dashboard) | The Vercel control panel for this project | https://vercel.com/jeffbanias-projects/website |
 
-**Critical DNS fact (verified 2026-04-25):** `www.jimmypotters.com` and the apex `jimmypotters.com` both serve the **Squarespace** Studio & Workshop site (after-school classes, summer camp). This Next.js storefront is **only** reachable via the `*.vercel.app` URLs — the apex/www DNS has never been pointed at Vercel. Login, /admin, /account, /shop all live at `website-three-omega-62.vercel.app`, NOT at `www.jimmypotters.com`. To go live on the real domain, the DNS records would need to be moved to Vercel (and Squarespace's Studio & Workshop site decommissioned or moved to a subdomain).
+**Out of scope — do NOT touch or reference:**
+
+- `jimmypotters.com` / `www.jimmypotters.com` — a separate Squarespace site on GoDaddy
+  DNS, **not under Jeff's control**. Do not pull content, branding, products, pricing, or
+  page structure from it into this codebase. Do not propose DNS changes there. Do not use
+  GoDaddy in any plan or recommendation.
+- Until Jeff registers a domain HE controls and tells us to attach it, the storefront
+  stays on `*.vercel.app` URLs only.
 
 ## Vercel project
 
