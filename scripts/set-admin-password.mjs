@@ -52,14 +52,20 @@ if (!url || !serviceKey) {
   process.exit(1);
 }
 
-const args = process.argv.slice(2);
-const email = args[0];
-const suppliedPassword = args[1];
+const rawArgs = process.argv.slice(2);
+const flags = new Set(rawArgs.filter((a) => a.startsWith('--')));
+const positional = rawArgs.filter((a) => !a.startsWith('--'));
+const email = positional[0];
+const suppliedPassword = positional[1];
+const forceAdmin = flags.has('--admin');
+const wantMagicLink = flags.has('--magic-link') || flags.has('--magiclink');
 
-if (!email || email.startsWith('--')) {
+if (!email) {
   console.error('Usage:');
-  console.error('  node scripts/set-admin-password.mjs <email>');
-  console.error('  node scripts/set-admin-password.mjs <email> <password>');
+  console.error('  node scripts/set-admin-password.mjs <email> [password] [--admin] [--magic-link]');
+  console.error('');
+  console.error('  --admin       Force profiles.role=admin even if email isn\'t in the migration whitelist');
+  console.error('  --magic-link  Print a passwordless login URL that signs the user in on click');
   process.exit(1);
 }
 
@@ -147,7 +153,8 @@ let profile = null;
   profile = data;
 }
 
-if (ADMIN_WHITELIST.has(email.toLowerCase()) && profile && profile.role !== 'admin') {
+const shouldPromote = forceAdmin || ADMIN_WHITELIST.has(email.toLowerCase());
+if (shouldPromote && profile && profile.role !== 'admin') {
   const { error: roleErr } = await supabase
     .from('profiles')
     .update({ role: 'admin' })
@@ -159,12 +166,37 @@ if (ADMIN_WHITELIST.has(email.toLowerCase()) && profile && profile.role !== 'adm
   }
 }
 
+// Optional magic link: passwordless one-click sign-in. URL is single-use and
+// short-lived. Redirects to /admin/wholesale on success so Jeff lands on the
+// approval queue immediately.
+let magicLink = null;
+if (wantMagicLink) {
+  const SITE_URL = process.env.NEXT_PUBLIC_URL || 'https://website-three-omega-62.vercel.app';
+  const { data: linkData, error: linkErr } = await supabase.auth.admin.generateLink({
+    type: 'magiclink',
+    email,
+    options: {
+      redirectTo: `${SITE_URL}/admin/wholesale`,
+    },
+  });
+  if (linkErr) {
+    console.error('generateLink failed:', linkErr.message);
+  } else {
+    magicLink = linkData?.properties?.action_link ?? null;
+  }
+}
+
 console.log('');
 console.log(`  ${created ? 'Auth user CREATED for:' : 'Password updated for: '}`, email);
 console.log('  Auth user id:        ', authUser.id);
 console.log('  Profile role:        ', profile?.role ?? '(no profile row — sign in once to seed)');
 console.log('  New password:        ', password);
+if (magicLink) {
+  console.log('');
+  console.log('  Magic link (one-click sign-in, single use):');
+  console.log('  ' + magicLink);
+}
 console.log('');
-console.log('  Sign in at https://www.jimmypotters.com/login');
+console.log('  Sign in at https://website-three-omega-62.vercel.app/login');
 console.log('  Then visit /admin/wholesale to review applications.');
 console.log('');
