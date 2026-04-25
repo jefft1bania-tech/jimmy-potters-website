@@ -28,7 +28,7 @@
       "planter"
     ],
     "status": "available",
-    "stripePriceId": "price_1TQ8J5Buawv69Hr77c6rOTwn",
+    "stripePriceId": "price_1TQ8ScBuawv69Hr7QJnFE2VZ",
     "shippingWeight": "3.5 lbs",
     "quantity": 1,
     "specs": {
@@ -70,7 +70,7 @@
       "garden"
     ],
     "status": "available",
-    "stripePriceId": "price_1TQ8J6Buawv69Hr76kHtKQ4H",
+    "stripePriceId": "price_1TQ8ScBuawv69Hr7p3Qirumz",
     "shippingWeight": "3.5 lbs",
     "quantity": 1,
     "specs": {
@@ -112,7 +112,7 @@
       "flowers"
     ],
     "status": "available",
-    "stripePriceId": "price_1TQ8J7Buawv69Hr7FdvCtzAY",
+    "stripePriceId": "price_1TQ8SdBuawv69Hr7o3uA2lSX",
     "shippingWeight": "3.5 lbs",
     "quantity": 1,
     "specs": {
@@ -156,7 +156,7 @@
       "crawl-glaze"
     ],
     "status": "available",
-    "stripePriceId": "price_1TQ8J8Buawv69Hr7HxbhtW8R",
+    "stripePriceId": "price_1TQ8SdBuawv69Hr7alju8DjN",
     "shippingWeight": "2 lbs",
     "quantity": 1,
     "specs": {
@@ -200,7 +200,7 @@
       "saucer"
     ],
     "status": "available",
-    "stripePriceId": "price_1TQ8J9Buawv69Hr7Vedno1RD",
+    "stripePriceId": "price_1TQ8SeBuawv69Hr7aXDDDCSI",
     "shippingWeight": "3 lbs",
     "quantity": 1,
     "specs": {
@@ -242,7 +242,7 @@
       "saucer"
     ],
     "status": "available",
-    "stripePriceId": "price_1TQ8J9Buawv69Hr7dXFGDoYN",
+    "stripePriceId": "price_1TQ8SeBuawv69Hr7I6OXRm2M",
     "shippingWeight": "1.5 lbs",
     "quantity": 1,
     "specs": {
@@ -287,7 +287,7 @@
       "saucer"
     ],
     "status": "available",
-    "stripePriceId": "price_1TQ8JABuawv69Hr7gb8PPx5u",
+    "stripePriceId": "price_1TQ8SfBuawv69Hr7FmeqxkLE",
     "shippingWeight": "2.5 lbs",
     "quantity": 1,
     "specs": {
@@ -329,7 +329,7 @@
       "saucer"
     ],
     "status": "available",
-    "stripePriceId": "price_1TQ8JBBuawv69Hr7Lg7eREfS",
+    "stripePriceId": "price_1TQ8SfBuawv69Hr7soknYudq",
     "shippingWeight": "3 lbs",
     "quantity": 1,
     "specs": {
@@ -372,7 +372,7 @@
       "pattern"
     ],
     "status": "available",
-    "stripePriceId": "price_1TQ8JCBuawv69Hr7bAbRsw1T",
+    "stripePriceId": "price_1TQ8SgBuawv69Hr7uWaQ2iu3",
     "shippingWeight": "3 lbs",
     "quantity": 1,
     "specs": {
@@ -414,7 +414,7 @@
       "saucer"
     ],
     "status": "available",
-    "stripePriceId": "price_1TQ8JDBuawv69Hr7BjUs57c5",
+    "stripePriceId": "price_1TQ8SgBuawv69Hr7CeRHQyCi",
     "shippingWeight": "3 lbs",
     "quantity": 1,
     "specs": {
@@ -448,7 +448,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JDBuawv69Hr78X2moyVm",
+    "stripePriceId": "price_1TQ8ShBuawv69Hr7uGu4Vvp0",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -482,7 +482,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JEBuawv69Hr7zJHbaN6T",
+    "stripePriceId": "price_1TQ8ShBuawv69Hr7mQAXYfp7",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -516,7 +516,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JFBuawv69Hr7jSwfaj8n",
+    "stripePriceId": "price_1TQ8SiBuawv69Hr75Nrt8IAe",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -550,7 +550,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JGBuawv69Hr7XfAuxL4r",
+    "stripePriceId": "price_1TQ8SiBuawv69Hr7JXofJgtW",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -584,7 +584,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JGBuawv69Hr70kFhjtJF",
+    "stripePriceId": "price_1TQ8SjBuawv69Hr7fua4TMs6",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -618,7 +618,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JHBuawv69Hr7N05wpIrK",
+    "stripePriceId": "price_1TQ8SjBuawv69Hr7W199KbJh",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -652,7 +652,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JIBuawv69Hr7RBncu6EF",
+    "stripePriceId": "price_1TQ8SkBuawv69Hr7uc4pNuZy",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -686,7 +686,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JJBuawv69Hr7zgUqG7wI",
+    "stripePriceId": "price_1TQ8SkBuawv69Hr7g6UbOkt5",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -720,7 +720,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JKBuawv69Hr7EkKlFZyu",
+    "stripePriceId": "price_1TQ8SlBuawv69Hr7DgR7Ohrq",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -754,7 +754,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JLBuawv69Hr76agOM8SP",
+    "stripePriceId": "price_1TQ8SlBuawv69Hr7E2WmisiT",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -788,7 +788,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JLBuawv69Hr7BcXpWHk1",
+    "stripePriceId": "price_1TQ8SmBuawv69Hr7iNAmW0O3",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -822,7 +822,7 @@
       "pending-review"
     ],
     "status": "pending-review",
-    "stripePriceId": "price_1TQ8JMBuawv69Hr7Pbcg7Una",
+    "stripePriceId": "price_1TQ8SmBuawv69Hr7WSo1Sfl4",
     "shippingWeight": "",
     "quantity": 0,
     "specs": {},
@@ -834,5 +834,48 @@
       "productId": "p_peacockgeo01",
       "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_peacockgeo01"
     }
+  },
+  {
+    "id": "hurricane-planter-jimmy-024",
+    "slug": "hurricane-planter",
+    "name": "Hurricane Planter",
+    "productNumber": 24,
+    "price": 7500,
+    "description": "A twisted-square ceramic planter with quiet drama. The 5-inch square base spirals upward to a rotated rim, giving the silhouette movement from every angle without any added decoration. Wheel-thrown and hand-shaped from white stoneware, it ships with a matching square saucer. Equally at home on a bright windowsill, an entry console, or a covered patio.",
+    "details": [
+      "Approximately 5\" L x 5\" W base x 6-1/8\" tall",
+      "Twisted square form ..... rim rotated ~45 degrees from base",
+      "Matching square saucer included",
+      "White stoneware bisque ..... glaze finish per maker",
+      "Wheel-thrown and hand-shaped, kiln-fired to cone 6",
+      "Drainage hole for plant health",
+      "Lead-free, food-safe glazes",
+      "Handmade ..... twist angle and form unique per piece"
+    ],
+    "images": [
+      "/images/products/hurricane-planter_hero.jpg"
+    ],
+    "category": "planters",
+    "tags": [
+      "white",
+      "square",
+      "twisted",
+      "planter",
+      "saucer",
+      "hurricane"
+    ],
+    "status": "available",
+    "stripePriceId": "price_1TQ8SnBuawv69Hr7y3wV2KQV",
+    "shippingWeight": "2.5 lbs",
+    "quantity": 1,
+    "specs": {
+      "height": "6-1/8\"",
+      "width": "5\"",
+      "depth": "5\"",
+      "weight": "2.5 lbs",
+      "note": "From maker spec sheet"
+    },
+    "quickSpec": "5\" x 5\" x 6-1/8\"H · With saucer · 2.5 lbs",
+    "bestUse": "Windowsill · Console · Covered patio"
   }
 ]
