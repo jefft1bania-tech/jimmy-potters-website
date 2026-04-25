@@ -840,6 +840,7 @@
     "slug": "hurricane-planter",
     "name": "Hurricane Planter",
     "productNumber": 11,
+    "_status_note": "Each piece is hand-thrown so the form is unique per kiln batch, but the SKU is restockable — when one sells, Jimmy makes another. Do NOT permanently mark this 'sold' on a single buyer.",
     "price": 100,
     "description": "A twisted-square ceramic planter with quiet drama. The 5-inch square base spirals upward to a rotated rim, giving the silhouette movement from every angle without any added decoration. Wheel-thrown and hand-shaped from white stoneware, it ships with a matching square saucer. Equally at home on a bright windowsill, an entry console, or a covered patio.",
     "details": [
@@ -864,7 +865,7 @@
       "saucer",
       "hurricane"
     ],
-    "status": "sold",
+    "status": "available",
     "stripePriceId": "price_1TQ8eVBuawv69Hr79IrzhfYx",
     "shippingWeight": "2.5 lbs",
     "quantity": 1,
