@@ -878,5 +878,162 @@
     },
     "quickSpec": "5\" x 5\" x 6-1/8\"H · With saucer · 2.5 lbs",
     "bestUse": "Windowsill · Console · Covered patio"
+  },
+  {
+    "id": "large-cylinder-metal-stand-024",
+    "slug": "large-cylinder-metal-stand",
+    "name": "Large Cylinder in Metal Stand",
+    "productNumber": 24,
+    "_status_note": "Hand-thrown ..... form unique per kiln batch but SKU is restockable. Source: Jimmy email Inventory 3 (2026-04-26). Cost basis: $8.20 supplier (with metal stand) + $5.00 glaze/firing = $13.20 COGS. Wholesale $72.50, retail $145 (sourced from Jeff fwd 2026-04-27). Retail repriced to $400 (Jeff directive 2026-04-27).",
+    "price": 40000,
+    "description": "White-bisque cylindrical planter approximately 5-5/8\" diameter x 6-1/4\" tall, mounted in a four-legged black metal stand. Wheel-thrown stoneware, kiln-fired to cone 6.",
+    "details": [
+      "Approximately 5-5/8\" diameter x 6-1/4\" tall (cylinder)",
+      "Black metal four-legged stand included",
+      "White stoneware bisque ..... glaze finish per maker",
+      "Wheel-thrown, kiln-fired to cone 6",
+      "Drainage hole for plant health",
+      "Lead-free, food-safe glazes",
+      "Handmade ..... form varies slightly per piece",
+      "Source: Jimmy email Inventory 3 (2026-04-26)"
+    ],
+    "images": [
+      "/images/products/large-cylinder-metal-stand_spec.jpg"
+    ],
+    "category": "planters",
+    "tags": [
+      "white",
+      "cylinder",
+      "metal-stand",
+      "planter"
+    ],
+    "status": "available",
+    "stripePriceId": "TBD-create-in-stripe",
+    "shippingWeight": "",
+    "quantity": 1,
+    "specs": {
+      "height": "6-1/4\"",
+      "width": "5-5/8\" diameter",
+      "weight": "",
+      "note": "From Jimmy spec sheet (Inventory 3, 2026-04-26) ..... weight pending"
+    },
+    "quickSpec": "5-5/8\"W × 6-1/4\"H · With metal stand",
+    "bestUse": "TBD-from-Jeff",
+    "pricing": {
+      "retail": 400.0,
+      "wholesale": 7250,
+      "supplierCost": 820,
+      "glazeFiringCost": 500,
+      "currency": "USD",
+      "unit": "cents",
+      "source": "Jeff fwd 2026-04-27 (Inventory 3 from jimmy@jimmypotters.com)",
+      "retail_margin_pct": 96.7
+    }
+  },
+  {
+    "id": "peach-tree-hanging-planter-ring-025",
+    "slug": "peach-tree-hanging-planter-ring",
+    "name": "Peach Tree Hanging Planter with Metal Ring",
+    "productNumber": 25,
+    "_status_note": "Hand-thrown ..... form unique per kiln batch but SKU is restockable. Source: Jimmy email Inventory 4 (2026-04-26). Cost basis: $8.20 supplier (with metal ring) + $5.00 glaze/firing = $13.20 COGS. Wholesale $37.50, retail $75 (sourced from Jeff fwd 2026-04-27). Retail repriced to $400 (Jeff directive 2026-04-27).",
+    "price": 40000,
+    "description": "White-bisque half-bowl wall/ring planter approximately 5\" wide x 6-1/2\" tall, suspended inside a 6\" diameter black metal hoop. Wheel-thrown stoneware, kiln-fired to cone 6.",
+    "details": [
+      "Approximately 5\" wide x 6-1/2\" tall (half-bowl form)",
+      "6\" diameter black metal ring frame included",
+      "White stoneware bisque ..... glaze finish per maker",
+      "Wheel-thrown, kiln-fired to cone 6",
+      "Drainage hole for plant health",
+      "Lead-free, food-safe glazes",
+      "Handmade ..... form varies slightly per piece",
+      "Source: Jimmy email Inventory 4 (2026-04-26)"
+    ],
+    "images": [
+      "/images/products/peach-tree-hanging-planter-ring_spec.jpg"
+    ],
+    "category": "hanging-planters",
+    "tags": [
+      "white",
+      "hanging",
+      "metal-ring",
+      "planter",
+      "peach-tree"
+    ],
+    "status": "available",
+    "stripePriceId": "TBD-create-in-stripe",
+    "shippingWeight": "",
+    "quantity": 1,
+    "specs": {
+      "height": "6-1/2\"",
+      "width": "5\"",
+      "ringDiameter": "6\"",
+      "weight": "",
+      "note": "From Jimmy spec sheet (Inventory 4, 2026-04-26) ..... weight pending"
+    },
+    "quickSpec": "5\"W × 6-1/2\"H · 6\" ring",
+    "bestUse": "TBD-from-Jeff",
+    "pricing": {
+      "retail": 400.0,
+      "wholesale": 3750,
+      "supplierCost": 820,
+      "glazeFiringCost": 500,
+      "currency": "USD",
+      "unit": "cents",
+      "source": "Jeff fwd 2026-04-27 (Inventory 4 from jimmy@jimmypotters.com)",
+      "retail_margin_pct": 96.7
+    }
+  },
+  {
+    "id": "three-footed-cylinder-026",
+    "slug": "three-footed-cylinder",
+    "name": "Three Footed Cylinder",
+    "productNumber": 26,
+    "_status_note": "Top seller per Jimmy. Hand-thrown ..... form unique per kiln batch but SKU is restockable. Source: Jimmy email Inventory 5 (2026-04-26). Cost basis: $8.20 supplier (with metal stand) + $5.00 glaze/firing = $13.20 COGS. Wholesale $47.50, retail $95 (sourced from Jeff fwd 2026-04-27). Retail repriced to $400 (Jeff directive 2026-04-27).",
+    "price": 40000,
+    "description": "White-bisque cylindrical planter on three short integrated feet, approximately 6-1/2\" diameter x 6-3/4\" tall. Wheel-thrown stoneware, kiln-fired to cone 6. Marked as a top seller by the maker.",
+    "details": [
+      "Approximately 6-1/2\" diameter x 6-3/4\" tall",
+      "Three integrated cylindrical feet (no separate stand)",
+      "White stoneware bisque ..... glaze finish per maker",
+      "Wheel-thrown and hand-shaped, kiln-fired to cone 6",
+      "Drainage hole for plant health",
+      "Lead-free, food-safe glazes",
+      "Top seller per maker",
+      "Handmade ..... feet placement varies slightly per piece",
+      "Source: Jimmy email Inventory 5 (2026-04-26)"
+    ],
+    "images": [
+      "/images/products/three-footed-cylinder_spec.jpg"
+    ],
+    "category": "planters",
+    "tags": [
+      "white",
+      "cylinder",
+      "footed",
+      "planter",
+      "top-seller"
+    ],
+    "status": "available",
+    "stripePriceId": "TBD-create-in-stripe",
+    "shippingWeight": "",
+    "quantity": 1,
+    "specs": {
+      "height": "6-3/4\"",
+      "width": "6-1/2\" diameter",
+      "weight": "",
+      "note": "From Jimmy spec sheet (Inventory 5, 2026-04-26) ..... weight pending"
+    },
+    "quickSpec": "6-1/2\"W × 6-3/4\"H · Three feet",
+    "bestUse": "TBD-from-Jeff",
+    "pricing": {
+      "retail": 400.0,
+      "wholesale": 4750,
+      "supplierCost": 820,
+      "glazeFiringCost": 500,
+      "currency": "USD",
+      "unit": "cents",
+      "source": "Jeff fwd 2026-04-27 (Inventory 5 from jimmy@jimmypotters.com)",
+      "retail_margin_pct": 96.7
+    }
   }
 ]
