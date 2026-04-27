@@ -428,414 +428,6 @@
     "bestUse": "Garden accent · Outdoor table · Patio"
   },
   {
-    "id": "faire-p_8xxvea3zd3",
-    "slug": "vase-in-patina",
-    "name": "Vase in Patina",
-    "productNumber": 12,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/vase-in-patina_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8ePBuawv69Hr7aihcdB5E",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_8xxvea3zd3",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_8xxvea3zd3"
-    }
-  },
-  {
-    "id": "faire-p_zhp84pyk9w",
-    "slug": "round-planter-pot-with-saucer-in-cast-iron",
-    "name": "Round Planter Pot with Saucer in Cast Iron",
-    "productNumber": 13,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/round-planter-pot-with-saucer-in-cast-iron_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8ePBuawv69Hr7CaWuIzeh",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_zhp84pyk9w",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_zhp84pyk9w"
-    }
-  },
-  {
-    "id": "faire-p_9npnbcrvkm",
-    "slug": "geo-waves-in-midnight-stone",
-    "name": "Geo Waves in Midnight Stone",
-    "productNumber": 14,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/geo-waves-in-midnight-stone_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8eQBuawv69Hr7C0WXybSs",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_9npnbcrvkm",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_9npnbcrvkm"
-    }
-  },
-  {
-    "id": "faire-p_3dnghjq24j",
-    "slug": "small-round-planter-in-bananrama",
-    "name": "Small Round Planter in Bananrama",
-    "productNumber": 15,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/small-round-planter-in-bananrama_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8eQBuawv69Hr7OaZPVGJ5",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_3dnghjq24j",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_3dnghjq24j"
-    }
-  },
-  {
-    "id": "faire-p_gpuu3v9qnw",
-    "slug": "small-planter-pot-in-cast-iron",
-    "name": "Small Planter Pot in Cast Iron",
-    "productNumber": 16,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/small-planter-pot-in-cast-iron_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8eRBuawv69Hr7smhcofx9",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_gpuu3v9qnw",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_gpuu3v9qnw"
-    }
-  },
-  {
-    "id": "faire-p_juzuc9833w",
-    "slug": "many-face-planter-in-patina",
-    "name": "Many Face Planter in Patina",
-    "productNumber": 17,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/many-face-planter-in-patina_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8eRBuawv69Hr7rvOzTDyM",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_juzuc9833w",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_juzuc9833w"
-    }
-  },
-  {
-    "id": "faire-p_rv6gbznw8q",
-    "slug": "hurricane-planter-in-patina",
-    "name": "Hurricane Planter in Patina",
-    "productNumber": 18,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/hurricane-planter-in-patina_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8eSBuawv69Hr7iBi8hXvg",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_rv6gbznw8q",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_rv6gbznw8q"
-    }
-  },
-  {
-    "id": "faire-p_s3jv8phqc4",
-    "slug": "peachtree-in-cast-iron",
-    "name": "Peachtree in Cast Iron",
-    "productNumber": 19,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/peachtree-in-cast-iron_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8eSBuawv69Hr7AsY2LryY",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_s3jv8phqc4",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_s3jv8phqc4"
-    }
-  },
-  {
-    "id": "faire-p_9ru72bz3px",
-    "slug": "peachtree-in-midnight-stone",
-    "name": "Peachtree in Midnight Stone",
-    "productNumber": 20,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/peachtree-in-midnight-stone_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8eTBuawv69Hr7g1JrxJKx",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_9ru72bz3px",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_9ru72bz3px"
-    }
-  },
-  {
-    "id": "faire-p_mnstrifecta01",
-    "slug": "peachtree-planter-in-midnight-stone-trifecta",
-    "name": "Peachtree Planter in Midnight Stone Trifecta",
-    "productNumber": 21,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/peachtree-planter-in-midnight-stone-trifecta_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8eTBuawv69Hr7BLkiXLdW",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_mnstrifecta01",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_mnstrifecta01"
-    }
-  },
-  {
-    "id": "faire-p_4w6zp377cc",
-    "slug": "hurricane-planter-in-orange-trifecta",
-    "name": "Hurricane Planter in Orange Trifecta",
-    "productNumber": 22,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/hurricane-planter-in-orange-trifecta_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8eUBuawv69Hr7HaiNE5oc",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_4w6zp377cc",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_4w6zp377cc"
-    }
-  },
-  {
-    "id": "faire-p_peacockgeo01",
-    "slug": "geo-wave-in-patina-peacock",
-    "name": "Geo Wave in Patina Peacock",
-    "productNumber": 23,
-    "price": 7500,
-    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
-    "details": [
-      "Imported from Faire catalog",
-      "Pricing pending — confirm wholesale + retail rates",
-      "Source: faire.com/brand/b_dm35y1pt"
-    ],
-    "images": [
-      "/images/products/faire/geo-wave-in-patina-peacock_hero.jpg"
-    ],
-    "category": "faire-import",
-    "tags": [
-      "faire-import",
-      "pending-review"
-    ],
-    "status": "pending-review",
-    "stripePriceId": "price_1TQ8eUBuawv69Hr7TNZZlvgf",
-    "shippingWeight": "",
-    "quantity": 0,
-    "specs": {},
-    "quickSpec": "Pending review",
-    "bestUse": "Indoor display",
-    "source": {
-      "platform": "faire",
-      "brandId": "b_dm35y1pt",
-      "productId": "p_peacockgeo01",
-      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_peacockgeo01"
-    }
-  },
-  {
     "id": "hurricane-planter-jimmy-011",
     "slug": "hurricane-planter",
     "name": "Hurricane Planter",
@@ -883,7 +475,7 @@
     "id": "large-cylinder-metal-stand-024",
     "slug": "large-cylinder-metal-stand",
     "name": "Large Cylinder in Metal Stand",
-    "productNumber": 24,
+    "productNumber": 12,
     "_status_note": "Hand-thrown ..... form unique per kiln batch but SKU is restockable. Source: Jimmy email Inventory 3 (2026-04-26). Cost basis: $8.20 supplier (with metal stand) + $5.00 glaze/firing = $13.20 COGS. Wholesale $72.50, retail $145 (sourced from Jeff fwd 2026-04-27). Retail repriced to $400 (Jeff directive 2026-04-27).",
     "price": 40000,
     "description": "White-bisque cylindrical planter approximately 5-5/8\" diameter x 6-1/4\" tall, mounted in a four-legged black metal stand. Wheel-thrown stoneware, kiln-fired to cone 6.",
@@ -920,7 +512,7 @@
     "quickSpec": "5-5/8\"W × 6-1/4\"H · With metal stand",
     "bestUse": "TBD-from-Jeff",
     "pricing": {
-      "retail": 400.0,
+      "retail": 400,
       "wholesale": 7250,
       "supplierCost": 820,
       "glazeFiringCost": 500,
@@ -934,7 +526,7 @@
     "id": "peach-tree-hanging-planter-ring-025",
     "slug": "peach-tree-hanging-planter-ring",
     "name": "Peach Tree Hanging Planter with Metal Ring",
-    "productNumber": 25,
+    "productNumber": 13,
     "_status_note": "Hand-thrown ..... form unique per kiln batch but SKU is restockable. Source: Jimmy email Inventory 4 (2026-04-26). Cost basis: $8.20 supplier (with metal ring) + $5.00 glaze/firing = $13.20 COGS. Wholesale $37.50, retail $75 (sourced from Jeff fwd 2026-04-27). Retail repriced to $400 (Jeff directive 2026-04-27).",
     "price": 40000,
     "description": "White-bisque half-bowl wall/ring planter approximately 5\" wide x 6-1/2\" tall, suspended inside a 6\" diameter black metal hoop. Wheel-thrown stoneware, kiln-fired to cone 6.",
@@ -973,7 +565,7 @@
     "quickSpec": "5\"W × 6-1/2\"H · 6\" ring",
     "bestUse": "TBD-from-Jeff",
     "pricing": {
-      "retail": 400.0,
+      "retail": 400,
       "wholesale": 3750,
       "supplierCost": 820,
       "glazeFiringCost": 500,
@@ -987,7 +579,7 @@
     "id": "three-footed-cylinder-026",
     "slug": "three-footed-cylinder",
     "name": "Three Footed Cylinder",
-    "productNumber": 26,
+    "productNumber": 14,
     "_status_note": "Top seller per Jimmy. Hand-thrown ..... form unique per kiln batch but SKU is restockable. Source: Jimmy email Inventory 5 (2026-04-26). Cost basis: $8.20 supplier (with metal stand) + $5.00 glaze/firing = $13.20 COGS. Wholesale $47.50, retail $95 (sourced from Jeff fwd 2026-04-27). Retail repriced to $400 (Jeff directive 2026-04-27).",
     "price": 40000,
     "description": "White-bisque cylindrical planter on three short integrated feet, approximately 6-1/2\" diameter x 6-3/4\" tall. Wheel-thrown stoneware, kiln-fired to cone 6. Marked as a top seller by the maker.",
@@ -1026,7 +618,7 @@
     "quickSpec": "6-1/2\"W × 6-3/4\"H · Three feet",
     "bestUse": "TBD-from-Jeff",
     "pricing": {
-      "retail": 400.0,
+      "retail": 400,
       "wholesale": 4750,
       "supplierCost": 820,
       "glazeFiringCost": 500,
@@ -1034,6 +626,414 @@
       "unit": "cents",
       "source": "Jeff fwd 2026-04-27 (Inventory 5 from jimmy@jimmypotters.com)",
       "retail_margin_pct": 96.7
+    }
+  },
+  {
+    "id": "faire-p_8xxvea3zd3",
+    "slug": "vase-in-patina",
+    "name": "Vase in Patina",
+    "productNumber": 15,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/vase-in-patina_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8ePBuawv69Hr7aihcdB5E",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_8xxvea3zd3",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_8xxvea3zd3"
+    }
+  },
+  {
+    "id": "faire-p_zhp84pyk9w",
+    "slug": "round-planter-pot-with-saucer-in-cast-iron",
+    "name": "Round Planter Pot with Saucer in Cast Iron",
+    "productNumber": 16,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/round-planter-pot-with-saucer-in-cast-iron_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8ePBuawv69Hr7CaWuIzeh",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_zhp84pyk9w",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_zhp84pyk9w"
+    }
+  },
+  {
+    "id": "faire-p_9npnbcrvkm",
+    "slug": "geo-waves-in-midnight-stone",
+    "name": "Geo Waves in Midnight Stone",
+    "productNumber": 17,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/geo-waves-in-midnight-stone_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8eQBuawv69Hr7C0WXybSs",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_9npnbcrvkm",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_9npnbcrvkm"
+    }
+  },
+  {
+    "id": "faire-p_3dnghjq24j",
+    "slug": "small-round-planter-in-bananrama",
+    "name": "Small Round Planter in Bananrama",
+    "productNumber": 18,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/small-round-planter-in-bananrama_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8eQBuawv69Hr7OaZPVGJ5",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_3dnghjq24j",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_3dnghjq24j"
+    }
+  },
+  {
+    "id": "faire-p_gpuu3v9qnw",
+    "slug": "small-planter-pot-in-cast-iron",
+    "name": "Small Planter Pot in Cast Iron",
+    "productNumber": 19,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/small-planter-pot-in-cast-iron_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8eRBuawv69Hr7smhcofx9",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_gpuu3v9qnw",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_gpuu3v9qnw"
+    }
+  },
+  {
+    "id": "faire-p_juzuc9833w",
+    "slug": "many-face-planter-in-patina",
+    "name": "Many Face Planter in Patina",
+    "productNumber": 20,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/many-face-planter-in-patina_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8eRBuawv69Hr7rvOzTDyM",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_juzuc9833w",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_juzuc9833w"
+    }
+  },
+  {
+    "id": "faire-p_rv6gbznw8q",
+    "slug": "hurricane-planter-in-patina",
+    "name": "Hurricane Planter in Patina",
+    "productNumber": 21,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/hurricane-planter-in-patina_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8eSBuawv69Hr7iBi8hXvg",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_rv6gbznw8q",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_rv6gbznw8q"
+    }
+  },
+  {
+    "id": "faire-p_s3jv8phqc4",
+    "slug": "peachtree-in-cast-iron",
+    "name": "Peachtree in Cast Iron",
+    "productNumber": 22,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/peachtree-in-cast-iron_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8eSBuawv69Hr7AsY2LryY",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_s3jv8phqc4",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_s3jv8phqc4"
+    }
+  },
+  {
+    "id": "faire-p_9ru72bz3px",
+    "slug": "peachtree-in-midnight-stone",
+    "name": "Peachtree in Midnight Stone",
+    "productNumber": 23,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/peachtree-in-midnight-stone_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8eTBuawv69Hr7g1JrxJKx",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_9ru72bz3px",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_9ru72bz3px"
+    }
+  },
+  {
+    "id": "faire-p_mnstrifecta01",
+    "slug": "peachtree-planter-in-midnight-stone-trifecta",
+    "name": "Peachtree Planter in Midnight Stone Trifecta",
+    "productNumber": 24,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/peachtree-planter-in-midnight-stone-trifecta_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8eTBuawv69Hr7BLkiXLdW",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_mnstrifecta01",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_mnstrifecta01"
+    }
+  },
+  {
+    "id": "faire-p_4w6zp377cc",
+    "slug": "hurricane-planter-in-orange-trifecta",
+    "name": "Hurricane Planter in Orange Trifecta",
+    "productNumber": 25,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/hurricane-planter-in-orange-trifecta_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8eUBuawv69Hr7HaiNE5oc",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_4w6zp377cc",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_4w6zp377cc"
+    }
+  },
+  {
+    "id": "faire-p_peacockgeo01",
+    "slug": "geo-wave-in-patina-peacock",
+    "name": "Geo Wave in Patina Peacock",
+    "productNumber": 26,
+    "price": 7500,
+    "description": "Imported from the Faire wholesale catalog for reference. Pricing and specs pending review.",
+    "details": [
+      "Imported from Faire catalog",
+      "Pricing pending — confirm wholesale + retail rates",
+      "Source: faire.com/brand/b_dm35y1pt"
+    ],
+    "images": [
+      "/images/products/faire/geo-wave-in-patina-peacock_hero.jpg"
+    ],
+    "category": "faire-import",
+    "tags": [
+      "faire-import",
+      "pending-review"
+    ],
+    "status": "pending-review",
+    "stripePriceId": "price_1TQ8eUBuawv69Hr7TNZZlvgf",
+    "shippingWeight": "",
+    "quantity": 0,
+    "specs": {},
+    "quickSpec": "Pending review",
+    "bestUse": "Indoor display",
+    "source": {
+      "platform": "faire",
+      "brandId": "b_dm35y1pt",
+      "productId": "p_peacockgeo01",
+      "originalUrl": "https://www.faire.com/brand/b_dm35y1pt?brand=b_dm35y1pt&product=p_peacockgeo01"
     }
   }
 ]
