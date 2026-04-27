@@ -27,6 +27,15 @@ function readCookie(name: string): string | null {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
+/**
+ * Internal-traffic exclusion. The jp_internal=1 cookie is set when a device
+ * visits ?internal=1 (handled in middleware). This mirrors the DNT skip and
+ * is independent — either DNT or internal flag suppresses tracking.
+ */
+function isInternal(): boolean {
+  return readCookie('jp_internal') === '1';
+}
+
 function uuid(): string {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
     return (crypto as any).randomUUID();
@@ -111,6 +120,7 @@ export function getIds(): { visitor_id: string; session_id: string } {
  */
 export function track(event_name: string, event_data: Record<string, unknown> = {}): void {
   if (isDntOn()) return;
+  if (isInternal()) return;
   const { visitor_id, session_id } = getIds();
   send({
     kind: 'event',
@@ -131,6 +141,7 @@ export function sendEnrich(
   max_scroll_pct: number,
 ): void {
   if (isDntOn()) return;
+  if (isInternal()) return;
   const { session_id } = getIds();
   send(
     {

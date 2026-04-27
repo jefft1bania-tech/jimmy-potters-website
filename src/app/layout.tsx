@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import './globals.css';
 import { CartProvider } from '@/components/cart/CartProvider';
 import { WholesaleCartProvider } from '@/components/wholesale/WholesaleCartProvider';
@@ -11,6 +12,7 @@ import WhatsAppButton from '@/components/layout/WhatsAppButton';
 import { AuthProvider } from '@/components/auth/AuthProvider';
 import { LanguageProvider } from '@/components/LanguageProvider';
 import Analytics from '@/components/analytics/Analytics';
+import InternalTrafficToast from '@/components/analytics/InternalTrafficToast';
 import TestRunBanner from '@/components/site/TestRunBanner';
 
 const SITE_URL = process.env.NEXT_PUBLIC_URL || 'https://website-three-omega-62.vercel.app';
@@ -91,6 +93,9 @@ export default function RootLayout({
                 <ChatWidget />
                 <WhatsAppButton />
                 <Analytics />
+                <Suspense fallback={null}>
+                  <InternalTrafficToast />
+                </Suspense>
               </WholesaleCartProvider>
             </CartProvider>
           </AuthProvider>

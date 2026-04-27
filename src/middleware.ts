@@ -119,9 +119,36 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // -------- Internal-traffic enrollment toggle ----------------------------
+  // Visiting any URL with ?internal=1 enrolls this device (cookie set).
+  // ?internal=0 clears the cookie. Cookie set/clear lands on this response,
+  // takes effect from the NEXT request onward (which is fine — the toast
+  // component reads the query string client-side for immediate confirmation).
+  const internalParam = request.nextUrl.searchParams.get('internal');
+  if (internalParam === '1') {
+    response.cookies.set('jp_internal', '1', {
+      maxAge: 60 * 60 * 24 * 365 * 2, // 2 years
+      path: '/',
+      sameSite: 'lax',
+      secure: true,
+      httpOnly: false, // client SDK reads it too
+    });
+  } else if (internalParam === '0') {
+    response.cookies.set('jp_internal', '', {
+      maxAge: 0,
+      path: '/',
+      sameSite: 'lax',
+      secure: true,
+      httpOnly: false,
+    });
+  }
+
   // -------- Analytics beacon (last, fire-and-forget) -----------------------
   // Skip /admin/* and API routes so internal traffic doesn't inflate numbers.
-  if (shouldTrack(path) && !isAdminRoute) {
+  // Skip if device is enrolled as internal traffic (cookie present).
+  const beaconCookies = parseCookies(request.headers.get('cookie'));
+  const isInternalDevice = beaconCookies['jp_internal'] === '1';
+  if (shouldTrack(path) && !isAdminRoute && !isInternalDevice) {
     fireAnalyticsBeacon(request);
   }
 
