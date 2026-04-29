@@ -209,23 +209,54 @@ export default function WholesaleApplyClient() {
         </div>
       </section>
 
+      {/* Two-path banner — approved buyers sign in, new shops apply.
+          Hidden when the visitor is already authenticated. */}
+      {!alreadySignedIn && (
+        <section className="section-container pt-10 md:pt-12">
+          <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-stone-200">
+              <div className="p-6 md:p-7 flex flex-col items-start gap-2">
+                <span className="text-[10px] font-body font-semibold tracking-[0.25em] uppercase text-stone-500">New shop</span>
+                <h3 className="font-heading font-bold text-lg text-stone-900">Apply for a wholesale account</h3>
+                <p className="text-sm text-stone-600 font-body">Two-minute form below — review in 1–2 business days.</p>
+                <a
+                  href="#apply-form"
+                  className="mt-2 inline-flex items-center gap-1.5 text-sm font-body font-semibold text-[#C9A96E] hover:underline"
+                >
+                  Scroll to application
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                  </svg>
+                </a>
+              </div>
+              <div className="p-6 md:p-7 flex flex-col items-start gap-2 bg-stone-50">
+                <span className="text-[10px] font-body font-semibold tracking-[0.25em] uppercase text-[#C9A96E]">Approved buyer</span>
+                <h3 className="font-heading font-bold text-lg text-stone-900">Sign in to your account</h3>
+                <p className="text-sm text-stone-600 font-body">Wholesale pricing unlocks at sign-in once you&apos;re approved.</p>
+                <Link
+                  href="/login?redirect=/account"
+                  className="mt-2 inline-flex items-center gap-2 bg-[#1a1a1a] text-white hover:bg-[#2a2420] font-body font-semibold py-2.5 px-5 rounded-xl transition-all text-sm"
+                >
+                  Sign In
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Form */}
-      <section className="section-container py-12 md:py-16">
+      <section id="apply-form" className="section-container py-12 md:py-16 scroll-mt-24">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-6 md:p-10">
-            <div className="flex items-start justify-between gap-4 mb-6">
-              <div>
-                <h2 className="font-heading font-bold text-2xl text-black">Create Your Wholesale Account</h2>
-                <p className="text-stone-600 text-sm font-body mt-1">
-                  One form creates your wholesale login and submits your application at the same time.
-                </p>
-              </div>
-              <Link
-                href="/login?redirect=/account"
-                className="hidden sm:block text-xs text-[#C9A96E] font-body font-semibold hover:underline whitespace-nowrap"
-              >
-                Already have an account? →
-              </Link>
+            <div className="mb-6">
+              <h2 className="font-heading font-bold text-2xl text-black">Create Your Wholesale Account</h2>
+              <p className="text-stone-600 text-sm font-body mt-1">
+                One form creates your wholesale login and submits your application at the same time.
+              </p>
             </div>
 
             {alreadySignedIn && (
