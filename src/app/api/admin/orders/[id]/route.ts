@@ -1,5 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { requireAdmin } from '@/lib/supabase/server';
+import { revalidatePath } from 'next/cache';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -58,4 +60,48 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   if (upsertErr) return bad(500, `upsert failed: ${upsertErr.message}`);
 
   return NextResponse.json({ ok: true });
+}
+
+export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+  try {
+    await requireAdmin();
+  } catch {
+    return bad(404, 'Not found');
+  }
+
+  const supabase = createSupabaseAdminClient();
+  const admin = supabase as unknown as { from: (t: string) => any };
+
+  const { data: order, error: lookupErr } = await admin
+    .from('orders')
+    .select('id')
+    .eq('id', params.id)
+    .maybeSingle();
+  if (lookupErr) return bad(500, `lookup failed: ${lookupErr.message}`);
+  if (!order) return bad(404, 'Order not found');
+
+  // Cascade delete children before parent. Order matters: anything FK-referencing
+  // orders.id must go first. Best-effort on optional tables (no row = no error).
+  const childTables = [
+    'bulk_order_pricing',
+    'order_cost_overrides',
+    'payment_records',
+    'shipments',
+    'order_items',
+  ] as const;
+
+  for (const table of childTables) {
+    const { error } = await admin.from(table).delete().eq('order_id', params.id);
+    if (error) return bad(500, `${table} delete failed: ${error.message}`);
+  }
+
+  const { error: orderErr } = await admin.from('orders').delete().eq('id', params.id);
+  if (orderErr) return bad(500, `orders delete failed: ${orderErr.message}`);
+
+  revalidatePath('/admin/orders');
+  revalidatePath('/admin');
+  revalidatePath('/admin/pnl');
+  revalidatePath('/admin/shipments');
+
+  return NextResponse.json({ ok: true, deleted: params.id });
 }

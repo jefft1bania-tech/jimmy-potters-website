@@ -15,6 +15,7 @@ import {
 import MarkPaidButton from './MarkPaidButton';
 import CostOverrideForm from './CostOverrideForm';
 import BulkToggleCard from './BulkToggleCard';
+import DeleteOrderButton from './DeleteOrderButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Order Detail — Admin — Jimmy Potters', robots: 'noindex, nofollow' };
@@ -237,7 +238,10 @@ export default async function AdminOrderDetailPage({ params }: { params: { id: s
               )}
             </p>
           </div>
-          <Link href="/admin/orders" className="text-stone-400 text-xs font-body underline-offset-4 hover:underline">← Orders</Link>
+          <div className="flex items-center gap-3">
+            <DeleteOrderButton orderId={order.id} isBulk={order.is_bulk} />
+            <Link href="/admin/orders" className="text-stone-400 text-xs font-body underline-offset-4 hover:underline">← Orders</Link>
+          </div>
         </header>
 
         <BulkToggleCard orderId={order.id} isBulk={order.is_bulk} bulk={bulk} />
