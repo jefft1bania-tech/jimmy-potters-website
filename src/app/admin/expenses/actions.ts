@@ -36,6 +36,7 @@ export async function addOverheadExpense(formData: FormData): Promise<ActionResu
   const incurred_on = str(formData.get('incurred_on'), 10);
   const category = str(formData.get('category'), 40);
   const note = str(formData.get('note'), 500);
+  const vendor_id = str(formData.get('vendor_id'), 36);
 
   if (amount === null || amount <= 0) return { ok: false, error: 'Amount must be > $0' };
   if (!incurred_on || !ISO_DATE.test(incurred_on)) return { ok: false, error: 'Date must be YYYY-MM-DD' };
@@ -47,6 +48,7 @@ export async function addOverheadExpense(formData: FormData): Promise<ActionResu
     incurred_on,
     category,
     note,
+    vendor_id,
   });
 
   if (error) return { ok: false, error: error.message };

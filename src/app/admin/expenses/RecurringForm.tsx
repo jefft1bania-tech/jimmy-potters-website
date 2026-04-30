@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { addRecurringExpense, type ActionResult } from './actions';
+import type { VendorPickerOption } from '@/lib/vendors-data';
 
 const CATEGORIES = [
   'rent',
@@ -14,7 +15,7 @@ const CATEGORIES = [
   'other',
 ];
 
-export default function RecurringForm() {
+export default function RecurringForm({ vendors = [] }: { vendors?: VendorPickerOption[] }) {
   const router = useRouter();
   const [status, setStatus] = useState<ActionResult | null>(null);
   const [pending, startTransition] = useTransition();
@@ -63,6 +64,17 @@ export default function RecurringForm() {
         </Field>
         <Field label="Ends (optional)">
           <input type="date" name="ends_on" className="input" />
+        </Field>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <Field label="Vendor (optional)">
+          <select name="vendor_id" defaultValue="" className="input">
+            <option value="">—</option>
+            {vendors.map((v) => (
+              <option key={v.id} value={v.id}>{v.name} ({v.role})</option>
+            ))}
+          </select>
         </Field>
       </div>
 

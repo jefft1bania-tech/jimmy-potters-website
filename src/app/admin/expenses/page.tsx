@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { listVendorOptions } from '@/lib/vendors-data';
 import OverheadForm from './OverheadForm';
 import RecurringForm from './RecurringForm';
 import { DeleteOverheadButton, DeleteRecurringButton } from './DeleteButton';
@@ -50,7 +51,10 @@ async function loadData() {
 }
 
 export default async function ExpensesPage() {
-  const { overhead, recurring } = await loadData();
+  const [{ overhead, recurring }, vendorOptions] = await Promise.all([
+    loadData(),
+    listVendorOptions(),
+  ]);
 
   return (
     <main className="min-h-screen bg-stone-950 text-stone-200">
@@ -77,7 +81,7 @@ export default async function ExpensesPage() {
         </header>
 
         <section className="space-y-4 mb-10">
-          <OverheadForm />
+          <OverheadForm vendors={vendorOptions} />
           <div className="card-faire-detail p-0 overflow-hidden">
             <div className="px-5 py-3 flex items-center justify-between bg-stone-900/40 border-b border-stone-800">
               <p className="text-[11px] font-heading font-bold uppercase tracking-wider text-stone-400">
@@ -121,7 +125,7 @@ export default async function ExpensesPage() {
         </section>
 
         <section className="space-y-4">
-          <RecurringForm />
+          <RecurringForm vendors={vendorOptions} />
           <div className="card-faire-detail p-0 overflow-hidden">
             <div className="px-5 py-3 bg-stone-900/40 border-b border-stone-800">
               <p className="text-[11px] font-heading font-bold uppercase tracking-wider text-stone-400">
