@@ -31,6 +31,7 @@
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.103.3",
     "bcryptjs": "^3.0.3",
+    "googleapis": "^144.0.0",
     "jsonwebtoken": "^9.0.3",
     "next": "^14.2.35",
     "papaparse": "^5.5.3",
