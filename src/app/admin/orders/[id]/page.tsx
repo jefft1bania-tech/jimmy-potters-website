@@ -239,7 +239,7 @@ export default async function AdminOrderDetailPage({ params }: { params: { id: s
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <DeleteOrderButton orderId={order.id} isBulk={order.is_bulk} />
+            <DeleteOrderButton orderId={order.id} isBulk={order.is_bulk} status={order.status} />
             <Link href="/admin/orders" className="text-stone-400 text-xs font-body underline-offset-4 hover:underline">← Orders</Link>
           </div>
         </header>

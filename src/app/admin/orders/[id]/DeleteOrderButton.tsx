@@ -6,9 +6,12 @@ import { useRouter } from 'next/navigation';
 type Props = {
   orderId: string;
   isBulk: boolean;
+  status: string;
 };
 
-export default function DeleteOrderButton({ orderId, isBulk }: Props) {
+const PROTECTED_STATUSES = new Set(['paid', 'shipped', 'delivered']);
+
+export default function DeleteOrderButton({ orderId, isBulk, status }: Props) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -16,6 +19,20 @@ export default function DeleteOrderButton({ orderId, isBulk }: Props) {
   const [typed, setTyped] = useState('');
 
   const shortId = orderId.slice(0, 8);
+  const isProtected = PROTECTED_STATUSES.has(status);
+
+  if (isProtected) {
+    return (
+      <button
+        type="button"
+        disabled
+        className="inline-flex items-center gap-2 rounded-md border border-stone-700/60 bg-stone-800/40 text-stone-500 px-3 py-1.5 text-xs font-heading font-bold uppercase tracking-wider cursor-not-allowed"
+        title={`Cannot delete: order is ${status}. Refund or cancel first.`}
+      >
+        Delete {isBulk ? 'Bulk ' : ''}Order
+      </button>
+    );
+  }
 
   async function submit() {
     if (typed.trim().toLowerCase() !== shortId.toLowerCase()) {

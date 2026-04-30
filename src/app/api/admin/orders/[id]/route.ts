@@ -74,11 +74,22 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
 
   const { data: order, error: lookupErr } = await admin
     .from('orders')
-    .select('id')
+    .select('id, status')
     .eq('id', params.id)
     .maybeSingle();
   if (lookupErr) return bad(500, `lookup failed: ${lookupErr.message}`);
   if (!order) return bad(404, 'Order not found');
+
+  // Money/fulfillment guard: paid/shipped/delivered orders cannot be deleted.
+  // Stripe charges, Venmo/PayPal records, and outbound shipments would diverge
+  // from DB state. Refund or cancel first, then delete.
+  const PROTECTED_STATUSES = new Set(['paid', 'shipped', 'delivered']);
+  if (PROTECTED_STATUSES.has(order.status)) {
+    return bad(
+      409,
+      `Cannot delete order in status "${order.status}". Refund or cancel the order first, then retry.`,
+    );
+  }
 
   // Cascade delete children before parent. Order matters: anything FK-referencing
   // orders.id must go first. Best-effort on optional tables (no row = no error).
