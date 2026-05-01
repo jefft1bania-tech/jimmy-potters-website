@@ -229,7 +229,7 @@ export default function WholesaleApplyClient() {
                   </svg>
                 </a>
               </div>
-              <div className="p-6 md:p-7 flex flex-col items-start gap-2 bg-stone-50">
+              <div className="p-6 md:p-7 flex flex-col items-start gap-2 bg-[#C9A96E]/10 ring-1 ring-inset ring-[#C9A96E]/30">
                 <span className="text-[10px] font-body font-semibold tracking-[0.25em] uppercase text-[#C9A96E]">Approved buyer</span>
                 <h3 className="font-heading font-bold text-lg text-stone-900">Sign in to your account</h3>
                 <p className="text-sm text-stone-600 font-body">Wholesale pricing unlocks at sign-in once you&apos;re approved.</p>
@@ -258,6 +258,24 @@ export default function WholesaleApplyClient() {
                 One form creates your wholesale login and submits your application at the same time.
               </p>
             </div>
+
+            {!alreadySignedIn && (
+              <div className="mb-5 flex items-center justify-between gap-3 rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
+                <span className="text-sm font-body text-stone-700">
+                  Already a wholesale buyer?
+                </span>
+                <Link
+                  href="/login?redirect=/account"
+                  aria-label="Sign in to your wholesale account"
+                  className="inline-flex items-center gap-1.5 bg-[#1a1a1a] text-white hover:bg-[#2a2420] font-body font-semibold py-2 px-4 rounded-lg transition-all text-xs whitespace-nowrap"
+                >
+                  Sign In
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </Link>
+              </div>
+            )}
 
             {alreadySignedIn && (
               <div className="rounded-xl bg-[#C9A96E]/10 border border-[#C9A96E]/30 px-4 py-3 mb-5 text-xs text-stone-800 font-body">
@@ -416,15 +434,6 @@ export default function WholesaleApplyClient() {
               <p className="text-[11px] text-stone-500 text-center font-body">
                 No payment info required. Your account is created instantly — wholesale pricing unlocks after our review.
               </p>
-
-              <div className="sm:hidden text-center pt-2">
-                <Link
-                  href="/login?redirect=/account"
-                  className="text-xs text-[#C9A96E] font-body font-semibold hover:underline"
-                >
-                  Already have an account? Sign in →
-                </Link>
-              </div>
             </form>
           </div>
 
