@@ -47,7 +47,7 @@ export async function POST(req: Request) {
   const incurred_on = pickStr(form, 'incurred_on', 10);
   const category = pickStr(form, 'category', 40);
   const amountRaw = pickStr(form, 'amount', 32);
-  const note = pickStr(form, 'note', 500);
+  const notes = pickStr(form, 'notes', 500) ?? pickStr(form, 'note', 500);
   const vendor_id = pickStr(form, 'vendor_id', 36);
 
   if (!incurred_on || !ISO_DATE.test(incurred_on)) {
@@ -85,7 +85,7 @@ export async function POST(req: Request) {
 
   const { data: expenseRow, error: expenseErr } = await db
     .from('overhead_expenses')
-    .insert({ amount_cents, incurred_on, category, note, vendor_id })
+    .insert({ amount_cents, incurred_on, category, notes, vendor_id })
     .select('id')
     .single();
   if (expenseErr) {

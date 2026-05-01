@@ -16,7 +16,7 @@ type OverheadRow = {
   incurred_on: string;
   category: string;
   amount_cents: number;
-  note: string | null;
+  notes: string | null;
 };
 
 type RecurringRow = {
@@ -37,7 +37,7 @@ async function loadData() {
   const [overheadRes, recurringRes] = await Promise.all([
     supabase
       .from('overhead_expenses')
-      .select('id, incurred_on, category, amount_cents, note')
+      .select('id, incurred_on, category, amount_cents, notes')
       .order('incurred_on', { ascending: false })
       .limit(50),
     supabase
@@ -153,7 +153,7 @@ export default async function ExpensesPage() {
                             <span className="text-stone-600">—</span>
                           )}
                         </td>
-                        <td className="px-5 py-2 text-stone-400">{r.note ?? ''}</td>
+                        <td className="px-5 py-2 text-stone-400">{r.notes ?? ''}</td>
                         <td className="px-5 py-2 text-right"><DeleteOverheadButton id={r.id} /></td>
                       </tr>
                     );

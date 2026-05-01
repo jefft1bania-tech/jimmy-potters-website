@@ -94,7 +94,7 @@ export default function OverheadForm({ vendors = [] }: { vendors?: VendorPickerO
         <Field label="Note">
           <input
             type="text"
-            name="note"
+            name="notes"
             maxLength={500}
             placeholder="optional"
             className="input"

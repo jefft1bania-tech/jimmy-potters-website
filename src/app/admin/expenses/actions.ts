@@ -35,7 +35,7 @@ export async function addOverheadExpense(formData: FormData): Promise<ActionResu
   const amount = parseDollarsToCents(formData.get('amount'));
   const incurred_on = str(formData.get('incurred_on'), 10);
   const category = str(formData.get('category'), 40);
-  const note = str(formData.get('note'), 500);
+  const notes = str(formData.get('notes'), 500);
   const vendor_id = str(formData.get('vendor_id'), 36);
 
   if (amount === null || amount <= 0) return { ok: false, error: 'Amount must be > $0' };
@@ -47,7 +47,7 @@ export async function addOverheadExpense(formData: FormData): Promise<ActionResu
     amount_cents: amount,
     incurred_on,
     category,
-    note,
+    notes,
     vendor_id,
   });
 
