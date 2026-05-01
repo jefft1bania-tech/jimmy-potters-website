@@ -84,12 +84,6 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               {/* Badges */}
               <div className="flex items-center gap-2 mb-4 flex-wrap">
                 <span
-                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-heading font-bold border border-[rgba(201,169,110,0.3)]"
-                  style={{ background: 'rgba(201, 169, 110, 0.1)', color: '#C9A96E' }}
-                >
-                  One of a Kind
-                </span>
-                <span
                   className="inline-flex items-center px-3 py-1 rounded-full text-xs font-heading font-bold border border-white/20 bg-white/5 text-white/70"
                 >
                   Product #{product.productNumber} of {totalProducts}

@@ -29,19 +29,13 @@ export default function ProductCard({ product }: ProductCardProps) {
           className={`object-cover ${isSold ? 'grayscale' : ''}`}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         />
-        {/* Badge — top left */}
-        <div className="absolute top-3 left-3 z-10">
-          {isSold ? (
+        {isSold && (
+          <div className="absolute top-3 left-3 z-10">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-heading font-bold bg-black/60 text-stone-400 backdrop-blur-sm border border-stone-700/50">
               {t.shop.sold}
             </span>
-          ) : (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-heading font-bold backdrop-blur-sm border border-[rgba(201,169,110,0.3)]"
-              style={{ background: 'rgba(201, 169, 110, 0.15)', color: '#E8D5A3' }}>
-              {t.shop.oneOfAKind}
-            </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Large product number badge — top right */}

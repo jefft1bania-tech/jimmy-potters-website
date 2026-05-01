@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { addOverheadExpense, type ActionResult } from './actions';
 import type { VendorPickerOption } from '@/lib/vendors-data';
 
 const CATEGORIES = [
@@ -19,9 +18,11 @@ const CATEGORIES = [
   'other',
 ];
 
+type Status = { ok: true; message: string } | { ok: false; error: string };
+
 export default function OverheadForm({ vendors = [] }: { vendors?: VendorPickerOption[] }) {
   const router = useRouter();
-  const [status, setStatus] = useState<ActionResult | null>(null);
+  const [status, setStatus] = useState<Status | null>(null);
   const [pending, startTransition] = useTransition();
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -29,11 +30,28 @@ export default function OverheadForm({ vendors = [] }: { vendors?: VendorPickerO
     const form = e.currentTarget;
     const data = new FormData(form);
     startTransition(async () => {
-      const res = await addOverheadExpense(data);
-      setStatus(res);
-      if (res.ok) {
+      try {
+        const res = await fetch('/api/admin/expenses/overhead', {
+          method: 'POST',
+          body: data,
+        });
+        const json = (await res.json().catch(() => ({}))) as {
+          ok?: boolean;
+          error?: string;
+          document_id?: string | null;
+        };
+        if (!res.ok || !json.ok) {
+          setStatus({ ok: false, error: json.error || `Request failed (${res.status})` });
+          return;
+        }
+        setStatus({
+          ok: true,
+          message: json.document_id ? 'Expense added · receipt attached.' : 'Expense added.',
+        });
         form.reset();
         router.refresh();
+      } catch (err) {
+        setStatus({ ok: false, error: err instanceof Error ? err.message : 'Network error' });
       }
     });
   }
@@ -93,6 +111,14 @@ export default function OverheadForm({ vendors = [] }: { vendors?: VendorPickerO
             ))}
           </select>
         </Field>
+        <Field label="Receipt — JPG · PNG · PDF · 25MB max (optional)">
+          <input
+            type="file"
+            name="receipt"
+            accept="image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf"
+            className="input file-input"
+          />
+        </Field>
       </div>
 
       <div className="flex items-center gap-3">
@@ -119,6 +145,23 @@ export default function OverheadForm({ vendors = [] }: { vendors?: VendorPickerO
         .input:focus {
           outline: none;
           border-color: #c9a96e;
+        }
+        .file-input {
+          padding: 4px 6px;
+          line-height: 1.2;
+        }
+        .file-input::file-selector-button {
+          background-color: rgb(40 36 32);
+          color: rgb(201 169 110);
+          border: 1px solid rgb(68 64 60);
+          border-radius: 3px;
+          padding: 4px 10px;
+          margin-right: 10px;
+          font-size: 12px;
+          cursor: pointer;
+        }
+        .file-input::file-selector-button:hover {
+          background-color: rgb(60 50 40);
         }
       `}</style>
     </form>

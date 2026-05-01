@@ -29,6 +29,8 @@ type RecurringRow = {
   last_posted_on: string | null;
 };
 
+type ReceiptInfo = { id: string; original_filename: string };
+
 async function loadData() {
   const supabase = createSupabaseAdminClient() as unknown as { from: (t: string) => any };
 
@@ -44,14 +46,35 @@ async function loadData() {
       .order('starts_on', { ascending: false }),
   ]);
 
-  return {
-    overhead: (overheadRes.data ?? []) as OverheadRow[],
-    recurring: (recurringRes.data ?? []) as RecurringRow[],
-  };
+  const overhead = (overheadRes.data ?? []) as OverheadRow[];
+  const recurring = (recurringRes.data ?? []) as RecurringRow[];
+
+  const receiptsByExpense = new Map<string, ReceiptInfo>();
+  if (overhead.length > 0) {
+    const expenseIds = overhead.map((r) => r.id);
+    const { data: docs } = await supabase
+      .from('financial_documents')
+      .select('id, linked_expense_id, original_filename')
+      .in('linked_expense_id', expenseIds);
+    for (const d of (docs ?? []) as Array<{
+      id: string;
+      linked_expense_id: string;
+      original_filename: string;
+    }>) {
+      if (!receiptsByExpense.has(d.linked_expense_id)) {
+        receiptsByExpense.set(d.linked_expense_id, {
+          id: d.id,
+          original_filename: d.original_filename,
+        });
+      }
+    }
+  }
+
+  return { overhead, recurring, receiptsByExpense };
 }
 
 export default async function ExpensesPage() {
-  const [{ overhead, recurring }, vendorOptions] = await Promise.all([
+  const [{ overhead, recurring, receiptsByExpense }, vendorOptions] = await Promise.all([
     loadData(),
     listVendorOptions(),
   ]);
@@ -97,6 +120,7 @@ export default async function ExpensesPage() {
                   <th className="text-left px-5 py-2">Date</th>
                   <th className="text-left px-5 py-2">Category</th>
                   <th className="text-right px-5 py-2">Amount</th>
+                  <th className="text-center px-5 py-2">Receipt</th>
                   <th className="text-left px-5 py-2">Note</th>
                   <th className="text-right px-5 py-2"></th>
                 </tr>
@@ -104,20 +128,36 @@ export default async function ExpensesPage() {
               <tbody>
                 {overhead.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-5 py-6 text-center text-stone-500">
+                    <td colSpan={6} className="px-5 py-6 text-center text-stone-500">
                       No overhead entries yet.
                     </td>
                   </tr>
                 ) : (
-                  overhead.map((r) => (
-                    <tr key={r.id} className="border-t border-stone-800">
-                      <td className="px-5 py-2 text-stone-400 whitespace-nowrap">{r.incurred_on}</td>
-                      <td className="px-5 py-2 font-mono text-stone-200">{r.category}</td>
-                      <td className="px-5 py-2 text-right font-mono text-stone-200">{fmtCents(r.amount_cents)}</td>
-                      <td className="px-5 py-2 text-stone-400">{r.note ?? ''}</td>
-                      <td className="px-5 py-2 text-right"><DeleteOverheadButton id={r.id} /></td>
-                    </tr>
-                  ))
+                  overhead.map((r) => {
+                    const receipt = receiptsByExpense.get(r.id);
+                    return (
+                      <tr key={r.id} className="border-t border-stone-800">
+                        <td className="px-5 py-2 text-stone-400 whitespace-nowrap">{r.incurred_on}</td>
+                        <td className="px-5 py-2 font-mono text-stone-200">{r.category}</td>
+                        <td className="px-5 py-2 text-right font-mono text-stone-200">{fmtCents(r.amount_cents)}</td>
+                        <td className="px-5 py-2 text-center">
+                          {receipt ? (
+                            <Link
+                              href={`/admin/documents/${receipt.id}`}
+                              className="text-[#C9A96E] hover:text-[#E8D5A3]"
+                              title={receipt.original_filename}
+                            >
+                              📎
+                            </Link>
+                          ) : (
+                            <span className="text-stone-600">—</span>
+                          )}
+                        </td>
+                        <td className="px-5 py-2 text-stone-400">{r.note ?? ''}</td>
+                        <td className="px-5 py-2 text-right"><DeleteOverheadButton id={r.id} /></td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>
