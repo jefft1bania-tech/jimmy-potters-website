@@ -83,9 +83,15 @@ export async function POST(req: Request) {
   const supabase = createSupabaseAdminClient();
   const db = supabase as unknown as { from: (t: string) => any };
 
+  // Only include vendor_id key when the form supplied one. Sending unknown
+  // keys to supabase-js is rejected by the schema cache even if the value
+  // is null. Migration 0010 adds the column; until applied to prod, omit it.
+  const insertPayload: Record<string, unknown> = { amount_cents, incurred_on, category, notes };
+  if (vendor_id) insertPayload.vendor_id = vendor_id;
+
   const { data: expenseRow, error: expenseErr } = await db
     .from('overhead_expenses')
-    .insert({ amount_cents, incurred_on, category, notes, vendor_id })
+    .insert(insertPayload)
     .select('id')
     .single();
   if (expenseErr) {

@@ -43,13 +43,14 @@ export async function addOverheadExpense(formData: FormData): Promise<ActionResu
   if (!category) return { ok: false, error: 'Category required' };
 
   const supabase = createSupabaseAdminClient() as unknown as { from: (t: string) => any };
-  const { error } = await supabase.from('overhead_expenses').insert({
+  const insertPayload: Record<string, unknown> = {
     amount_cents: amount,
     incurred_on,
     category,
     notes,
-    vendor_id,
-  });
+  };
+  if (vendor_id) insertPayload.vendor_id = vendor_id;
+  const { error } = await supabase.from('overhead_expenses').insert(insertPayload);
 
   if (error) return { ok: false, error: error.message };
   revalidatePath('/admin/expenses');
